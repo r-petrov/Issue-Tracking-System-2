@@ -10,9 +10,7 @@
     {
         public Label()
         {
-            // TODO: Check List or HashSet is more appropriate
-            //this.Projects = new List<ProjectLabel>();
-            //this.Issues = new List<IssueLabel>();
+            this.Issues = new List<IssueLabel>();
         }
 
         [Required]
@@ -31,16 +29,11 @@
 
         public DateTime CreatedAt { get; set; }
 
-        //public virtual ICollection<ProjectLabel> Projects { get; set; }
-
         public string ProjectId { get; set; }
 
-        public Project Project { get; set; }
+        [Required]
+        public virtual Project Project { get; set; }
 
-        public string IssueId { get; set; }
-
-        public Issue Issue { get; set; }
-
-        //public virtual ICollection<IssueLabel> Issues { get; set; }
+        public virtual ICollection<IssueLabel> Issues { get; set; }
     }
 }

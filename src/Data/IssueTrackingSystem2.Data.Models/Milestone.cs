@@ -9,7 +9,6 @@
     {
         public Milestone()
         {
-            // TODO: Check List or HashSet is more appropriate
             this.Issues = new List<Issue>();
         }
 

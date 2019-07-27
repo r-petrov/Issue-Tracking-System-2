@@ -9,12 +9,8 @@
     {
         public Issue()
         {
-            // TODO: Check List or HashSet is more appropriate
             // TODO: Register Many to Many relationships in ApplicationDbContext
-            this.Labels = new List<Label>();
-
-            //this.Labels = new List<IssueLabel>();
-
+            this.Labels = new List<IssueLabel>();
             this.Comments = new List<Comment>();
         }
 
@@ -26,7 +22,7 @@
         [Required]
         public string IssueKey { get; set; }
 
-        public int StatuseId { get; set; }
+        public int StatusId { get; set; }
 
         [Required]
         public Status Status { get; set; }
@@ -48,9 +44,7 @@
         [Required]
         public ApplicationUser Assignee { get; set; }
 
-        public virtual ICollection<Label> Labels { get; set; }
-        
-        //public virtual ICollection<IssueLabel> Labels { get; set; }
+        public virtual ICollection<IssueLabel> Labels { get; set; }
 
         public virtual ICollection<Comment> Comments { get; set; }
     }

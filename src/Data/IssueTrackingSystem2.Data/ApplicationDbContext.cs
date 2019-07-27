@@ -1,6 +1,7 @@
 ﻿namespace IssueTrackingSystem2.Data
 {
     using System;
+    using System.Collections.Generic;
     using System.Linq;
     using System.Reflection;
     using System.Threading;
@@ -11,6 +12,7 @@
 
     using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
     using Microsoft.EntityFrameworkCore;
+    using Microsoft.EntityFrameworkCore.Metadata;
 
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser, ApplicationRole, string>
     {
@@ -25,6 +27,20 @@
         }
 
         public DbSet<Setting> Settings { get; set; }
+
+        public DbSet<Milestone> Milestones { get; set; }
+
+        public DbSet<Issue> Issues { get; set; }
+
+        public DbSet<IssueLabel> IssueLabels { get; set; }
+
+        public DbSet<Label> Labels { get; set; }
+
+        public DbSet<Priority> Priorities { get; set; }
+
+        public DbSet<Status> Statuses { get; set; }
+
+        public DbSet<Comment> Comments { get; set; }
 
         public override int SaveChanges() => this.SaveChanges(true);
 
@@ -51,27 +67,17 @@
             base.OnModelCreating(builder);
 
             ConfigureUserIdentityRelations(builder);
+            ConfigureIssueLabelRelations(builder);
 
             EntityIndexesConfiguration.Configure(builder);
 
             var entityTypes = builder.Model.GetEntityTypes().ToList();
 
             // Set global query filter for not deleted entities only
-            var deletableEntityTypes = entityTypes
-                .Where(et => et.ClrType != null && typeof(IDeletableEntity).IsAssignableFrom(et.ClrType));
-            foreach (var deletableEntityType in deletableEntityTypes)
-            {
-                var method = SetIsDeletedQueryFilterMethod.MakeGenericMethod(deletableEntityType.ClrType);
-                method.Invoke(null, new object[] { builder });
-            }
+            SetGlobalQueryFilterForNotDeletedEntities(builder, entityTypes);
 
             // Disable cascade delete
-            var foreignKeys = entityTypes
-                .SelectMany(e => e.GetForeignKeys().Where(f => f.DeleteBehavior == DeleteBehavior.Cascade));
-            foreach (var foreignKey in foreignKeys)
-            {
-                foreignKey.DeleteBehavior = DeleteBehavior.Restrict;
-            }
+            DisableCascadeDelete(entityTypes);
         }
 
         private static void ConfigureUserIdentityRelations(ModelBuilder builder)
@@ -96,6 +102,23 @@
                 .HasForeignKey(e => e.UserId)
                 .IsRequired()
                 .OnDelete(DeleteBehavior.Restrict);
+        }
+
+        private static void ConfigureIssueLabelRelations(ModelBuilder builder)
+        {
+            //builder.Entity<IssueLabel>()
+            //    .HasOne<Issue>(il => il.Issue)
+            //    .WithMany(i => i.Labels)
+            //    .HasForeignKey(e => e.IssueId)
+            //    .OnDelete(DeleteBehavior.Restrict);
+
+            //builder.Entity<IssueLabel>()
+            //    .HasOne<Label>(il => il.Label)
+            //    .WithMany(l => l.Issues)
+            //    .HasForeignKey(e => e.LabelId)
+            //    .OnDelete(DeleteBehavior.Restrict);
+
+            builder.Entity<IssueLabel>().HasKey(il => new { il.IssueId, il.LabelId });
         }
 
         private static void SetIsDeletedQueryFilter<T>(ModelBuilder builder)
@@ -123,6 +146,29 @@
                 {
                     entity.ModifiedOn = DateTime.UtcNow;
                 }
+            }
+        }
+
+        private static void SetGlobalQueryFilterForNotDeletedEntities(
+            ModelBuilder builder,
+            List<IMutableEntityType> entityTypes)
+        {
+            var deletableEntityTypes = entityTypes
+                            .Where(et => et.ClrType != null && typeof(IDeletableEntity).IsAssignableFrom(et.ClrType));
+            foreach (var deletableEntityType in deletableEntityTypes)
+            {
+                var method = SetIsDeletedQueryFilterMethod.MakeGenericMethod(deletableEntityType.ClrType);
+                method.Invoke(null, new object[] { builder });
+            }
+        }
+
+        private static void DisableCascadeDelete(List<IMutableEntityType> entityTypes)
+        {
+            var foreignKeys = entityTypes
+                            .SelectMany(e => e.GetForeignKeys().Where(f => f.DeleteBehavior == DeleteBehavior.Cascade));
+            foreach (var foreignKey in foreignKeys)
+            {
+                foreignKey.DeleteBehavior = DeleteBehavior.Restrict;
             }
         }
     }

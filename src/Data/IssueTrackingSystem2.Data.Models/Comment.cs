@@ -14,7 +14,6 @@
 
         public Issue Issue { get; set; }
 
-        // TODO: Add foreign keys
         public string CreatorId { get; set; }
 
         [ForeignKey(nameof(CreatorId))]

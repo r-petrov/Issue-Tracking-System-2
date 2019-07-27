@@ -8,15 +8,16 @@
     {
         public Priority()
         {
-            // TODO: Check List or HashSet is more appropriate
-            this.Projects = new List<Project>();
             this.Issues = new List<Issue>();
         }
 
         [Required]
         public string Name { get; set; }
 
-        public ICollection<Project> Projects { get; set; }
+        public string ProjectId { get; set; }
+
+        [Required]
+        public Project Project { get; set; }
 
         public ICollection<Issue> Issues { get; set; }
     }
