@@ -9,7 +9,6 @@
     {
         public Issue()
         {
-            // TODO: Register Many to Many relationships in ApplicationDbContext
             this.Labels = new List<IssueLabel>();
             this.Comments = new List<Comment>();
         }
@@ -28,11 +27,6 @@
         public Status Status { get; set; }
 
         public DateTime DueDate { get; set; }
-
-        public int PriorityId { get; set; }
-
-        [Required]
-        public Priority Priority { get; set; }
 
         public string MilestoneId { get; set; }
 

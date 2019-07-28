@@ -8,7 +8,6 @@
     {
         public Project()
         {
-            // TODO: Register Many to Many relationships in ApplicationDbContext
             this.Labels = new List<ProjectLabel>();
             this.Milestones = new List<Milestone>();
             this.Priorities = new List<Priority>();

@@ -6,11 +6,6 @@
 
     public class Priority : BaseDeletableModel<int>
     {
-        public Priority()
-        {
-            this.Issues = new List<Issue>();
-        }
-
         [Required]
         public string Name { get; set; }
 
@@ -18,7 +13,5 @@
 
         [Required]
         public Project Project { get; set; }
-
-        public ICollection<Issue> Issues { get; set; }
     }
 }
