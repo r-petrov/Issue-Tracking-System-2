@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace IssueTrackingSystem2.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20190727153437_Initial")]
+    [Migration("20190728112932_Initial")]
     partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -257,9 +257,9 @@ namespace IssueTrackingSystem2.Data.Migrations
                     b.Property<string>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<DateTime>("ActualCompletionDate");
+                    b.Property<DateTime?>("ActualCompletionDate");
 
-                    b.Property<DateTime>("ActualStartDate");
+                    b.Property<DateTime?>("ActualStartDate");
 
                     b.Property<DateTime>("CreatedOn");
 
@@ -354,7 +354,20 @@ namespace IssueTrackingSystem2.Data.Migrations
 
                     b.HasIndex("LeaderId");
 
-                    b.ToTable("Project");
+                    b.ToTable("Projects");
+                });
+
+            modelBuilder.Entity("IssueTrackingSystem2.Data.Models.ProjectLabel", b =>
+                {
+                    b.Property<string>("ProjectId");
+
+                    b.Property<string>("LabelId");
+
+                    b.HasKey("ProjectId", "LabelId");
+
+                    b.HasIndex("LabelId");
+
+                    b.ToTable("ProjectLabels");
                 });
 
             modelBuilder.Entity("IssueTrackingSystem2.Data.Models.Setting", b =>
@@ -550,7 +563,7 @@ namespace IssueTrackingSystem2.Data.Migrations
                         .OnDelete(DeleteBehavior.Restrict);
 
                     b.HasOne("IssueTrackingSystem2.Data.Models.Project", "Project")
-                        .WithMany("Labels")
+                        .WithMany()
                         .HasForeignKey("ProjectId")
                         .OnDelete(DeleteBehavior.Restrict);
                 });
@@ -581,6 +594,19 @@ namespace IssueTrackingSystem2.Data.Migrations
                     b.HasOne("IssueTrackingSystem2.Data.Models.ApplicationUser", "Leader")
                         .WithMany()
                         .HasForeignKey("LeaderId")
+                        .OnDelete(DeleteBehavior.Restrict);
+                });
+
+            modelBuilder.Entity("IssueTrackingSystem2.Data.Models.ProjectLabel", b =>
+                {
+                    b.HasOne("IssueTrackingSystem2.Data.Models.Label", "Label")
+                        .WithMany()
+                        .HasForeignKey("LabelId")
+                        .OnDelete(DeleteBehavior.Restrict);
+
+                    b.HasOne("IssueTrackingSystem2.Data.Models.Project", "Project")
+                        .WithMany("Labels")
+                        .HasForeignKey("ProjectId")
                         .OnDelete(DeleteBehavior.Restrict);
                 });
 

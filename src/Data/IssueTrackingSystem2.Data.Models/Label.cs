@@ -11,6 +11,7 @@
         public Label()
         {
             this.Issues = new List<IssueLabel>();
+            this.Projects = new List<ProjectLabel>();
         }
 
         [Required]
@@ -29,10 +30,7 @@
 
         public DateTime CreatedAt { get; set; }
 
-        public string ProjectId { get; set; }
-
-        [Required]
-        public virtual Project Project { get; set; }
+        public virtual ICollection<ProjectLabel> Projects { get; set; }
 
         public virtual ICollection<IssueLabel> Issues { get; set; }
     }

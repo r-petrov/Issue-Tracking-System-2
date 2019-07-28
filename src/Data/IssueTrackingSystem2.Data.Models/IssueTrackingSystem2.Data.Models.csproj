@@ -8,10 +8,6 @@
   <PropertyGroup>
     <CodeAnalysisRuleSet>..\..\Rules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
-
-  <ItemGroup>
-    <Compile Remove="ProjectLabel.cs" />
-  </ItemGroup>
   <ItemGroup>
     <AdditionalFiles Include="..\..\stylecop.json" />
   </ItemGroup>
@@ -25,6 +21,12 @@
 
   <ItemGroup>
     <ProjectReference Include="..\IssueTrackingSystem2.Data.Common\IssueTrackingSystem2.Data.Common.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="ProjectLabel.cs">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Compile>
   </ItemGroup>
   
 </Project>
