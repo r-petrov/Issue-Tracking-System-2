@@ -9,7 +9,7 @@
         public Project()
         {
             // TODO: Register Many to Many relationships in ApplicationDbContext
-            this.Labels = new List<Label>();
+            this.Labels = new List<ProjectLabel>();
             this.Milestones = new List<Milestone>();
             this.Priorities = new List<Priority>();
         }
@@ -34,6 +34,6 @@
         [Required]
         public virtual ICollection<Priority> Priorities { get; set; }
 
-        public virtual ICollection<Label> Labels { get; set; }
+        public virtual ICollection<ProjectLabel> Labels { get; set; }
     }
 }

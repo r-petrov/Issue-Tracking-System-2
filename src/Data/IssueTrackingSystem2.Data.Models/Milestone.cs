@@ -21,9 +21,9 @@
 
         public DateTime ScheduledCompletionDate { get; set; }
 
-        public DateTime ActualStartDate { get; set; }
+        public DateTime? ActualStartDate { get; set; }
 
-        public DateTime ActualCompletionDate { get; set; }
+        public DateTime? ActualCompletionDate { get; set; }
 
         public int StatusId { get; set; }
 

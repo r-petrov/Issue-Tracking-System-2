@@ -28,6 +28,10 @@
 
         public DbSet<Setting> Settings { get; set; }
 
+        public DbSet<Project> Projects { get; set; }
+
+        public DbSet<ProjectLabel> ProjectLabels { get; set; }
+
         public DbSet<Milestone> Milestones { get; set; }
 
         public DbSet<Issue> Issues { get; set; }
@@ -68,6 +72,7 @@
 
             ConfigureUserIdentityRelations(builder);
             ConfigureIssueLabelRelations(builder);
+            ConfigureProjectLabelRelations(builder);
 
             EntityIndexesConfiguration.Configure(builder);
 
@@ -102,6 +107,11 @@
                 .HasForeignKey(e => e.UserId)
                 .IsRequired()
                 .OnDelete(DeleteBehavior.Restrict);
+        }
+
+        private static void ConfigureProjectLabelRelations(ModelBuilder builder)
+        {
+            builder.Entity<ProjectLabel>().HasKey(pl => new { pl.ProjectId, pl.LabelId });
         }
 
         private static void ConfigureIssueLabelRelations(ModelBuilder builder)
