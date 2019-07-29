@@ -1,9 +1,10 @@
 ﻿namespace IssueTrackingSystem2.Web.Areas.Identity.Pages.Account
 {
     using System.ComponentModel.DataAnnotations;
+    using System.Linq;
     using System.Text.Encodings.Web;
     using System.Threading.Tasks;
-
+    using IssueTrackingSystem2.Common;
     using IssueTrackingSystem2.Data.Models;
 
     using Microsoft.AspNetCore.Authorization;
@@ -50,10 +51,22 @@
             returnUrl = returnUrl ?? this.Url.Content("~/");
             if (this.ModelState.IsValid)
             {
+                var isRoot = !this.userManager.Users.Any();
                 var user = new ApplicationUser { UserName = this.Input.Email, Email = this.Input.Email };
                 var result = await this.userManager.CreateAsync(user, this.Input.Password);
                 if (result.Succeeded)
                 {
+                    if (isRoot)
+                    {
+                        await this.userManager.AddToRoleAsync(
+                            user: user,
+                            role: GlobalConstants.AdministratorRoleName);
+                    }
+                    else
+                    {
+                        await this.userManager.AddToRoleAsync(user: user, role: GlobalConstants.UserRoleName);
+                    }
+
                     this.logger.LogInformation("User created a new account with password.");
 
                     var code = await this.userManager.GenerateEmailConfirmationTokenAsync(user);
