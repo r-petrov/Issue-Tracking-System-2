@@ -1,18 +1,17 @@
 ﻿namespace IssueTrackingSystem2.Web.Areas.Identity.Pages.Account
 {
-    using System.ComponentModel.DataAnnotations;
-    using System.Linq;
-    using System.Text.Encodings.Web;
-    using System.Threading.Tasks;
     using IssueTrackingSystem2.Common;
     using IssueTrackingSystem2.Data.Models;
-
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Identity.UI.Services;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.AspNetCore.Mvc.RazorPages;
     using Microsoft.Extensions.Logging;
+    using System.ComponentModel.DataAnnotations;
+    using System.Linq;
+    using System.Text.Encodings.Web;
+    using System.Threading.Tasks;
 
     [AllowAnonymous]
 #pragma warning disable SA1649 // File name should match first type name
@@ -61,6 +60,8 @@
                         await this.userManager.AddToRoleAsync(
                             user: user,
                             role: GlobalConstants.AdministratorRoleName);
+
+                        returnUrl = this.Url.Content("~/Administration/Dashboard/Index");
                     }
                     else
                     {

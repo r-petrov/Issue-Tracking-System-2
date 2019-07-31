@@ -4,7 +4,7 @@
     using System.ComponentModel.DataAnnotations;
     using System.Linq;
     using System.Threading.Tasks;
-
+    using IssueTrackingSystem2.Common;
     using IssueTrackingSystem2.Data.Models;
 
     using Microsoft.AspNetCore.Authentication;
@@ -21,11 +21,16 @@
     {
         private readonly SignInManager<ApplicationUser> signInManager;
         private readonly ILogger<LoginModel> logger;
+        private readonly UserManager<ApplicationUser> userManager;
 
-        public LoginModel(SignInManager<ApplicationUser> signInManager, ILogger<LoginModel> logger)
+        public LoginModel(
+            SignInManager<ApplicationUser> signInManager,
+            ILogger<LoginModel> logger,
+            UserManager<ApplicationUser> userManager)
         {
             this.signInManager = signInManager;
             this.logger = logger;
+            this.userManager = userManager;
         }
 
         [BindProperty]
@@ -66,6 +71,16 @@
                 var result = await this.signInManager.PasswordSignInAsync(this.Input.Email, this.Input.Password, this.Input.RememberMe, lockoutOnFailure: true);
                 if (result.Succeeded)
                 {
+                    // Resolve the user via their email
+                    var user = await this.userManager.FindByEmailAsync(this.Input.Email);
+
+                    // Get the roles for the user
+                    var roles = await this.userManager.GetRolesAsync(user);
+                    if (roles.Contains(GlobalConstants.AdministratorRoleName))
+                    {
+                        returnUrl = this.Url.Content("~/Administration/Dashboard/");
+                    }
+
                     this.logger.LogInformation("User logged in.");
                     return this.LocalRedirect(returnUrl);
                 }
