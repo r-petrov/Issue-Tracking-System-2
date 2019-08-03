@@ -61,7 +61,7 @@
                             user: user,
                             role: GlobalConstants.AdministratorRoleName);
 
-                        returnUrl = this.Url.Content("~/Administration/Dashboard/Index");
+                        returnUrl = this.Url.Content("~/Administration/Dashboard/");
                     }
                     else
                     {

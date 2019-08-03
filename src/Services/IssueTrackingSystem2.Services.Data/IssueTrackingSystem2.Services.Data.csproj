@@ -1,8 +1,12 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
-  <PropertyGroup>
+  <!--<PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
     <LangVersion>latest</LangVersion>
+  </PropertyGroup>-->
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.2</TargetFramework>
   </PropertyGroup>
 
   <PropertyGroup>
@@ -21,6 +25,7 @@
   <ItemGroup>
     <ProjectReference Include="..\..\Data\IssueTrackingSystem2.Data.Common\IssueTrackingSystem2.Data.Common.csproj" />
     <ProjectReference Include="..\..\Data\IssueTrackingSystem2.Data.Models\IssueTrackingSystem2.Data.Models.csproj" />
+    <ProjectReference Include="..\..\Data\IssueTrackingSystem2.Data\IssueTrackingSystem2.Data.csproj" />
   </ItemGroup>
 
 </Project>

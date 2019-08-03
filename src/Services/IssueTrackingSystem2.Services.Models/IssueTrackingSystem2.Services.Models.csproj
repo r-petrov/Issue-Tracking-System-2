@@ -1,0 +1,11 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\Data\IssueTrackingSystem2.Data.Models\IssueTrackingSystem2.Data.Models.csproj" />
+  </ItemGroup>
+
+</Project>
