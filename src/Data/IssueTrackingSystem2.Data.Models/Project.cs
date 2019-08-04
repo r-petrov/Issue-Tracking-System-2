@@ -25,7 +25,7 @@
         public string LeaderId { get; set; }
 
         [Required]
-        public ApplicationUser Leader { get; set; }
+        public virtual ApplicationUser Leader { get; set; }
 
         [Required]
         public virtual ICollection<Milestone> Milestones { get; set; }

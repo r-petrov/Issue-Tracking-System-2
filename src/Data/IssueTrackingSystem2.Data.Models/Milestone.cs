@@ -28,12 +28,12 @@
         public int StatusId { get; set; }
 
         [Required]
-        public Status Status { get; set; }
+        public virtual Status Status { get; set; }
 
         public string ProjectId { get; set; }
 
         [Required]
-        public Project Project { get; set; }
+        public virtual Project Project { get; set; }
 
         public virtual ICollection<Issue> Issues { get; set; }
     }

@@ -17,7 +17,7 @@
         public string CreatorId { get; set; }
 
         [ForeignKey(nameof(CreatorId))]
-        public ApplicationUser CreatedBy { get; set; }
+        public virtual ApplicationUser CreatedBy { get; set; }
 
         public DateTime CreatedAt { get; set; }
 

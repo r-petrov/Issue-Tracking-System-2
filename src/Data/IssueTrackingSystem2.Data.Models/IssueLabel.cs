@@ -4,10 +4,10 @@
     {
         public string IssueId { get; set; }
 
-        public Issue Issue { get; set; }
+        public virtual Issue Issue { get; set; }
 
         public string LabelId { get; set; }
 
-        public Label Label { get; set; }
+        public virtual Label Label { get; set; }
     }
 }

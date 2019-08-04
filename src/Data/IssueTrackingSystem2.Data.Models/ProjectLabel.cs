@@ -4,10 +4,10 @@
     {
         public string ProjectId { get; set; }
 
-        public Project Project { get; set; }
+        public virtual Project Project { get; set; }
 
         public string LabelId { get; set; }
 
-        public Label Label { get; set; }
+        public virtual Label Label { get; set; }
     }
 }

@@ -24,19 +24,19 @@
         public int StatusId { get; set; }
 
         [Required]
-        public Status Status { get; set; }
+        public virtual Status Status { get; set; }
 
         public DateTime DueDate { get; set; }
 
         public string MilestoneId { get; set; }
 
         [Required]
-        public Milestone Milestone { get; set; }
+        public virtual Milestone Milestone { get; set; }
 
         public string AssigneeId { get; set; }
 
         [Required]
-        public ApplicationUser Assignee { get; set; }
+        public virtual ApplicationUser Assignee { get; set; }
 
         public virtual ICollection<IssueLabel> Labels { get; set; }
 
