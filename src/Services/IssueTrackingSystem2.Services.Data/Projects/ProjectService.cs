@@ -1,10 +1,12 @@
-﻿namespace IssueTrackingSystem2.Services.Data
+﻿namespace IssueTrackingSystem2.Services.Data.Projects
 {
     using IssueTrackingSystem2.Data.Common.Repositories;
     using IssueTrackingSystem2.Data.Models;
-    using System.Collections.Generic;
+    using IssueTrackingSystem2.Services.Mapping;
+    using IssueTrackingSystem2.Services.Models;
+    using System.Linq;
 
-    public class ProjectService
+    public class ProjectService : IProjectService
     {
         private readonly IDeletableEntityRepository<Project> efDeletableEntityRepository;
 
@@ -13,9 +15,9 @@
             this.efDeletableEntityRepository = efDeletableEntityRepository;
         }
 
-        public IEnumerable<Project> GetAll()
+        public IQueryable<ProjectServiceModel> GetAll()
         {
-            var projects = this.efDeletableEntityRepository.All();
+            var projects = this.efDeletableEntityRepository.All()?.To<ProjectServiceModel>();
 
             return projects;
         }

@@ -1,7 +1,5 @@
 ﻿namespace IssueTrackingSystem2.Web
 {
-    using System.Reflection;
-
     using IssueTrackingSystem2.Data;
     using IssueTrackingSystem2.Data.Common;
     using IssueTrackingSystem2.Data.Common.Repositories;
@@ -9,10 +7,11 @@
     using IssueTrackingSystem2.Data.Repositories;
     using IssueTrackingSystem2.Data.Seeding;
     using IssueTrackingSystem2.Services.Data;
+    using IssueTrackingSystem2.Services.Data.Projects;
     using IssueTrackingSystem2.Services.Mapping;
     using IssueTrackingSystem2.Services.Messaging;
+    using IssueTrackingSystem2.Services.Models;
     using IssueTrackingSystem2.Web.ViewModels;
-
     using Microsoft.AspNetCore.Builder;
     using Microsoft.AspNetCore.Hosting;
     using Microsoft.AspNetCore.Http;
@@ -24,6 +23,7 @@
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
     using Microsoft.Extensions.Logging;
+    using System.Reflection;
 
     public class Startup
     {
@@ -99,12 +99,15 @@
             services.AddTransient<IEmailSender, NullMessageSender>();
             services.AddTransient<ISmsSender, NullMessageSender>();
             services.AddTransient<ISettingsService, SettingsService>();
+            services.AddTransient<IProjectService, ProjectService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
         {
-            AutoMapperConfig.RegisterMappings(typeof(ErrorViewModel).GetTypeInfo().Assembly);
+            AutoMapperConfig.RegisterMappings(
+                typeof(ErrorViewModel).GetTypeInfo().Assembly, 
+                typeof(BaseServiceModel).GetTypeInfo().Assembly);
 
             // Seed data on application startup
             using (var serviceScope = app.ApplicationServices.CreateScope())

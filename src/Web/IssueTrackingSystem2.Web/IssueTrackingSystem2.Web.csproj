@@ -29,11 +29,10 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\Data\IssueTrackingSystem2.Data.Models\IssueTrackingSystem2.Data.Models.csproj" />
-    <ProjectReference Include="..\..\Data\IssueTrackingSystem2.Data\IssueTrackingSystem2.Data.csproj" />
     <ProjectReference Include="..\..\Services\IssueTrackingSystem2.Services.Data\IssueTrackingSystem2.Services.Data.csproj" />
     <ProjectReference Include="..\..\Services\IssueTrackingSystem2.Services.Mapping\IssueTrackingSystem2.Services.Mapping.csproj" />
     <ProjectReference Include="..\..\Services\IssueTrackingSystem2.Services.Messaging\IssueTrackingSystem2.Services.Messaging.csproj" />
+    <ProjectReference Include="..\..\Services\IssueTrackingSystem2.Services.Models\IssueTrackingSystem2.Services.Models.csproj" />
     <ProjectReference Include="..\..\Services\IssueTrackingSystem2.Services\IssueTrackingSystem2.Services.csproj" />
     <ProjectReference Include="..\IssueTrackingSystem2.Web.Infrastructure\IssueTrackingSystem2.Web.Infrastructure.csproj" />
     <ProjectReference Include="..\IssueTrackingSystem2.Web.ViewModels\IssueTrackingSystem2.Web.ViewModels.csproj" />

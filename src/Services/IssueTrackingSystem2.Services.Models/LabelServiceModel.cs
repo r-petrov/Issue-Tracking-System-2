@@ -5,7 +5,7 @@
     using System;
     using System.Collections.Generic;
 
-    public class LabelServiceModel : IMapFrom<Label>
+    public class LabelServiceModel : IMapFrom<Label>, IMapFrom<ProjectLabel>, IMapFrom<IssueLabel>
     {
         public string Id { get; set; }
 

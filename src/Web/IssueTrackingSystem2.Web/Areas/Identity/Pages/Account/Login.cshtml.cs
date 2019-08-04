@@ -75,17 +75,19 @@
 
                 if (result.Succeeded)
                 {
-                    // Resolve the user via their email
-                    var user = await this.userManager.FindByEmailAsync(this.Input.Email);
+                    //// Resolve the user via their email
+                    //var user = await this.userManager.FindByEmailAsync(this.Input.Email);
 
-                    // Get the roles for the user
-                    var roles = await this.userManager.GetRolesAsync(user);
-                    if (roles.Contains(GlobalConstants.AdministratorRoleName))
-                    {
-                        returnUrl = this.Url.Content("~/Administration/Dashboard/");
-                    }
+                    //// Get the roles for the user
+                    //var roles = await this.userManager.GetRolesAsync(user);
+                    //if (roles.Contains(GlobalConstants.AdministratorRoleName))
+                    //{
+                    //    returnUrl = this.Url.Content("~/Administration/Dashboard/");
+                    //}
 
+                    returnUrl = this.Url.Content("~/Home/Dashboard/");
                     this.logger.LogInformation("User logged in.");
+
                     return this.LocalRedirect(returnUrl);
                 }
 

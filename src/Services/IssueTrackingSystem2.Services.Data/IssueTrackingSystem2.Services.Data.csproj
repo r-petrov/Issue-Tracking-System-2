@@ -26,6 +26,8 @@
     <ProjectReference Include="..\..\Data\IssueTrackingSystem2.Data.Common\IssueTrackingSystem2.Data.Common.csproj" />
     <ProjectReference Include="..\..\Data\IssueTrackingSystem2.Data.Models\IssueTrackingSystem2.Data.Models.csproj" />
     <ProjectReference Include="..\..\Data\IssueTrackingSystem2.Data\IssueTrackingSystem2.Data.csproj" />
+    <ProjectReference Include="..\IssueTrackingSystem2.Services.Mapping\IssueTrackingSystem2.Services.Mapping.csproj" />
+    <ProjectReference Include="..\IssueTrackingSystem2.Services.Models\IssueTrackingSystem2.Services.Models.csproj" />
   </ItemGroup>
 
 </Project>

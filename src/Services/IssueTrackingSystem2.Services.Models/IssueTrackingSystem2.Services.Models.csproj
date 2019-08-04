@@ -6,6 +6,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\Data\IssueTrackingSystem2.Data.Models\IssueTrackingSystem2.Data.Models.csproj" />
+    <ProjectReference Include="..\IssueTrackingSystem2.Services.Mapping\IssueTrackingSystem2.Services.Mapping.csproj" />
   </ItemGroup>
 
 </Project>
