@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace IssueTrackingSystem2.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20190804202337_MakeNavigationPropertiesVirtual")]
-    partial class MakeNavigationPropertiesVirtual
+    [Migration("20190805210417_Initial")]
+    partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {

@@ -27,7 +27,6 @@
         [Required]
         public virtual ApplicationUser Leader { get; set; }
 
-        [Required]
         public virtual ICollection<Milestone> Milestones { get; set; }
 
         [Required]

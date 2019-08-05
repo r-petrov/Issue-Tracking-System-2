@@ -47,11 +47,11 @@
 
         public async Task<IActionResult> OnPostAsync(string returnUrl = null)
         {
-            returnUrl = returnUrl ?? this.Url.Content("~/");
+            returnUrl = returnUrl ?? this.Url.Content("~/Home/Dashboard");
             if (this.ModelState.IsValid)
             {
                 var isRoot = !this.userManager.Users.Any();
-                var user = new ApplicationUser { UserName = this.Input.Email, Email = this.Input.Email };
+                var user = new ApplicationUser { UserName = this.Input.UserName, Email = this.Input.Email };
                 var result = await this.userManager.CreateAsync(user, this.Input.Password);
                 if (result.Succeeded)
                 {
@@ -60,8 +60,6 @@
                         await this.userManager.AddToRoleAsync(
                             user: user,
                             role: GlobalConstants.AdministratorRoleName);
-
-                        returnUrl = this.Url.Content("~/Administration/Dashboard/");
                     }
                     else
                     {
@@ -98,6 +96,10 @@
 
         public class InputModel
         {
+            [Required]
+            [Display(Name = "User name")]
+            public string UserName { get; set; }
+
             [Required]
             [EmailAddress]
             [Display(Name = "Email")]
