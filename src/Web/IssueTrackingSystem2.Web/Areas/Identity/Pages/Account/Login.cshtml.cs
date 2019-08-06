@@ -1,18 +1,16 @@
 ﻿namespace IssueTrackingSystem2.Web.Areas.Identity.Pages.Account
 {
-    using System.Collections.Generic;
-    using System.ComponentModel.DataAnnotations;
-    using System.Linq;
-    using System.Threading.Tasks;
-    using IssueTrackingSystem2.Common;
     using IssueTrackingSystem2.Data.Models;
-
     using Microsoft.AspNetCore.Authentication;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.AspNetCore.Mvc.RazorPages;
     using Microsoft.Extensions.Logging;
+    using System.Collections.Generic;
+    using System.ComponentModel.DataAnnotations;
+    using System.Linq;
+    using System.Threading.Tasks;
 
     [AllowAnonymous]
 #pragma warning disable SA1649 // File name should match first type name
@@ -68,7 +66,7 @@
                 // This doesn't count login failures towards account lockout
                 // To enable password failures to trigger account lockout, set lockoutOnFailure: true
                 var result = await this.signInManager.PasswordSignInAsync(
-                    this.Input.Email,
+                    this.Input.UserName,
                     this.Input.Password,
                     this.Input.RememberMe,
                     lockoutOnFailure: true);
@@ -115,8 +113,8 @@
         public class InputModel
         {
             [Required]
-            [EmailAddress]
-            public string Email { get; set; }
+            [Display(Name = "User name")]
+            public string UserName { get; set; }
 
             [Required]
             [DataType(DataType.Password)]

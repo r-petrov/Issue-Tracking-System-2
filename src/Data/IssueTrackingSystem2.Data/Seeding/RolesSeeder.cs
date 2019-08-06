@@ -20,6 +20,8 @@
             // dbContext.Database.EnsureCreated();
             await SeedRoleAsync(roleManager, GlobalConstants.AdministratorRoleName);
             await SeedRoleAsync(roleManager, GlobalConstants.UserRoleName);
+            await SeedRoleAsync(roleManager, GlobalConstants.ProjectLeaderRoleName);
+            await SeedRoleAsync(roleManager, GlobalConstants.IssueAssigneeRoleName);
         }
 
         private static async Task SeedRoleAsync(RoleManager<ApplicationRole> roleManager, string roleName)
