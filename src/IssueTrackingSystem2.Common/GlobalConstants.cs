@@ -6,5 +6,7 @@
         public const string UserRoleName = "User";
         public const string ProjectLeaderRoleName = "ProjectLeader";
         public const string IssueAssigneeRoleName = "IssueAssignee";
+        public const string Projects = "projects";
+        public const string Issues = "issues";
     }
 }
