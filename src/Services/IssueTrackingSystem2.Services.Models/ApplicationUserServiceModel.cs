@@ -10,6 +10,6 @@
 
         public string UserName { get; set; }
 
-        public ICollection<ApplicationRoleServiceModel> Roles { get; set; }
+        //public List<IdentityUserRoleServiceModel> Roles { get; set; }
     }
 }

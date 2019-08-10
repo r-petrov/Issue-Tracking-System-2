@@ -17,7 +17,7 @@
 
         public IQueryable<ProjectServiceModel> GetAll()
         {
-            var projects = this.efDeletableEntityRepository.All()?.To<ProjectServiceModel>();
+            var projects = this.efDeletableEntityRepository.All().To<ProjectServiceModel>();
 
             return projects;
         }

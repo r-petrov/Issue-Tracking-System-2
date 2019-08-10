@@ -2,7 +2,7 @@
 {
     using IssueTrackingSystem2.Services.Data.Projects;
     using IssueTrackingSystem2.Services.Mapping;
-    using IssueTrackingSystem2.Web.ViewModels.Projects;
+    using IssueTrackingSystem2.Web.ViewModels.Project;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
     using System.Linq;
@@ -33,6 +33,7 @@
         [HttpGet]
         public IActionResult Dashboard()
         {
+            // TODO: Add Pagination
             var projects = this.projectService.GetAll().To<DashboardProjectViewModel>().ToList();
 
             return this.View(projects);

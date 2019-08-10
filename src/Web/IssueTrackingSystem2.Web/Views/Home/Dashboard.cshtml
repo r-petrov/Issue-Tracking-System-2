@@ -1,4 +1,5 @@
-﻿@model IEnumerable<IssueTrackingSystem2.Web.ViewModels.Projects.DashboardProjectViewModel>
+﻿@using IssueTrackingSystem2.Web.ViewModels.Project
+@model IEnumerable<DashboardProjectViewModel>
 
 @{
     ViewData["Title"] = "Dashboard";
@@ -6,125 +7,28 @@
 
 <h1>@ViewData["Title"]</h1>
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
-
 @if (this.User.IsInRole(GlobalConstants.AdministratorRoleName))
 {
-    <h2>Created projects</h2>
-    <table class="table table-striped">
-        <thead>
-            <tr>
-                <th>
-                    <h3>User is an issue assignee</h3>
-                </th>
-                <th>
-                    <h3>Issues</h3>
-                </th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr ng-repeat="issue in issues.assigneeUsersIssues">
-                <td class="project-name">
-                    <a href="#/projects/{{issue.projectId}}">{{issue.projectName}}</a>
-                </td>
-                <td>
-                    <table class="table table-striped">
-                        <thead>
-                            <tr>
-                                <th>Title</th>
-                                <th>Description</th>
-                                <th>Project</th>
-                                <th>Due Date</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr ng-repeat="currentIssue in issue.issuesByProject" pagination-id="issues">
-                                <td>
-                                    <a href="#/issues/{{currentIssue.Id}}">{{currentIssue.Title}}</a>
-                                </td>
-                                <td>{{currentIssue.Description}}</td>
-                                <td>
-                                    <a href="#/projects/{{currentIssue.Project.Id}}">{{currentIssue.Project.Name}}</a>
-                                </td>
-                                <td>{{currentIssue.DueDate}}</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </td>
-            </tr>
+    <p>
+        <a asp-action="Create">Create New</a>
+    </p>
 
-        </tbody>
-    </table>
+    <h2>Created projects by @this.User.Identity.Name</h2>
+    <partial name="_DashboardProjectPartial" model="Model" />
 }
-@*<div>
-        <h2>Affiliated projects</h2>
-        <table class="table table-striped">
-            <thead>
-                <tr>
-                    <th>
-                        <h3>User is an issue assignee</h3>
-                    </th>
-                    <th>
-                        <h3>Issues</h3>
-                    </th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr ng-repeat="issue in issues.assigneeUsersIssues">
-                    <td class="project-name">
-                        <a href="#/projects/{{issue.projectId}}">{{issue.projectName}}</a>
-                    </td>
-                    <td>
-                        <table class="table table-striped">
-                            <thead>
-                                <tr>
-                                    <th>Title</th>
-                                    <th>Description</th>
-                                    <th>Project</th>
-                                    <th>Due Date</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr ng-repeat="currentIssue in issue.issuesByProject" pagination-id="issues">
-                                    <td>
-                                        <a href="#/issues/{{currentIssue.Id}}">{{currentIssue.Title}}</a>
-                                    </td>
-                                    <td>{{currentIssue.Description}}</td>
-                                    <td>
-                                        <a href="#/projects/{{currentIssue.Project.Id}}">{{currentIssue.Project.Name}}</a>
-                                    </td>
-                                    <td>{{currentIssue.DueDate}}</td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </td>
-                </tr>
+else
+{
+    if (this.User.IsInRole(GlobalConstants.ProjectLeaderRoleName))
+    {
+        <h2>Projects that @this.User.Identity.Name is a Project Leader</h2>
+        <partial name="_DashboardProjectPartial"
+                 model="@Model.Where(model => model.Leader.Id == this.UserManager.GetUserId(this.User))" />
+    }
 
-            </tbody>
-        </table>
-
-        <uib-pagination boundary-links="true" total-items="totalItems.issuesCount" items-per-page="pageSize.itemsPerPage" max-size="maxSize.paginationSize" ng-model="currentPage.issuesPage" ng-change="setDashboardPage.setIssuesPanel()" class="pagination-sm" previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;"></uib-pagination>
-
-        <!--<div pagination num-pages="numberOfPages" current-page="currentPage" pagination-id="issues"></div>-->
-
-        <table>
-            <thead>
-                <tr>
-                    <th>
-                        <h3>User is a project leader</h3>
-                    </th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr ng-repeat="project in associatedProjects.associatedUsersProjects" pagination-id="projects">
-                    <td class="project-name">
-                        <a href="#/projects/{{project.Id}}">{{project.Name}}</a>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
-        <!--<div pagination num-pages="numberOfProjectsPages" current-page="currentPage" pagination-id="projects"></div>-->
-        <uib-pagination boundary-links="true" total-items="totalItems.projectsCount" items-per-page="pageSize.itemsPerPage" max-size="maxSize.paginationSize" ng-model="currentPage.projectsPage" ng-change="setDashboardPage.setProjectsPanel()" class="pagination-sm" previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;"></uib-pagination>
-    </div>*@
+    if (this.User.IsInRole(GlobalConstants.IssueAssigneeRoleName))
+    {
+        <h2>Projects with issues that @this.User.Identity.Name is an Issue Assignee</h2>
+        <partial name="_DashboardProjectPartial"
+                 model="@Model.Where(model => model.Milestones.Any(milestone => milestone.Issues.Any(issue => issue.AssigneeId == this.UserManager.GetUserId(this.User))))" />
+    }
+}
