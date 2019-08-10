@@ -10,7 +10,9 @@
 @if (this.User.IsInRole(GlobalConstants.AdministratorRoleName))
 {
     <p>
-        <a asp-action="Create">Create New</a>
+        <a class="btn btn-success" asp-area="Administration" asp-controller="Project" asp-action="Create">
+            Create New Project
+        </a>
     </p>
 
     <h2>Created projects by @this.User.Identity.Name</h2>
@@ -30,5 +32,11 @@ else
         <h2>Projects with issues that @this.User.Identity.Name is an Issue Assignee</h2>
         <partial name="_DashboardProjectPartial"
                  model="@Model.Where(model => model.Milestones.Any(milestone => milestone.Issues.Any(issue => issue.AssigneeId == this.UserManager.GetUserId(this.User))))" />
+    }
+
+    if (this.User.IsInRole(GlobalConstants.UserRoleName))
+    {
+        <partial name="_DashboardProjectPartial"
+                 model="null" />
     }
 }
