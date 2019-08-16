@@ -14,6 +14,13 @@
   <PropertyGroup>
     <CodeAnalysisRuleSet>..\..\Rules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="Areas\Administration\Views\Shared\Components\**" />
+    <Content Remove="Areas\Administration\Views\Shared\Components\**" />
+    <EmbeddedResource Remove="Areas\Administration\Views\Shared\Components\**" />
+    <None Remove="Areas\Administration\Views\Shared\Components\**" />
+  </ItemGroup>
   <ItemGroup>
     <AdditionalFiles Include="..\..\stylecop.json" />
   </ItemGroup>
@@ -35,6 +42,11 @@
     <ProjectReference Include="..\..\Services\IssueTrackingSystem2.Services.Models\IssueTrackingSystem2.Services.Models.csproj" />
     <ProjectReference Include="..\..\Services\IssueTrackingSystem2.Services\IssueTrackingSystem2.Services.csproj" />
     <ProjectReference Include="..\IssueTrackingSystem2.Web.Infrastructure\IssueTrackingSystem2.Web.Infrastructure.csproj" />
+    <ProjectReference Include="..\IssueTrackingSystem2.Web.InputModels\IssueTrackingSystem2.Web.InputModels.csproj" />
     <ProjectReference Include="..\IssueTrackingSystem2.Web.ViewModels\IssueTrackingSystem2.Web.ViewModels.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Areas\Administration\Views\Shared\" />
   </ItemGroup>
 </Project>

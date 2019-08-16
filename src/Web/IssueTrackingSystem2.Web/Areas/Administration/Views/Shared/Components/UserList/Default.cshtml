@@ -1,0 +1,8 @@
+﻿@using IssueTrackingSystem2.Web.ViewModels
+@model IEnumerable<ApplicationUserViewModel>
+
+<option selected disabled>--- Select Product Type ---</option>
+@foreach (var user in Model)
+{
+    <option value="@user.Id">@user.UserName</option>
+}
