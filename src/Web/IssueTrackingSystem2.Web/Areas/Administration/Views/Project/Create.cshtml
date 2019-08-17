@@ -14,23 +14,20 @@
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
                 <label asp-for="Name" class="control-label"></label>
-                <input asp-for="Name" class="form-control" />
+                <input asp-for="Name" type="text" id="name" placeholder="Name..." class="form-control" />
                 <span asp-validation-for="Name" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="Description" class="control-label"></label>
-                <input asp-for="Description" class="form-control" />
+                <input asp-for="Description" type="text" id="description" placeholder="Description..." class="form-control" />
                 <span asp-validation-for="Description" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <div class="d-flex justify-content-center">
-                    <label asp-for="LeaderId" class="text-primary h5"></label>
+                <div class="control-label">
+                    <label asp-for="LeaderId" class="control-label"></label>
                 </div>
-                <select class="form-control text-primary" id="type" asp-for="LeaderId">
-                    @*@await Component.InvokeAsync("UserList")*@
-                </select>
-                <select class="form-control text-primary" id="type" asp-for="LeaderId">
-                    <option selected disabled>--- Select Product Type ---</option>
+                <select class="form-control text-primary" id="user" asp-for="LeaderId">
+                    <option selected disabled>--- Select Project Leader ---</option>
                     @foreach (var user in (SelectList)this.ViewData["Users"])
                     {
                         <option value="@user.Value">@user.Text</option>
@@ -51,7 +48,7 @@
 </div>
 
 <div>
-    <a asp-action="Dashboard", asp-controller="HomeController">Back to List</a>
+    <a asp-action="Dashboard" , asp-controller="HomeController">Back to List</a>
 </div>
 
 @section Scripts {

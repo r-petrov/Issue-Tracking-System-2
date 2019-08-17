@@ -5,8 +5,12 @@
     using IssueTrackingSystem2.Services.Mapping;
     using IssueTrackingSystem2.Services.Models;
     using IssueTrackingSystem2.Web.InputModels.Project;
+    using IssueTrackingSystem2.Web.ViewModels;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.AspNetCore.Mvc.Rendering;
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
     using System.Threading.Tasks;
 
     public class ProjectController : AdministrationController
@@ -37,20 +41,53 @@
 
         // POST: Project/Create
         [HttpPost]
-        [ValidateAntiForgeryToken]
         public async Task<ActionResult> Create(ProjectCreateInputModel inputModel)
         {
             try
             {
                 var projectServiceModel = inputModel.To<ProjectServiceModel>();
+                projectServiceModel.ProjectKey = this.GenerateProjectKey(inputModel);
+                projectServiceModel.Priorities = this.GeneratePriorities(inputModel);
+
                 var result = await this.projectService.CreateAsync(projectServiceModel);
 
                 return this.RedirectToRoute("~/Project/Details");
             }
             catch
             {
-                return View(inputModel);
+                return this.View(inputModel);
             }
+        }
+
+        private string GenerateProjectKey(ProjectCreateInputModel inputModel)
+        {
+            var projectNameParts = inputModel.Name.Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
+            var projectKey = new System.Text.StringBuilder();
+            foreach (var projectNamePart in projectNameParts)
+            {
+                projectKey.Append(projectNamePart[0]);
+            }
+
+            return projectKey.ToString();
+        }
+
+        private IList<PriorityServiceModel> GeneratePriorities(ProjectCreateInputModel inputModel)
+        {
+            var priorityNames = inputModel.Priorities.Split(
+                new char[] { ',', ';', ' ' },
+                StringSplitOptions.RemoveEmptyEntries);
+
+            IList<PriorityServiceModel> priorities = new List<PriorityServiceModel>();
+            foreach (var priorityName in priorityNames)
+            {
+                priorities.Add(
+                    new PriorityServiceModel()
+                    {
+                        Name = priorityName,
+                    });
+            }
+
+            return priorities;
         }
     }
 }

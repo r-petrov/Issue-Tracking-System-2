@@ -12,6 +12,7 @@
     using IssueTrackingSystem2.Services.Mapping;
     using IssueTrackingSystem2.Services.Messaging;
     using IssueTrackingSystem2.Services.Models;
+    using IssueTrackingSystem2.Web.InputModels;
     using IssueTrackingSystem2.Web.ViewModels;
     using Microsoft.AspNetCore.Builder;
     using Microsoft.AspNetCore.Hosting;
@@ -108,8 +109,9 @@
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
         {
             AutoMapperConfig.RegisterMappings(
-                typeof(ErrorViewModel).GetTypeInfo().Assembly, 
-                typeof(BaseServiceModel).GetTypeInfo().Assembly);
+                typeof(MappingRegisterViewModel).GetTypeInfo().Assembly,
+                typeof(MappingRegisterServiceModel).GetTypeInfo().Assembly,
+                typeof(MappingRegisterInputModel).GetTypeInfo().Assembly);
 
             // Seed data on application startup
             using (var serviceScope = app.ApplicationServices.CreateScope())

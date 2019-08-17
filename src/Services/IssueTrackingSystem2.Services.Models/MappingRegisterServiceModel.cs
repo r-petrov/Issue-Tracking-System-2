@@ -4,7 +4,7 @@ using System.Text;
 
 namespace IssueTrackingSystem2.Services.Models
 {
-    public class BaseServiceModel
+    public class MappingRegisterServiceModel
     {
     }
 }

@@ -14,13 +14,6 @@
   <PropertyGroup>
     <CodeAnalysisRuleSet>..\..\Rules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
-
-  <ItemGroup>
-    <Compile Remove="Areas\Administration\Views\Shared\Components\**" />
-    <Content Remove="Areas\Administration\Views\Shared\Components\**" />
-    <EmbeddedResource Remove="Areas\Administration\Views\Shared\Components\**" />
-    <None Remove="Areas\Administration\Views\Shared\Components\**" />
-  </ItemGroup>
   <ItemGroup>
     <AdditionalFiles Include="..\..\stylecop.json" />
   </ItemGroup>

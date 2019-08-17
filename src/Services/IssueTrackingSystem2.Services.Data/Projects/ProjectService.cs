@@ -22,7 +22,6 @@
 
             return projects;
         }
-
         public async Task<bool> CreateAsync(ProjectServiceModel projectServiceModel)
         {
             Project project = projectServiceModel.To<Project>();
