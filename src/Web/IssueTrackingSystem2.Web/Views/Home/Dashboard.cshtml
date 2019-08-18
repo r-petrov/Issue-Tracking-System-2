@@ -20,23 +20,24 @@
 }
 else
 {
-    if (this.User.IsInRole(GlobalConstants.ProjectLeaderRoleName))
+    if (Model.Where(model => model.Leader.Id == this.UserManager.GetUserId(this.User)).Any())
     {
         <h2>Projects that @this.User.Identity.Name is a Project Leader</h2>
         <partial name="_DashboardProjectPartial"
                  model="@Model.Where(model => model.Leader.Id == this.UserManager.GetUserId(this.User))" />
     }
 
-    if (this.User.IsInRole(GlobalConstants.IssueAssigneeRoleName))
+    if (Model
+        .Where(model => model.Milestones
+            .Any(milestone => milestone.Issues
+                .Any(issue => issue.AssigneeId == this.UserManager.GetUserId(this.User))))
+        .Any())
     {
         <h2>Projects with issues that @this.User.Identity.Name is an Issue Assignee</h2>
         <partial name="_DashboardProjectPartial"
-                 model="@Model.Where(model => model.Milestones.Any(milestone => milestone.Issues.Any(issue => issue.AssigneeId == this.UserManager.GetUserId(this.User))))" />
-    }
-
-    if (this.User.IsInRole(GlobalConstants.UserRoleName))
-    {
-        <partial name="_DashboardProjectPartial"
-                 model="null" />
+                 model="@Model
+                            .Where(model => model.Milestones
+                                .Any(milestone => milestone.Issues
+                                    .Any(issue => issue.AssigneeId == this.UserManager.GetUserId(this.User))))" />
     }
 }

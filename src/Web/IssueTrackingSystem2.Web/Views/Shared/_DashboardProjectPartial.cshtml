@@ -1,95 +1,74 @@
 ﻿@using IssueTrackingSystem2.Web.ViewModels.Project
 @model IEnumerable<DashboardProjectViewModel>
 
-    <div>
-        @if (Model == null || !Model.Any())
+<div>
+    @if (Model == null || !Model.Any())
+    {
+        if (this.User.IsInRole(GlobalConstants.AdministratorRoleName))
         {
-            if (this.User.IsInRole(GlobalConstants.AdministratorRoleName))
-            {
-                <h3>@this.User.Identity.Name still have not created any projects</h3>
-            }
-
-            if (this.User.IsInRole(GlobalConstants.ProjectLeaderRoleName))
-            {
-                <h3>
-                    @string.Format(
-                        format: MessagesConstants.StillHaveNotBeenAssignedTo,
-                        arg0: this.User.Identity.Name,
-                        arg1: GlobalConstants.Projects)
-                </h3>
-            }
-
-            if (this.User.IsInRole(GlobalConstants.ProjectLeaderRoleName))
-            {
-                <h3>
-                    @string.Format(
-                                    format: MessagesConstants.StillHaveNotBeenAssignedTo,
-                                    arg0: this.User.Identity.Name,
-                                    arg1: GlobalConstants.Issues)
-                </h3>
-            }
-
-            if (this.User.IsInRole(GlobalConstants.UserRoleName))
-            {
-                <h3>
-                    @string.Format(
-                                    format: MessagesConstants.StillHaveNotBeenAssignedTo,
-                                    arg0: this.User.Identity.Name,
-                                    arg1: $"{GlobalConstants.Projects} or {GlobalConstants.Issues}")
-                </h3>
-            }
+            <h3>@this.User.Identity.Name still have not created any projects</h3>
         }
         else
         {
-            <table class="table table-striped">
-                <thead>
-                    <tr>
-                        <th>
-                            <h3>Name</h3>
-                        </th>
-                        <th>
-                            <h3>ProjectKey</h3>
-                        </th>
-                        <th>
-                            <h3>Description</h3>
-                        </th>
-                        <th>
-                            <h3>Project Leader</h3>
-                        </th>
-                        <th>
-                            <h3>Created Milestones</h3>
-                        </th>
-                        <th>
-                            <h3>Labels</h3>
-                        </th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach (var project in Model)
-                    {
-                        <tr onclick="location.href = '@(Url.Action("Details", "Project", new { projectId = project.Id }))'">
-                            <td class="project-name">
-                                <a class="nav-link text-dark"
-                                   asp-area=""
-                                   asp-controller="Project"
-                                   asp-action="Details">@project.Name</a>
-                            </td>
-                            <td>@project.ProjectKey</td>
-                            <td>@project.Description</td>
-                            <td>@project.Leader.UserName</td>
-                            <td>@project.MilestonesCount</td>
-                            <td>
-                                @foreach (var label in project.Labels)
-                                {
-                                    <span style="color:@label.Color">@label.Title</span>
-                                }
-                            </td>
-                        </tr>
-                    }
-                </tbody>
-            </table>
+            <h3>
+                @string.Format(
+                    format: MessagesConstants.StillHaveNotBeenAssignedTo,
+                    arg0: this.User.Identity.Name,
+                    arg1: $"{GlobalConstants.Projects} or {GlobalConstants.Issues}")
+            </h3>
         }
-    </div>
+    }
+    else
+    {
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>
+                        <h3>Name</h3>
+                    </th>
+                    <th>
+                        <h3>ProjectKey</h3>
+                    </th>
+                    <th>
+                        <h3>Description</h3>
+                    </th>
+                    <th>
+                        <h3>Project Leader</h3>
+                    </th>
+                    <th>
+                        <h3>Created Milestones</h3>
+                    </th>
+                    <th>
+                        <h3>Labels</h3>
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var project in Model)
+                {
+                    <tr onclick="location.href = '@(Url.Action("Details", "Project", new { projectId = project.Id }))'">
+                        <td class="project-name">
+                            <a class="nav-link text-dark"
+                               asp-area=""
+                               asp-controller="Project"
+                               asp-action="Details">@project.Name</a>
+                        </td>
+                        <td>@project.ProjectKey</td>
+                        <td>@project.Description</td>
+                        <td>@project.Leader.UserName</td>
+                        <td>@project.MilestonesCount</td>
+                        <td>
+                            @foreach (var label in project.Labels)
+                            {
+                                <span style="color:@label.Color">@label.Title</span>
+                            }
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+</div>
 <div>
     @*@Html.ActionLink("Edit", "Edit", new { /* id = Model.PrimaryKey */ }) |
         <a asp-action="Index">Back to List</a>*@

@@ -6,7 +6,6 @@
     using IssueTrackingSystem2.Web.ViewModels.Label;
     using IssueTrackingSystem2.Web.ViewModels.Milestone;
     using System.Collections.Generic;
-    using System.ComponentModel.DataAnnotations;
 
     public class DashboardProjectViewModel : IMapFrom<ProjectServiceModel>, IHaveCustomMappings
     {
