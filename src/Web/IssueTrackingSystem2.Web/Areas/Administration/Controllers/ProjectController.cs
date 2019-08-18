@@ -45,13 +45,27 @@
         {
             try
             {
-                var projectServiceModel = inputModel.To<ProjectServiceModel>();
+                //var projectServiceModel = inputModel.To<ProjectServiceModel>();
+                var projectServiceModel = new ProjectServiceModel()
+                {
+                    Name = inputModel.Name,
+                    Description = inputModel.Description,
+                    LeaderId = inputModel.LeaderId,
+                };
+
                 projectServiceModel.ProjectKey = this.GenerateProjectKey(inputModel);
                 projectServiceModel.Priorities = this.GeneratePriorities(inputModel);
 
-                var result = await this.projectService.CreateAsync(projectServiceModel);
+                var projectServiceModelResult = await this.projectService.CreateAsync(projectServiceModel);
 
-                return this.RedirectToRoute("~/Project/Details");
+                return this.RedirectToRoute(
+                    routeName: "default",
+                    routeValues: new
+                    {
+                        controller = "Project",
+                        action = "Details",
+                        id = projectServiceModelResult.Id,
+                    });
             }
             catch
             {

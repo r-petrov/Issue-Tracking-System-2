@@ -109,9 +109,9 @@
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
         {
             AutoMapperConfig.RegisterMappings(
-                typeof(MappingRegisterViewModel).GetTypeInfo().Assembly,
-                typeof(MappingRegisterServiceModel).GetTypeInfo().Assembly,
-                typeof(MappingRegisterInputModel).GetTypeInfo().Assembly);
+                typeof(RegisterMappingViewModel).GetTypeInfo().Assembly,
+                typeof(RegisterMappingServiceModel).GetTypeInfo().Assembly,
+                typeof(RegisterMappingInputModel).GetTypeInfo().Assembly);
 
             // Seed data on application startup
             using (var serviceScope = app.ApplicationServices.CreateScope())

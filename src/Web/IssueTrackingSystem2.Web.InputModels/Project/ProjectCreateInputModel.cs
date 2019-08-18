@@ -6,7 +6,7 @@
     using System;
     using System.ComponentModel.DataAnnotations;
 
-    public class ProjectCreateInputModel : IMapTo<ProjectServiceModel>, IHaveCustomMappings
+    public class ProjectCreateInputModel : IMapTo<ProjectServiceModel>//, IHaveCustomMappings
     {
         [Required]
         public string Name { get; set; }
@@ -21,10 +21,10 @@
         [Required]
         public string Priorities { get; set; }
 
-        public void CreateMappings(IProfileExpression configuration)
-        {
-            configuration.CreateMap<ProjectCreateInputModel, ProjectServiceModel>()
-                .ForMember(dest => dest.CreatedOn, mapper => mapper.MapFrom(src => DateTime.UtcNow));
-        }
+        //public void CreateMappings(IProfileExpression configuration)
+        //{
+        ////    configuration.CreateMap<ProjectCreateInputModel, ProjectServiceModel>()
+        ////        .ForMember(dest => dest.CreatedOn, mapper => mapper.MapFrom(src => DateTime.UtcNow));
+        //}
     }
 }

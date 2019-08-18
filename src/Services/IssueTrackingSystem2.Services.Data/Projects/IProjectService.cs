@@ -8,6 +8,6 @@
     {
         IQueryable<ProjectServiceModel> GetAll();
 
-        Task<bool> CreateAsync(ProjectServiceModel project);
+        Task<ProjectServiceModel> CreateAsync(ProjectServiceModel project);
     }
 }

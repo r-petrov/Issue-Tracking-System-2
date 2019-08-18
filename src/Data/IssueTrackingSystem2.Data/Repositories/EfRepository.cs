@@ -25,7 +25,15 @@
 
         public virtual IQueryable<TEntity> AllAsNoTracking() => this.DbSet.AsNoTracking();
 
-        public virtual Task AddAsync(TEntity entity) => this.DbSet.AddAsync(entity);
+        public virtual async Task<TEntity> AddAsync(TEntity entity)
+        {
+            await this.DbSet.AddAsync(entity);
+            await this.SaveChangesAsync();
+
+            return entity;
+        }
+
+        //public virtual Task AddAsync(TEntity entity) => this.DbSet.AddAsync(entity);
 
         public virtual void Update(TEntity entity)
         {

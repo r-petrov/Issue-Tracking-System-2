@@ -22,13 +22,17 @@
 
             return projects;
         }
-        public async Task<bool> CreateAsync(ProjectServiceModel projectServiceModel)
+
+        public async Task<ProjectServiceModel> CreateAsync(ProjectServiceModel projectServiceModel)
         {
             Project project = projectServiceModel.To<Project>();
-            await this.efDeletableEntityRepository.AddAsync(project);
-            var result = await this.efDeletableEntityRepository.SaveChangesAsync();
+            var projectResult = await this.efDeletableEntityRepository.AddAsync(project);
 
-            return result > 0;
+            // var result = await this.efDeletableEntityRepository.SaveChangesAsync();
+
+            var projectServiceModelResult = projectResult.To<ProjectServiceModel>();
+
+            return projectServiceModelResult;
         }
     }
 }
