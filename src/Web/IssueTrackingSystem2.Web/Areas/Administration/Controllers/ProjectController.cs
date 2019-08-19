@@ -2,15 +2,12 @@
 {
     using IssueTrackingSystem2.Services.Data.ApplicationUsers;
     using IssueTrackingSystem2.Services.Data.Projects;
-    using IssueTrackingSystem2.Services.Mapping;
     using IssueTrackingSystem2.Services.Models;
     using IssueTrackingSystem2.Web.InputModels.Project;
-    using IssueTrackingSystem2.Web.ViewModels;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.AspNetCore.Mvc.Rendering;
     using System;
     using System.Collections.Generic;
-    using System.Linq;
     using System.Threading.Tasks;
 
     public class ProjectController : AdministrationController

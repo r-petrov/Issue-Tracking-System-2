@@ -1,0 +1,7 @@
+﻿@model IEnumerable<LabelConciseViewModel>
+
+@foreach (var label in Model)
+{
+    <span style="color:@label.Color">@label.Title</span><span>&nbsp;</span>  
+}
+

@@ -1,7 +1,129 @@
-﻿
+﻿@model ProjectDetailsViewModel
 @{
-    ViewData["Title"] = "Details";
+    ViewData["Title"] = "Project Details";
 }
 
-<h1>Details</h1>
+<h1>@ViewData["Title"]</h1>
 
+<hr />
+
+<div class="flex-elements">
+    <div class="col-md-6">
+        @if (this.User.IsInRole(GlobalConstants.AdministratorRoleName)
+  || Model.Leader.Id == this.UserManager.GetUserId(this.User))
+        {
+            <div>
+                <a asp-area="" asp-controller="Project" asp-action="Edit" class="btn btn-success button">
+                    Edit
+                </a>
+                <a asp-area="" asp-controller="Milestone" asp-action="Create" class="btn btn-primary button">
+                    Create Milestone
+                </a>
+            </div>
+        }
+        <hr />
+        <table class="table table-striped">
+            <tr>
+                <th>@nameof(ProjectDetailsViewModel.ProjectKey).SplitStringByCapitalLetters():</th>
+                <td>@Model.ProjectKey</td>
+            </tr>
+            <tr>
+                <th>@nameof(ProjectDetailsViewModel.Name):</th>
+                <td>@Model.Name</td>
+            </tr>
+            <tr>
+                <th>@nameof(ProjectDetailsViewModel.Description):</th>
+                <td>@Model.Description</td>
+            </tr>
+            <tr>
+                <th>@nameof(ProjectDetailsViewModel.LeaderId).SplitStringByCapitalLetters():</th>
+                <td>@Model.LeaderId</td>
+            </tr>
+            <tr>
+                <th>@nameof(ProjectDetailsViewModel.Labels):</th>
+                @if (Model.Labels != null && Model.Labels.Any())
+                {
+                    <td><partial name="_LabelsPartial" model="Model.Labels"></td>
+                }
+                else
+                {
+                    <td>
+                        @string.Format(
+                            format: MessagesConstants.StillNotAddedItems,
+                            arg0: GlobalConstants.Labels,
+                            arg1: Model.Name)
+                    </td>
+                }
+            </tr>
+            <tr>
+                <th>@nameof(ProjectDetailsViewModel.Priorities):</th>
+                @if (Model.Priorities != null && Model.Priorities.Any())
+                {
+                    <td><partial name="_PrioritiesPartial" model="Model.Priorities" /></td>
+                }
+                else
+                {
+                    <td>
+                        @string.Format(
+                            format: MessagesConstants.StillNotAddedItems,
+                            arg0: GlobalConstants.Priorities,
+                            arg1: Model.Name)
+                    </td>
+                }
+            </tr>
+            <tr>
+                <th>@nameof(ProjectDetailsViewModel.CreatedOn).SplitStringByCapitalLetters():</th>
+                <td>@Model.CreatedOn</td>
+            </tr>
+        </table>
+    </div>
+
+    <hr />
+
+    <h4>@($"{Model.Name}' Milestones")</h4>
+    @if (Model.Milestones != null && Model.Milestones.Any())
+    {
+        <div class="table table-striped col-md-6 fixed">
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>@nameof(MilestoneViewModel.Title)</th>
+                        <th>@nameof(MilestoneViewModel.ScheduledStartDate)</th>
+                        <th>@nameof(MilestoneViewModel.ScheduledCompletionDate)</th>
+                        <th>@nameof(MilestoneViewModel.Status)</th>
+                        <th>@nameof(MilestoneViewModel.Issues)</th>
+                        <th>@nameof(MilestoneViewModel.CompletedIssues)</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var milestone in Model.Milestones)
+                    {
+                        <tr onclick="location.href = '@(Url.Action("Details", "Milestone", new { id = milestone.Id }))'">
+                            <td>@milestone.Title</td>
+                            <td>
+                                @(DateTime.UtcNow > milestone.ActualStartDate ?
+                                    milestone.ActualStartDate : milestone.ScheduledStartDate)
+                            </td>
+                            <td>
+                                @(DateTime.UtcNow > milestone.ActualCompletionDate ?
+                                    milestone.ActualCompletionDate : milestone.ScheduledCompletionDate)
+                            </td>
+                            <td>@milestone.Status.Name</td>
+                            <td>@milestone.Issues.Count</td>
+                            <td>@milestone.CompletedIssues.Count</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    }
+    else
+    {
+        <p>
+            @string.Format(
+                format: MessagesConstants.StillNotAddedItems,
+                arg0: GlobalConstants.Milestones,
+                arg1: Model.Name)
+        </p>
+    }
+</div>

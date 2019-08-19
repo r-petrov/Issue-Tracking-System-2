@@ -24,29 +24,35 @@
             <thead>
                 <tr>
                     <th>
-                        <h3>Name</h3>
+                        <h3>@nameof(DashboardProjectViewModel.Name)</h3>
                     </th>
                     <th>
-                        <h3>ProjectKey</h3>
+                        <h3>@nameof(DashboardProjectViewModel.ProjectKey).SplitStringByCapitalLetters()</h3>
                     </th>
                     <th>
-                        <h3>Description</h3>
+                        <h3>@nameof(DashboardProjectViewModel.Description)</h3>
                     </th>
                     <th>
-                        <h3>Project Leader</h3>
+                        <h3>@nameof(DashboardProjectViewModel.Leader)</h3>
                     </th>
                     <th>
-                        <h3>Created Milestones</h3>
+                        <h3>@nameof(DashboardProjectViewModel.Milestones)</h3>
                     </th>
                     <th>
-                        <h3>Labels</h3>
+                        <h3>@nameof(DashboardProjectViewModel.CompletedMilestones).SplitStringByCapitalLetters()</h3>
+                    </th>
+                    <th>
+                        <h3>@nameof(DashboardProjectViewModel.Labels)</h3>
                     </th>
                 </tr>
             </thead>
             <tbody>
                 @foreach (var project in Model)
                 {
-                    <tr onclick="location.href = '@(Url.Action("Details", "Project", new { projectId = project.Id }))'">
+                    <tr onclick="location.href = '@(Url.Action(
+                                                    action: "Details", 
+                                                    controller: "Project", 
+                                                    values: new { id = project.Id }))'">
                         <td class="project-name">
                             <a class="nav-link text-dark"
                                asp-area=""
@@ -56,12 +62,14 @@
                         <td>@project.ProjectKey</td>
                         <td>@project.Description</td>
                         <td>@project.Leader.UserName</td>
-                        <td>@project.MilestonesCount</td>
+                        <td>@project.Milestones.Count</td>
+                        <td>@project.CompletedMilestones.Count</td>
                         <td>
-                            @foreach (var label in project.Labels)
-                            {
-                                <span style="color:@label.Color">@label.Title</span>
-                            }
+                            @*@foreach (var label in project.Labels)
+                                {
+                                    <span style="color:@label.Color">@label.Title</span>
+                                }*@
+                            <partial name="_LabelsPartial" model="project.Labels" />
                         </td>
                     </tr>
                 }

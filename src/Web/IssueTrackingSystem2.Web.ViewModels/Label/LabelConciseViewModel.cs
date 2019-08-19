@@ -3,7 +3,7 @@
     using IssueTrackingSystem2.Services.Mapping;
     using IssueTrackingSystem2.Services.Models;
 
-    public class DashboardLabelViewModel : IMapFrom<LabelServiceModel>
+    public class LabelConciseViewModel : IMapFrom<LabelServiceModel>
     {
         public string Id { get; set; }
 

@@ -8,6 +8,8 @@
     {
         IQueryable<ProjectServiceModel> GetAll();
 
+        Task<ProjectServiceModel> GetByIdAsync(string id);
+
         Task<ProjectServiceModel> CreateAsync(ProjectServiceModel project);
     }
 }

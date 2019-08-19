@@ -3,7 +3,7 @@
     using IssueTrackingSystem2.Services.Mapping;
     using IssueTrackingSystem2.Services.Models;
 
-    public class DashboardStatusViewModel : IMapFrom<StatusServiceModel>
+    public class StatusConciseViewModel : IMapFrom<StatusServiceModel>
     {
         public string Name { get; set; }
     }

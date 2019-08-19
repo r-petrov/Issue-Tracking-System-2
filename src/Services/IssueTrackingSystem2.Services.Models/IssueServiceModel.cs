@@ -17,7 +17,7 @@
 
         public int StatusId { get; set; }
 
-        public Status Status { get; set; }
+        public StatusServiceModel Status { get; set; }
 
         public DateTime DueDate { get; set; }
 

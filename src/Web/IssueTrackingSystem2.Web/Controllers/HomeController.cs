@@ -34,7 +34,12 @@
         public IActionResult Dashboard()
         {
             // TODO: Add Pagination
-            var projects = this.projectService.GetAll().To<DashboardProjectViewModel>().ToList();
+            // TODO: Add filters, i.e. Project name
+            var projects = this.projectService
+                .GetAll()
+                .To<DashboardProjectViewModel>()
+                .ToList()
+                .OrderByDescending(project => project.CreatedOn);
 
             return this.View(projects);
         }

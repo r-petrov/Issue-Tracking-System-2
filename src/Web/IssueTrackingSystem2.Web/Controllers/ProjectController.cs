@@ -1,19 +1,28 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-
-namespace IssueTrackingSystem2.Web.Controllers
+﻿namespace IssueTrackingSystem2.Web.Controllers
 {
+    using IssueTrackingSystem2.Services.Data.Projects;
+    using IssueTrackingSystem2.Services.Mapping;
+    using IssueTrackingSystem2.Web.ViewModels.Project;
+    using Microsoft.AspNetCore.Mvc;
+    using System.Threading.Tasks;
+
     public class ProjectController : Controller
     {
+        private readonly IProjectService projectService;
+
+        public ProjectController(IProjectService projectService)
+        {
+            this.projectService = projectService;
+        }
+        
         // GET: Project/Details/5
         [HttpGet]
-        public ActionResult Details(string id)
+        public async Task<ActionResult> Details(string id)
         {
-            return View();
+            var project = await this.projectService.GetByIdAsync(id);
+            var projectViewModel = project.To<ProjectDetailsViewModel>();
+
+            return this.View(projectViewModel);
         }
     }
 }
