@@ -10,16 +10,19 @@
 <div class="flex-elements">
     <div class="col-md-6">
         @if (this.User.IsInRole(GlobalConstants.AdministratorRoleName)
-  || Model.Leader.Id == this.UserManager.GetUserId(this.User))
+  || Model.LeaderId == this.UserManager.GetUserId(this.User))
         {
-            <div>
-                <a asp-area="" asp-controller="Project" asp-action="Edit" class="btn btn-success button">
-                    Edit
-                </a>
-                <a asp-area="" asp-controller="Milestone" asp-action="Create" class="btn btn-primary button">
-                    Create Milestone
-                </a>
-            </div>
+        <div>
+            <a asp-area="" asp-controller="Project" asp-action="Update" asp-route-id="@Model.Id" asp-route-leaderId="@Model.LeaderId" class="btn btn-info button">
+                Update
+            </a>
+            <a asp-area="" asp-controller="Milestone" asp-action="Create" asp-route-leaderId="@Model.LeaderId" class="btn btn-success button">
+                Create Milestone
+            </a>
+            <a asp-area="" asp-controller="Label" asp-action="Create" asp-route-leaderId="@Model.LeaderId" class="btn btn-success button">
+                Create Label
+            </a>
+        </div>
         }
         <hr />
         <table class="table table-striped">

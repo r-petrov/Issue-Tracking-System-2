@@ -13,17 +13,31 @@
         <form asp-action="Create">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
-                <label asp-for="Name" class="control-label"></label>
-                <input asp-for="Name" type="text" id="name" placeholder="Name..." class="form-control" />
+                <div class="d-flex justify-content-center">
+                    <label asp-for="Name" class="control-label"></label>
+                </div>
+                <input type="text"
+                       id="name" 
+                       placeholder="Name..." 
+                       class="form-control text-primary text-center" 
+                       asp-for="Name"  />
+
                 <span asp-validation-for="Name" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Description" class="control-label"></label>
-                <input asp-for="Description" type="text" id="description" placeholder="Description..." class="form-control" />
+                <div class="d-flex justify-content-center">
+                    <label asp-for="Description" class="control-label"></label>
+                </div>
+                <input type="text" 
+                       id="description" 
+                       placeholder="Description..." 
+                       class="form-control text-primary text-center" 
+                       asp-for="Description" />
+
                 <span asp-validation-for="Description" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <div class="control-label">
+                <div class="d-flex justify-content-center">
                     <label asp-for="LeaderId" class="control-label"></label>
                 </div>
                 <select class="form-control text-primary" id="user" asp-for="LeaderId">
@@ -33,11 +47,18 @@
                         <option value="@user.Value">@user.Text</option>
                     }
                 </select>
+                <span asp-validation-for="LeaderId" class="text-danger"></span>
             </div>
-            <span asp-validation-for="LeaderId" class="text-danger"></span>
             <div class="form-group">
-                <label asp-for="Priorities" class="control-label"></label>
-                <input asp-for="Priorities" class="form-control" />
+                <div class="d-flex justify-content-center">
+                    <label asp-for="Priorities" class="control-label"></label>
+                </div>
+                <input type="text" 
+                       id="priorities" 
+                       placeholder="Priorities..." 
+                       class="form-control text-primary text-center" 
+                       asp-for="Priorities" />
+
                 <span asp-validation-for="Priorities" class="text-danger"></span>
             </div>
             <div class="form-group">

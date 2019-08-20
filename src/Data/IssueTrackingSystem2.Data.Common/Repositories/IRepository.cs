@@ -11,9 +11,13 @@
 
         IQueryable<TEntity> AllAsNoTracking();
 
+        Task<TEntity> ByIdAsync<T>(T id);
+
         Task<TEntity> AddAsync(TEntity entity);
 
-        void Update(TEntity entity);
+        //void Update(TEntity entity);
+
+        TEntity Update(TEntity entity);
 
         void Delete(TEntity entity);
 

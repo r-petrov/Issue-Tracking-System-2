@@ -25,6 +25,8 @@
 
         public virtual IQueryable<TEntity> AllAsNoTracking() => this.DbSet.AsNoTracking();
 
+        public virtual async Task<TEntity> ByIdAsync<T>(T id) => await this.DbSet.FindAsync(id);
+
         public virtual async Task<TEntity> AddAsync(TEntity entity)
         {
             await this.DbSet.AddAsync(entity);
@@ -35,15 +37,23 @@
 
         //public virtual Task AddAsync(TEntity entity) => this.DbSet.AddAsync(entity);
 
-        public virtual void Update(TEntity entity)
-        {
-            var entry = this.Context.Entry(entity);
-            if (entry.State == EntityState.Detached)
-            {
-                this.DbSet.Attach(entity);
-            }
+        //public virtual void Update(TEntity entity)
+        //{
+        //    var entry = this.Context.Entry(entity);
+        //    if (entry.State == EntityState.Detached)
+        //    {
+        //        this.DbSet.Attach(entity);
+        //    }
 
-            entry.State = EntityState.Modified;
+        //    entry.State = EntityState.Modified;
+        //}
+
+        public virtual TEntity Update(TEntity entity)
+        {
+            this.DbSet.Update(entity);
+            this.SaveChangesAsync().GetAwaiter().GetResult();
+
+            return entity;
         }
 
         public virtual void Delete(TEntity entity) => this.DbSet.Remove(entity);

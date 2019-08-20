@@ -7,7 +7,6 @@
     using Microsoft.AspNetCore.Mvc;
     using System.Linq;
 
-    [Authorize]
     public class HomeController : BaseController
     {
         private readonly IProjectService projectService;

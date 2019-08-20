@@ -13,24 +13,18 @@
     public class ProjectController : AdministrationController
     {
         private readonly IProjectService projectService;
-        private readonly IApplicationUserService applicationUserService;
 
-        public ProjectController(IProjectService projectService, IApplicationUserService applicationUserService)
+        public ProjectController(IProjectService projectService, IApplicationUserService applicationUserService) 
+            : base(applicationUserService)
         {
             this.projectService = projectService;
-            this.applicationUserService = applicationUserService;
         }
 
         // GET: Project/Create
         [HttpGet]
         public ActionResult Create()
         {
-            var users = this.applicationUserService.GetAllApplicationUsers();
-            var usersSelectList = new SelectList(
-                items: users,
-                dataValueField: nameof(ApplicationUserServiceModel.Id),
-                dataTextField: nameof(ApplicationUserServiceModel.UserName));
-
+            var usersSelectList = this.GetDropdownUsers();
             this.ViewData["Users"] = usersSelectList;
 
             return this.View();

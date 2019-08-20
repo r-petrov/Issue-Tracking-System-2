@@ -49,15 +49,13 @@
             <tbody>
                 @foreach (var project in Model)
                 {
-                    <tr onclick="location.href = '@(Url.Action(
-                                                    action: "Details", 
-                                                    controller: "Project", 
-                                                    values: new { id = project.Id }))'">
+                    <tr onclick="location.href = '@(Url.Action("Details", "Project", new { id = project.Id }))'">
                         <td class="project-name">
-                            <a class="nav-link text-dark"
-                               asp-area=""
-                               asp-controller="Project"
-                               asp-action="Details">@project.Name</a>
+                            @project.Name
+                            @*<a class="nav-link text-dark"
+                                asp-area=""
+                                asp-controller="Project"
+                                asp-action="Details">@project.Name</a>*@
                         </td>
                         <td>@project.ProjectKey</td>
                         <td>@project.Description</td>

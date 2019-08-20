@@ -12,7 +12,7 @@
 
         public string IssueId { get; set; }
 
-        public Issue Issue { get; set; }
+        public virtual Issue Issue { get; set; }
 
         public string CreatorId { get; set; }
 

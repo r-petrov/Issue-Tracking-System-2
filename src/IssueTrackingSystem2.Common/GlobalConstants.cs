@@ -11,5 +11,6 @@
         public const string Milestones = "milestones";
         public const string Labels = "labels";
         public const string Priorities = "priorities";
+        public const string LeaderId = "leaderId";
     }
 }

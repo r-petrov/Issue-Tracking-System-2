@@ -36,6 +36,18 @@
 
             var keyProperties = dbContext.Model.FindEntityType(entityType).FindPrimaryKey().Properties;
 
+            //var navigationPropertyInfo = dbContext.Model.GetEntityTypes()
+            //    .Select(t => new
+            //    {
+            //        t.ClrType.Name,
+            //        NavigationProperties = t.GetNavigations().Select(x => x.PropertyInfo),
+            //    });
+
+            //foreach (var propertiInfo in navigationPropertyInfo)
+            //{
+            //    keyProperties.Append(propertiInfo);
+            //}
+
             var predicate = BuildPredicate(keyProperties, new ValueBuffer(id), entityParameter);
 
             return Expression.Lambda<Func<TEntity, bool>>(predicate, entityParameter);

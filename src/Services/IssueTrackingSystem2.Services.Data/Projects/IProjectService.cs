@@ -10,6 +10,8 @@
 
         Task<ProjectServiceModel> GetByIdAsync(string id);
 
-        Task<ProjectServiceModel> CreateAsync(ProjectServiceModel project);
+        Task<ProjectServiceModel> CreateAsync(ProjectServiceModel projectServiceModel);
+
+        ProjectServiceModel Update(ProjectServiceModel projectServiceModel);
     }
 }

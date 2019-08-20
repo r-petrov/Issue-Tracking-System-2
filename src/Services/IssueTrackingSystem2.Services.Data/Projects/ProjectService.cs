@@ -25,7 +25,7 @@
 
         public async Task<ProjectServiceModel> GetByIdAsync(string id)
         {
-            var project = await this.efDeletableEntityRepository.GetByIdWithDeletedAsync(id);
+            var project = await this.efDeletableEntityRepository.ByIdAsync(id);
             var projectResult = project.To<ProjectServiceModel>();
 
             return projectResult;
@@ -41,6 +41,15 @@
             var projectServiceModelResult = projectResult.To<ProjectServiceModel>();
 
             return projectServiceModelResult;
+        }
+
+        public ProjectServiceModel Update(ProjectServiceModel projectServiceModel)
+        {
+            var project = projectServiceModel.To<Project>();
+            var updatedProject = this.efDeletableEntityRepository.Update(project);
+            var updatedProjectServiceModel = updatedProject.To<ProjectServiceModel>();
+
+            return updatedProjectServiceModel;
         }
     }
 }
