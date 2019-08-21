@@ -13,10 +13,12 @@
 
         public string Description { get; set; }
 
+        // TODO: Rename ScheduledStartDate and ScheduledCompletionDate to StartDate and CompletionDates
         public DateTime ScheduledStartDate { get; set; }
 
         public DateTime ScheduledCompletionDate { get; set; }
 
+        // TODO: remove ActualStartDate and ActualCompletionDate
         public DateTime? ActualStartDate { get; set; }
 
         public DateTime? ActualCompletionDate { get; set; }

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using IssueTrackingSystem2.Web.Infrastructure.Filters;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -22,7 +23,8 @@ namespace IssueTrackingSystem2.Web.Controllers
         }
 
         // GET: Milestone/Create
-        public ActionResult Create()
+        [ProjectLeaderFilter]
+        public ActionResult Create(string leaderId)
         {
             return this.View();
         }

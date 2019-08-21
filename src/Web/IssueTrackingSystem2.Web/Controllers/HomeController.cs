@@ -1,6 +1,6 @@
 ﻿namespace IssueTrackingSystem2.Web.Controllers
 {
-    using IssueTrackingSystem2.Services.Data.Projects;
+    using IssueTrackingSystem2.Services.Data.Project;
     using IssueTrackingSystem2.Services.Mapping;
     using IssueTrackingSystem2.Web.ViewModels.Project;
     using Microsoft.AspNetCore.Authorization;

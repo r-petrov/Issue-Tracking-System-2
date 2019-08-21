@@ -1,4 +1,4 @@
-﻿namespace IssueTrackingSystem2.Services.Data.Priorities
+﻿namespace IssueTrackingSystem2.Services.Data.Priority
 {
     using IssueTrackingSystem2.Data.Common.Repositories;
     using IssueTrackingSystem2.Data.Models;

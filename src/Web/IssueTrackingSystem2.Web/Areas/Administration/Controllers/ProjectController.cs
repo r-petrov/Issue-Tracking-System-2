@@ -2,7 +2,7 @@
 {
     using IssueTrackingSystem2.Common;
     using IssueTrackingSystem2.Services.Data.ApplicationUsers;
-    using IssueTrackingSystem2.Services.Data.Projects;
+    using IssueTrackingSystem2.Services.Data.Project;
     using IssueTrackingSystem2.Services.Models;
     using IssueTrackingSystem2.Web.Infrastructure.Constants;
     using IssueTrackingSystem2.Web.InputModels.Project;

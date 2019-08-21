@@ -1,6 +1,6 @@
 ﻿namespace IssueTrackingSystem2.Web.Areas.Administration.Controllers
 {
-    using IssueTrackingSystem2.Services.Data.Priorities;
+    using IssueTrackingSystem2.Services.Data.Priority;
     using IssueTrackingSystem2.Services.Mapping;
     using IssueTrackingSystem2.Services.Models;
     using IssueTrackingSystem2.Web.Infrastructure.Constants;

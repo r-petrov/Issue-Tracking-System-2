@@ -8,8 +8,8 @@
     using IssueTrackingSystem2.Data.Seeding;
     using IssueTrackingSystem2.Services.Data;
     using IssueTrackingSystem2.Services.Data.ApplicationUsers;
-    using IssueTrackingSystem2.Services.Data.Priorities;
-    using IssueTrackingSystem2.Services.Data.Projects;
+    using IssueTrackingSystem2.Services.Data.Priority;
+    using IssueTrackingSystem2.Services.Data.Project;
     using IssueTrackingSystem2.Services.Mapping;
     using IssueTrackingSystem2.Services.Messaging;
     using IssueTrackingSystem2.Services.Models;

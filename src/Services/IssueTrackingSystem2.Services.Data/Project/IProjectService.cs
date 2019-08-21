@@ -1,4 +1,4 @@
-﻿namespace IssueTrackingSystem2.Services.Data.Projects
+﻿namespace IssueTrackingSystem2.Services.Data.Project
 {
     using IssueTrackingSystem2.Services.Models;
     using System.Linq;
