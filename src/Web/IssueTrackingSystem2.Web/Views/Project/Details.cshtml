@@ -9,44 +9,41 @@
 <div class="flex-elements">
     <div class="col-md-8">
         @if (this.User.IsInRole(GlobalConstants.AdministratorRoleName)
-            || Model.LeaderId == this.UserManager.GetUserId(this.User))
+          || Model.LeaderId == this.UserManager.GetUserId(this.User))
         {
             <div>
-                <a asp-area="" 
-                   asp-controller=@ValuesConstants.ProjectControllerName 
-                   asp-action=@ValuesConstants.UpdateActionName 
-                   asp-route-id="@Model.Id" 
+                <a asp-area=""
+                   asp-controller=@ValuesConstants.ProjectControllerName
+                   asp-action=@ValuesConstants.UpdateActionName
+                   asp-route-id="@Model.Id"
                    asp-route-leaderId="@Model.LeaderId" class="btn btn-info button">
                     Update
                 </a>
-                <a asp-area="" 
-                   asp-controller=@ValuesConstants.MilestoneControllerName 
-                   asp-action=@ValuesConstants.CreateActionName 
-                   asp-route-leaderId="@Model.LeaderId" 
+                <a asp-area=""
+                   asp-controller=@ValuesConstants.MilestoneControllerName
+                   asp-action=@ValuesConstants.CreateActionName
+                   asp-route-leaderId="@Model.LeaderId"
                    class="btn btn-success button">
                     Create Milestone
                 </a>
-                <a asp-area="" 
-                   asp-controller=@ValuesConstants.LabelControllerName 
-                   asp-action=@ValuesConstants.CreateActionName 
-                   asp-route-leaderId="@Model.LeaderId" 
+                <a asp-area=""
+                   asp-controller=@ValuesConstants.LabelControllerName
+                   asp-action=@ValuesConstants.CreateActionName
+                   asp-route-leaderId="@Model.LeaderId"
                    class="btn btn-success button">
                     Create Label
                 </a>
 
-            </div>
-        }
-
-        @if (this.User.IsInRole(GlobalConstants.AdministratorRoleName))
-        {
-            <div>
-                <a asp-area=@ValuesConstants.AdministrationAreaName 
-                   asp-controller=@ValuesConstants.PriorityControllerName 
-                   asp-action=@ValuesConstants.CreateActionName
-                   asp-route-projectId="@Model.Id" 
-                   class="btn btn-success button">
-                    Create Priority
-                </a>
+                @if (this.User.IsInRole(GlobalConstants.AdministratorRoleName))
+                {
+                    <a asp-area=@ValuesConstants.AdministrationAreaName
+                       asp-controller=@ValuesConstants.PriorityControllerName
+                       asp-action=@ValuesConstants.CreateActionName
+                       asp-route-projectId="@Model.Id"
+                       class="btn btn-success button">
+                        <span class="text-dark font-weight-bold">Create Priority</span>
+                    </a>
+                }
             </div>
         }
 

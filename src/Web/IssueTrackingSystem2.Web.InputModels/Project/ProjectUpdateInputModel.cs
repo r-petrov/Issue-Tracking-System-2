@@ -20,6 +20,7 @@
         public string Description { get; set; }
 
         [Required]
+        [Display(Name = "Project Key")]
         public string ProjectKey { get; set; }
 
         [Required]
