@@ -17,7 +17,7 @@
 
         //void Update(TEntity entity);
 
-        TEntity Update(TEntity entity);
+        Task<TEntity> UpdateAsync(TEntity entity);
 
         void Delete(TEntity entity);
 

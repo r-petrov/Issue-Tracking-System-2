@@ -15,7 +15,8 @@
         {
         }
 
-        public AdministrationController(IApplicationUserService applicationUserService) : base(applicationUserService)
+        public AdministrationController(IApplicationUserService applicationUserService) 
+            : base(applicationUserService)
         {
         }
     }

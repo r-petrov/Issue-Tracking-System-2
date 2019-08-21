@@ -12,6 +12,6 @@
 
         Task<ProjectServiceModel> CreateAsync(ProjectServiceModel projectServiceModel);
 
-        ProjectServiceModel Update(ProjectServiceModel projectServiceModel);
+        Task<ProjectServiceModel> UpdateAsync(ProjectServiceModel projectServiceModel);
     }
 }

@@ -43,10 +43,10 @@
             return projectServiceModelResult;
         }
 
-        public ProjectServiceModel Update(ProjectServiceModel projectServiceModel)
+        public async Task<ProjectServiceModel> UpdateAsync(ProjectServiceModel projectServiceModel)
         {
             var project = projectServiceModel.To<Project>();
-            var updatedProject = this.repository.Update(project);
+            var updatedProject = await this.repository.UpdateAsync(project);
             var updatedProjectServiceModel = updatedProject.To<ProjectServiceModel>();
 
             return updatedProjectServiceModel;

@@ -48,7 +48,7 @@
             entity.IsDeleted = false;
             entity.DeletedOn = null;
 
-            this.Update(entity);
+            this.UpdateAsync(entity).GetAwaiter().GetResult();
         }
 
         public override void Delete(TEntity entity)
@@ -56,7 +56,7 @@
             entity.IsDeleted = true;
             entity.DeletedOn = DateTime.UtcNow;
 
-            this.Update(entity);
+            this.UpdateAsync(entity).GetAwaiter().GetResult();
         }
     }
 }

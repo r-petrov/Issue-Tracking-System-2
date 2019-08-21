@@ -8,6 +8,7 @@
     using IssueTrackingSystem2.Data.Seeding;
     using IssueTrackingSystem2.Services.Data;
     using IssueTrackingSystem2.Services.Data.ApplicationUsers;
+    using IssueTrackingSystem2.Services.Data.Priorities;
     using IssueTrackingSystem2.Services.Data.Projects;
     using IssueTrackingSystem2.Services.Mapping;
     using IssueTrackingSystem2.Services.Messaging;
@@ -103,6 +104,7 @@
             services.AddTransient<ISettingsService, SettingsService>();
             services.AddTransient<IProjectService, ProjectService>();
             services.AddTransient<IApplicationUserService, ApplicationUserService>();
+            services.AddTransient<IPriorityService, PriorityService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

@@ -75,7 +75,7 @@
             }
 
             var serviceModel = inputModel.To<ProjectServiceModel>();
-            var updatedProjectServiceModel = this.projectService.Update(serviceModel);
+            var updatedProjectServiceModel = await this.projectService.UpdateAsync(serviceModel);
             var updatedInputModel = updatedProjectServiceModel.To<ProjectUpdateInputModel>();
 
             return this.RedirectToAction(

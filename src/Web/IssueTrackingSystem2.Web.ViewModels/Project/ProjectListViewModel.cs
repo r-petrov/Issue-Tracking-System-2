@@ -34,7 +34,7 @@
         {
             configuration.CreateMap<ProjectServiceModel, DashboardProjectViewModel>()
                 .ForMember(dest => dest.CompletedMilestones, mapper => mapper.MapFrom(
-                    src => src.Milestones.Where(milestone => 
+                    src => src.Milestones.Where(milestone =>
                         milestone.Status.Name == MilestoneStatuses.Completed.ToString())));
         }
     }

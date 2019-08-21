@@ -4,6 +4,7 @@
     using IssueTrackingSystem2.Services.Data.ApplicationUsers;
     using IssueTrackingSystem2.Services.Data.Projects;
     using IssueTrackingSystem2.Services.Models;
+    using IssueTrackingSystem2.Web.Infrastructure.Constants;
     using IssueTrackingSystem2.Web.InputModels.Project;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.AspNetCore.Mvc.Rendering;
@@ -51,11 +52,11 @@
                 var projectServiceModelResult = await this.projectService.CreateAsync(projectServiceModel);
 
                 return this.RedirectToRoute(
-                    routeName: "default",
+                    routeName: ValuesConstants.DefaultRouteName,
                     routeValues: new
                     {
-                        controller = "Project",
-                        action = "Details",
+                        controller = ValuesConstants.ProjectControllerName,
+                        action = ValuesConstants.DetailsActionName,
                         id = projectServiceModelResult.Id,
                     });
             }

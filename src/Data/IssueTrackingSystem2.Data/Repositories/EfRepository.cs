@@ -48,10 +48,10 @@
         //    entry.State = EntityState.Modified;
         //}
 
-        public virtual TEntity Update(TEntity entity)
+        public virtual async Task<TEntity> UpdateAsync(TEntity entity)
         {
             this.DbSet.Update(entity);
-            this.SaveChangesAsync().GetAwaiter().GetResult();
+            await this.SaveChangesAsync();
 
             return entity;
         }
