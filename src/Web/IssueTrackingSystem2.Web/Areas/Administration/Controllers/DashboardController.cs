@@ -2,7 +2,6 @@
 {
     using IssueTrackingSystem2.Services.Data;
     using IssueTrackingSystem2.Web.Areas.Administration.ViewModels.Dashboard;
-
     using Microsoft.AspNetCore.Mvc;
 
     public class DashboardController : AdministrationController

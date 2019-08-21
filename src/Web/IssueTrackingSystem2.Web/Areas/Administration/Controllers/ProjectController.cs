@@ -1,5 +1,6 @@
 ﻿namespace IssueTrackingSystem2.Web.Areas.Administration.Controllers
 {
+    using IssueTrackingSystem2.Common;
     using IssueTrackingSystem2.Services.Data.ApplicationUsers;
     using IssueTrackingSystem2.Services.Data.Projects;
     using IssueTrackingSystem2.Services.Models;
@@ -25,7 +26,7 @@
         public ActionResult Create()
         {
             var usersSelectList = this.GetDropdownUsers();
-            this.ViewData["Users"] = usersSelectList;
+            this.ViewData[GlobalConstants.Users] = usersSelectList;
 
             return this.View();
         }

@@ -9,23 +9,23 @@
 
     public class ProjectService : IProjectService
     {
-        private readonly IDeletableEntityRepository<Project> efDeletableEntityRepository;
+        private readonly IDeletableEntityRepository<Project> repository;
 
-        public ProjectService(IDeletableEntityRepository<Project> efDeletableEntityRepository)
+        public ProjectService(IDeletableEntityRepository<Project> repository)
         {
-            this.efDeletableEntityRepository = efDeletableEntityRepository;
+            this.repository = repository;
         }
 
         public IQueryable<ProjectServiceModel> GetAll()
         {
-            var projects = this.efDeletableEntityRepository.All().To<ProjectServiceModel>();
+            var projects = this.repository.All().To<ProjectServiceModel>();
 
             return projects;
         }
 
         public async Task<ProjectServiceModel> GetByIdAsync(string id)
         {
-            var project = await this.efDeletableEntityRepository.ByIdAsync(id);
+            var project = await this.repository.ByIdAsync(id);
             var projectResult = project.To<ProjectServiceModel>();
 
             return projectResult;
@@ -34,7 +34,7 @@
         public async Task<ProjectServiceModel> CreateAsync(ProjectServiceModel projectServiceModel)
         {
             Project project = projectServiceModel.To<Project>();
-            var projectResult = await this.efDeletableEntityRepository.AddAsync(project);
+            var projectResult = await this.repository.AddAsync(project);
 
             // var result = await this.efDeletableEntityRepository.SaveChangesAsync();
 
@@ -46,7 +46,7 @@
         public ProjectServiceModel Update(ProjectServiceModel projectServiceModel)
         {
             var project = projectServiceModel.To<Project>();
-            var updatedProject = this.efDeletableEntityRepository.Update(project);
+            var updatedProject = this.repository.Update(project);
             var updatedProjectServiceModel = updatedProject.To<ProjectServiceModel>();
 
             return updatedProjectServiceModel;

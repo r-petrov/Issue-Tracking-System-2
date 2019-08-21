@@ -42,7 +42,7 @@
                 </div>
                 <select class="form-control text-primary" id="user" asp-for="LeaderId">
                     <option selected disabled>--- Select Project Leader ---</option>
-                    @foreach (var user in (SelectList)this.ViewData["Users"])
+                    @foreach (var user in (SelectList)this.ViewData[GlobalConstants.Users])
                     {
                         <option value="@user.Value">@user.Text</option>
                     }

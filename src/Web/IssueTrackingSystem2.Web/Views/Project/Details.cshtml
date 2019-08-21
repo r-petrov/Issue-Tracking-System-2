@@ -39,8 +39,8 @@
                 <td>@Model.Description</td>
             </tr>
             <tr>
-                <th>@nameof(ProjectDetailsViewModel.LeaderId).SplitStringByCapitalLetters():</th>
-                <td>@Model.LeaderId</td>
+                <th>@nameof(ProjectDetailsViewModel.Leader).SplitStringByCapitalLetters():</th>
+                <td>(Current ID: @Model.Leader.Id) @Model.Leader.UserName</td>
             </tr>
             <tr>
                 <th>@nameof(ProjectDetailsViewModel.Labels):</th>

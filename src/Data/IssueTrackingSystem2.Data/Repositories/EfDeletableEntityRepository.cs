@@ -1,6 +1,7 @@
 ﻿namespace IssueTrackingSystem2.Data.Repositories
 {
     using System;
+    using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
 
@@ -30,6 +31,14 @@
             var byIdPredicate = EfExpressionHelper.BuildByIdPredicate<TEntity>(this.Context, id);
 
             return this.AllWithDeleted().FirstOrDefaultAsync(byIdPredicate);
+        }
+
+        public bool HardDeleteMultiple(IEnumerable<TEntity> entities)
+        {
+            this.DbSet.RemoveRange(entities);
+            var result = this.SaveChangesAsync().GetAwaiter().GetResult();
+
+            return result > 0;
         }
 
         public void HardDelete(TEntity entity) => base.Delete(entity);

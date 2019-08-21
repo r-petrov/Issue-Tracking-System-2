@@ -1,5 +1,6 @@
 ﻿namespace IssueTrackingSystem2.Web.Controllers
 {
+    using IssueTrackingSystem2.Common;
     using IssueTrackingSystem2.Services.Data.ApplicationUsers;
     using IssueTrackingSystem2.Services.Data.Projects;
     using IssueTrackingSystem2.Services.Mapping;
@@ -16,7 +17,7 @@
         private readonly IProjectService projectService;
 
         public ProjectController(IProjectService projectService, IApplicationUserService applicationUserService)
-            : base(applicationUserService)
+                : base(applicationUserService)
         {
             this.projectService = projectService;
         }
@@ -43,17 +44,17 @@
             if (string.IsNullOrEmpty(id))
             {
                 return this.BadRequest(string.Format(
-                    format: MessagesConstants.NullOrEmptyArgument, 
+                    format: MessagesConstants.NullOrEmptyArgument,
                     arg0: nameof(id)));
             }
 
-            var project = await this.projectService.GetByIdAsync(id);
-            var projectEditInputModel = project.To<ProjectUpdateInputModel>();
+            var projectServiceModel = await this.projectService.GetByIdAsync(id);
+            var projectUpdateInputModel = projectServiceModel.To<ProjectUpdateInputModel>();
 
             var usersSelectList = this.GetDropdownUsers();
-            this.ViewData["Users"] = usersSelectList;
+            this.ViewData[GlobalConstants.Users] = usersSelectList;
 
-            return this.View(projectEditInputModel);
+            return this.View(projectUpdateInputModel);
         }
 
         [HttpPost]
@@ -68,7 +69,7 @@
             if (!this.ModelState.IsValid)
             {
                 var usersSelectList = this.GetDropdownUsers();
-                this.ViewData["Users"] = usersSelectList;
+                this.ViewData[GlobalConstants.Users] = usersSelectList;
 
                 return this.View(inputModel);
             }

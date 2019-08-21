@@ -8,7 +8,7 @@
     using System.ComponentModel.DataAnnotations;
     using System.Linq;
 
-    public class ProjectUpdateInputModel : IMapFrom<ProjectServiceModel>, IMapTo<ProjectServiceModel>, IHaveCustomMappings
+    public class ProjectUpdateInputModel : IMapFrom<ProjectServiceModel>, IMapTo<ProjectServiceModel>//, IHaveCustomMappings
     {
         [Required]
         public string Id { get; set; }
@@ -26,25 +26,25 @@
         [Display(Name = "Project Leader")]
         public string LeaderId { get; set; }
 
-        [Required]
-        public string Priorities { get; set; }
+        //[Required]
+        //public ICollection<PriorityConsiseInputModel> Priorities { get; set; }
 
-        public ICollection<LabelConciseInputModel> Labels { get; set; }
+        //public ICollection<LabelConciseInputModel> Labels { get; set; }
 
-        public void CreateMappings(IProfileExpression configuration)
-        {
-            configuration.CreateMap<ProjectUpdateInputModel, ProjectServiceModel>()
-                .ForMember(dest => dest.Priorities, 
-                    mapper => mapper.MapFrom(src => src.Priorities.Split(
-                        new char[] { ',', ';', ' ' },
-                        StringSplitOptions.RemoveEmptyEntries).Select(priorityName => new PriorityServiceModel()
-                        {
-                            Name = priorityName
-                        })
-                    ));
+        //public void CreateMappings(IProfileExpression configuration)
+        //{
+        //    configuration.CreateMap<ProjectUpdateInputModel, ProjectServiceModel>()
+        //        .ForMember(dest => dest.Priorities, 
+        //            mapper => mapper.MapFrom(src => src.Priorities.Split(
+        //                new char[] { ',', ';', ' ' },
+        //                StringSplitOptions.RemoveEmptyEntries).Select(priorityName => new PriorityServiceModel()
+        //                {
+        //                    Name = priorityName
+        //                })
+        //            ));
 
-            configuration.CreateMap<ProjectServiceModel, ProjectUpdateInputModel>()
-                .ForMember(dest => dest.Priorities, mapper => mapper.MapFrom(src => string.Join(", ", src.Priorities.Select(priority => priority.Name))));
-        }
+        //    configuration.CreateMap<ProjectServiceModel, ProjectUpdateInputModel>()
+        //        .ForMember(dest => dest.Priorities, mapper => mapper.MapFrom(src => string.Join(", ", src.Priorities.Select(priority => priority.Name))));
+        //}
     }
 }

@@ -12,5 +12,6 @@
         public const string Labels = "labels";
         public const string Priorities = "priorities";
         public const string LeaderId = "leaderId";
+        public const string Users = "users";
     }
 }

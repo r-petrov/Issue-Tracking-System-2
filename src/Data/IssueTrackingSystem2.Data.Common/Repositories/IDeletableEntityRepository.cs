@@ -1,5 +1,6 @@
 ﻿namespace IssueTrackingSystem2.Data.Common.Repositories
 {
+    using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
 
@@ -15,6 +16,8 @@
         Task<TEntity> GetByIdWithDeletedAsync(params object[] id);
 
         void HardDelete(TEntity entity);
+
+        bool HardDeleteMultiple(IEnumerable<TEntity> entities);
 
         void Undelete(TEntity entity);
     }

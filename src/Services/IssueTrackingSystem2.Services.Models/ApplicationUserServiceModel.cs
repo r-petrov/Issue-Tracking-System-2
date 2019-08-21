@@ -4,7 +4,7 @@
     using IssueTrackingSystem2.Services.Mapping;
     using System.Collections.Generic;
 
-    public class ApplicationUserServiceModel : IMapFrom<ApplicationUser>
+    public class ApplicationUserServiceModel : IMapFrom<ApplicationUser>, IMapTo<ApplicationUser>
     {
         public string Id { get; set; }
 
