@@ -1,0 +1,43 @@
+﻿@model IEnumerable<IssueTrackingSystem2.Web.ViewModels.Issue.IssueListViewModel>
+
+<div class="table table-striped col-md-6 fixed">
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>@nameof(IssueListViewModel.Title)</th>
+                <th>@nameof(IssueListViewModel.Description)</th>
+                <th>@nameof(IssueListViewModel.Status)</th>
+                <th>@nameof(IssueListViewModel.DueDate)</th>
+                <th>@nameof(IssueListViewModel.Assignee)</th>
+                <th>@nameof(IssueListViewModel.Labels)</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var issue in Model)
+            {
+                <tr onclick="location.href = '@(Url.Action(ValuesConstants.DetailsActionName, ValuesConstants.IssueControllerName, new { id = issue.Id }))'">
+                    <td>@issue.Title</td>
+                    <td>
+                        @issue.Description
+                    </td>
+                    <td>@issue.Status.Name</td>
+                    <td>@issue.DueDate</td>
+                    <td>@issue.Assignee.UserName</td>
+                    @if (issue.Labels != null && issue.Labels.Any())
+                    {
+                        <td><partial name="_LabelsPartial" model="issue.Labels"></td>
+                    }
+                    else
+                    {
+                        <td>
+                            @string.Format(
+                                format: MessagesConstants.StillNotAddedItems,
+                                arg0: GlobalConstants.Labels,
+                                arg1: $"{issue.Title} issue")
+                        </td>
+                    }
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

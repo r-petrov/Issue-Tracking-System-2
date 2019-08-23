@@ -17,13 +17,13 @@
 
         public string Description { get; set; }
 
-        public DateTime ScheduledStartDate { get; set; }
+        public DateTime StartDate { get; set; }
 
-        public DateTime ScheduledCompletionDate { get; set; }
+        public DateTime CompletionDate { get; set; }
 
-        public DateTime? ActualStartDate { get; set; }
+        //public DateTime? ActualStartDate { get; set; }
 
-        public DateTime? ActualCompletionDate { get; set; }
+        //public DateTime? ActualCompletionDate { get; set; }
 
         public int StatusId { get; set; }
 

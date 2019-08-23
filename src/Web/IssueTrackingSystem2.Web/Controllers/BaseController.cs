@@ -1,6 +1,7 @@
 ﻿namespace IssueTrackingSystem2.Web.Controllers
 {
     using IssueTrackingSystem2.Services.Data.ApplicationUsers;
+    using IssueTrackingSystem2.Services.Data.Project;
     using IssueTrackingSystem2.Services.Models;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
@@ -15,10 +16,17 @@
         {
         }
 
+        public BaseController(IProjectService projectService)
+        {
+            this.ProjectService = projectService;
+        }
+
         public BaseController(IApplicationUserService applicationUserService)
         {
             this.applicationUserService = applicationUserService;
         }
+
+        protected IProjectService ProjectService { get; }
 
         protected SelectList GetDropdownUsers()
         {

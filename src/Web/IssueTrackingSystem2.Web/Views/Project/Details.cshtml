@@ -22,6 +22,7 @@
                 <a asp-area=""
                    asp-controller=@ValuesConstants.MilestoneControllerName
                    asp-action=@ValuesConstants.CreateActionName
+                   asp-route-projectId=@Model.Id
                    asp-route-leaderId="@Model.LeaderId"
                    class="btn btn-success button">
                     Create Milestone
@@ -105,7 +106,6 @@
     </div>
 
     <hr />
-
     <h4>@($"{Model.Name}' Milestones")</h4>
     @if (Model.Milestones != null && Model.Milestones.Any())
     {
@@ -113,26 +113,24 @@
             <table class="table table-striped">
                 <thead>
                     <tr>
-                        <th>@nameof(MilestoneViewModel.Title)</th>
-                        <th>@nameof(MilestoneViewModel.ScheduledStartDate)</th>
-                        <th>@nameof(MilestoneViewModel.ScheduledCompletionDate)</th>
-                        <th>@nameof(MilestoneViewModel.Status)</th>
-                        <th>@nameof(MilestoneViewModel.Issues)</th>
-                        <th>@nameof(MilestoneViewModel.CompletedIssues)</th>
+                        <th>@nameof(MilestoneListViewModel.Title)</th>
+                        <th>@nameof(MilestoneListViewModel.StartDate)</th>
+                        <th>@nameof(MilestoneListViewModel.CompletionDate)</th>
+                        <th>@nameof(MilestoneListViewModel.Status)</th>
+                        <th>@nameof(MilestoneListViewModel.Issues)</th>
+                        <th>@nameof(MilestoneListViewModel.CompletedIssues)</th>
                     </tr>
                 </thead>
                 <tbody>
                     @foreach (var milestone in Model.Milestones)
                     {
-                        <tr onclick="location.href = '@(Url.Action("Details", "Milestone", new { id = milestone.Id }))'">
+                        <tr onclick="location.href = '@(Url.Action(ValuesConstants.DetailsActionName, ValuesConstants.MilestoneControllerName, new { id = milestone.Id }))'">
                             <td>@milestone.Title</td>
                             <td>
-                                @(DateTime.UtcNow > milestone.ActualStartDate ?
-                                    milestone.ActualStartDate : milestone.ScheduledStartDate)
+                                @milestone.StartDate
                             </td>
                             <td>
-                                @(DateTime.UtcNow > milestone.ActualCompletionDate ?
-                                    milestone.ActualCompletionDate : milestone.ScheduledCompletionDate)
+                                @milestone.CompletionDate
                             </td>
                             <td>@milestone.Status.Name</td>
                             <td>@milestone.Issues.Count</td>

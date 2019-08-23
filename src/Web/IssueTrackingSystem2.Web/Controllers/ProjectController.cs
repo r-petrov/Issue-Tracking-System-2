@@ -31,7 +31,7 @@
                 return this.BadRequest(string.Format(format: MessagesConstants.NullOrEmptyArgument, arg0: nameof(id)));
             }
 
-            var project = await this.projectService.GetByIdAsync(id);
+            var project = await this.projectService.ByIdAsync(id);
             var projectViewModel = project.To<ProjectDetailsViewModel>();
 
             return this.View(projectViewModel);
@@ -39,7 +39,7 @@
 
         [HttpGet]
         [ProjectLeaderFilter]
-        public async Task<ActionResult> Update(string id, string leaderId = null)
+        public async Task<ActionResult> Update(string id, string leaderId)
         {
             if (string.IsNullOrEmpty(id))
             {
@@ -48,22 +48,29 @@
                     arg0: nameof(id)));
             }
 
-            var projectServiceModel = await this.projectService.GetByIdAsync(id);
+            var projectServiceModel = await this.projectService.ByIdAsync(id);
             var projectUpdateInputModel = projectServiceModel.To<ProjectUpdateInputModel>();
 
-            var usersSelectList = this.GetDropdownUsers();
-            this.ViewData[GlobalConstants.Users] = usersSelectList;
+            if (this.User.IsInRole(GlobalConstants.AdministratorRoleName))
+            {
+                var usersSelectList = this.GetDropdownUsers();
+                this.ViewData[GlobalConstants.Users] = usersSelectList;
+            }
 
             return this.View(projectUpdateInputModel);
         }
 
         [HttpPost]
         [ProjectLeaderFilter]
-        public async Task<ActionResult> Update(ProjectUpdateInputModel inputModel, string leaderId = null)
+        public async Task<ActionResult> Update(ProjectUpdateInputModel inputModel, string leaderId)
         {
             if (inputModel == null)
             {
-                return this.BadRequest(string.Format(format: MessagesConstants.NullOrEmptyArgument, arg0: nameof(inputModel)));
+                this.ViewData[ValuesConstants.InvalidArgument] = string.Format(
+                    format: MessagesConstants.NullOrEmptyArgument,
+                    arg0: nameof(inputModel));
+
+                return this.View();
             }
 
             if (!this.ModelState.IsValid)

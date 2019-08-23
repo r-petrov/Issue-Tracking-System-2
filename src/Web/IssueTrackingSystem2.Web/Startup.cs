@@ -8,6 +8,7 @@
     using IssueTrackingSystem2.Data.Seeding;
     using IssueTrackingSystem2.Services.Data;
     using IssueTrackingSystem2.Services.Data.ApplicationUsers;
+    using IssueTrackingSystem2.Services.Data.Milestone;
     using IssueTrackingSystem2.Services.Data.Priority;
     using IssueTrackingSystem2.Services.Data.Project;
     using IssueTrackingSystem2.Services.Mapping;
@@ -26,6 +27,7 @@
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
     using Microsoft.Extensions.Logging;
+    using System.Globalization;
     using System.Reflection;
 
     public class Startup
@@ -105,6 +107,7 @@
             services.AddTransient<IProjectService, ProjectService>();
             services.AddTransient<IApplicationUserService, ApplicationUserService>();
             services.AddTransient<IPriorityService, PriorityService>();
+            services.AddTransient<IMilestoneService, MilestoneService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -114,6 +117,9 @@
                 typeof(RegisterMappingViewModel).GetTypeInfo().Assembly,
                 typeof(RegisterMappingServiceModel).GetTypeInfo().Assembly,
                 typeof(RegisterMappingInputModel).GetTypeInfo().Assembly);
+
+            CultureInfo.DefaultThreadCurrentCulture = CultureInfo.InvariantCulture;
+            CultureInfo.DefaultThreadCurrentUICulture = CultureInfo.InvariantCulture;
 
             // Seed data on application startup
             using (var serviceScope = app.ApplicationServices.CreateScope())

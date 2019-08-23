@@ -1,9 +1,11 @@
 ﻿namespace IssueTrackingSystem2.Services.Data.Project
 {
+    using IssueTrackingSystem2.Common;
     using IssueTrackingSystem2.Data.Common.Repositories;
     using IssueTrackingSystem2.Data.Models;
     using IssueTrackingSystem2.Services.Mapping;
     using IssueTrackingSystem2.Services.Models;
+    using System;
     using System.Linq;
     using System.Threading.Tasks;
 
@@ -23,9 +25,18 @@
             return projects;
         }
 
-        public async Task<ProjectServiceModel> GetByIdAsync(string id)
+        public async Task<ProjectServiceModel> ByIdAsync(string id)
         {
             var project = await this.repository.ByIdAsync(id);
+            if (project == null)
+            {
+                throw new Exception(string.Format(
+                    format: MessagesConstants.NullItem,
+                    arg0: nameof(project),
+                    arg1: nameof(id),
+                    arg2: id));
+            }
+
             var projectResult = project.To<ProjectServiceModel>();
 
             return projectResult;

@@ -1,17 +1,20 @@
 ﻿@using IssueTrackingSystem2.Common
+@using IssueTrackingSystem2.Common.Enums
 @using IssueTrackingSystem2.Data.Models
 @using IssueTrackingSystem2.Web
 @using IssueTrackingSystem2.Web.Infrastructure.Constants
 @using IssueTrackingSystem2.Web.Infrastructure.Extensions
+@using IssueTrackingSystem2.Web.InputModels
+@using IssueTrackingSystem2.Web.InputModels.Milestone
+@using IssueTrackingSystem2.Web.InputModels.Project
 @using IssueTrackingSystem2.Web.ViewModels
+@using IssueTrackingSystem2.Web.ViewModels.Issue
 @using IssueTrackingSystem2.Web.ViewModels.Label
 @using IssueTrackingSystem2.Web.ViewModels.Milestone
 @using IssueTrackingSystem2.Web.ViewModels.Priority
 @using IssueTrackingSystem2.Web.ViewModels.Project
-@using IssueTrackingSystem2.Web.InputModels
-@using IssueTrackingSystem2.Web.InputModels.Milestone
-@using IssueTrackingSystem2.Web.InputModels.Project
 @using Microsoft.AspNetCore.Identity
+@using Microsoft.AspNetCore.Mvc.Rendering;
 
 @inject SignInManager<ApplicationUser> SignInManager
 @inject UserManager<ApplicationUser> UserManager

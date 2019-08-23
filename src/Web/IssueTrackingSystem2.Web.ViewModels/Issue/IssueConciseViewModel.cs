@@ -3,7 +3,7 @@
     using IssueTrackingSystem2.Services.Mapping;
     using IssueTrackingSystem2.Services.Models;
 
-    public class DashboardIssueViewModel : IMapFrom<IssueServiceModel>
+    public class IssueConciseViewModel : IMapFrom<IssueServiceModel>
     {
         public string AssigneeId { get; set; }
     }

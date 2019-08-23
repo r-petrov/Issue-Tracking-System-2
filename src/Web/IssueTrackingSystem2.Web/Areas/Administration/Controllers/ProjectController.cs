@@ -16,7 +16,7 @@
     {
         private readonly IProjectService projectService;
 
-        public ProjectController(IProjectService projectService, IApplicationUserService applicationUserService) 
+        public ProjectController(IProjectService projectService, IApplicationUserService applicationUserService)
             : base(applicationUserService)
         {
             this.projectService = projectService;
@@ -36,34 +36,50 @@
         [HttpPost]
         public async Task<ActionResult> Create(ProjectCreateInputModel inputModel)
         {
-            try
+            //try
+            //{
+
+            if (inputModel == null)
             {
-                //var projectServiceModel = inputModel.To<ProjectServiceModel>();
-                var projectServiceModel = new ProjectServiceModel()
-                {
-                    Name = inputModel.Name,
-                    Description = inputModel.Description,
-                    LeaderId = inputModel.LeaderId,
-                };
+                this.ViewData[ValuesConstants.InvalidArgument] = string.Format(
+                    format: MessagesConstants.NullOrEmptyArgument,
+                    arg0: nameof(inputModel));
 
-                projectServiceModel.ProjectKey = this.GenerateProjectKey(inputModel);
-                projectServiceModel.Priorities = this.GeneratePriorities(inputModel);
-
-                var projectServiceModelResult = await this.projectService.CreateAsync(projectServiceModel);
-
-                return this.RedirectToRoute(
-                    routeName: ValuesConstants.DefaultRouteName,
-                    routeValues: new
-                    {
-                        controller = ValuesConstants.ProjectControllerName,
-                        action = ValuesConstants.DetailsActionName,
-                        id = projectServiceModelResult.Id,
-                    });
+                return this.View();
             }
-            catch
+
+            if (!this.ModelState.IsValid)
             {
                 return this.View(inputModel);
             }
+
+            //var projectServiceModel = inputModel.To<ProjectServiceModel>();
+            var projectServiceModel = new ProjectServiceModel()
+            {
+                Name = inputModel.Name,
+                Description = inputModel.Description,
+                LeaderId = inputModel.LeaderId,
+            };
+
+            projectServiceModel.ProjectKey = this.GenerateProjectKey(inputModel);
+            projectServiceModel.Priorities = this.GeneratePriorities(inputModel);
+
+            var projectServiceModelResult = await this.projectService.CreateAsync(projectServiceModel);
+
+            return this.RedirectToRoute(
+                routeName: ValuesConstants.DefaultRouteName,
+                routeValues: new
+                {
+                    controller = ValuesConstants.ProjectControllerName,
+                    action = ValuesConstants.DetailsActionName,
+                    id = projectServiceModelResult.Id,
+                });
+            //}
+            //catch
+            //{
+            //    // TODO: Implement Exception logging in file in dropbox or some other file datastore
+            //    return this.View(inputModel);
+            //}
         }
 
         private string GenerateProjectKey(ProjectCreateInputModel inputModel)

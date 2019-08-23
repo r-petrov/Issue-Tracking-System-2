@@ -36,7 +36,7 @@
             // TODO: Add filters, i.e. Project name
             var projects = this.projectService
                 .GetAll()
-                .To<DashboardProjectViewModel>()
+                .To<ProjectListViewModel>()
                 .ToList()
                 .OrderByDescending(project => project.CreatedOn);
 

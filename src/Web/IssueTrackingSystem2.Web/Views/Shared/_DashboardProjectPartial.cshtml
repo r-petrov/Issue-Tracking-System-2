@@ -1,5 +1,5 @@
 ﻿@using IssueTrackingSystem2.Web.ViewModels.Project
-@model IEnumerable<DashboardProjectViewModel>
+@model IEnumerable<ProjectListViewModel>
 
 <div>
     @if (Model == null || !Model.Any())
@@ -24,25 +24,19 @@
             <thead>
                 <tr>
                     <th>
-                        <h3>@nameof(DashboardProjectViewModel.Name)</h3>
+                        <h3>@nameof(ProjectListViewModel.Name)</h3>
                     </th>
                     <th>
-                        <h3>@nameof(DashboardProjectViewModel.ProjectKey).SplitStringByCapitalLetters()</h3>
+                        <h3>@nameof(ProjectListViewModel.Leader)</h3>
                     </th>
                     <th>
-                        <h3>@nameof(DashboardProjectViewModel.Description)</h3>
+                        <h3>@nameof(ProjectListViewModel.Milestones)</h3>
                     </th>
                     <th>
-                        <h3>@nameof(DashboardProjectViewModel.Leader)</h3>
+                        <h3>@nameof(ProjectListViewModel.CompletedMilestones).SplitStringByCapitalLetters()</h3>
                     </th>
                     <th>
-                        <h3>@nameof(DashboardProjectViewModel.Milestones)</h3>
-                    </th>
-                    <th>
-                        <h3>@nameof(DashboardProjectViewModel.CompletedMilestones).SplitStringByCapitalLetters()</h3>
-                    </th>
-                    <th>
-                        <h3>@nameof(DashboardProjectViewModel.Labels)</h3>
+                        <h3>@nameof(ProjectListViewModel.Labels)</h3>
                     </th>
                 </tr>
             </thead>
@@ -52,30 +46,28 @@
                     <tr onclick="location.href = '@(Url.Action(ValuesConstants.DetailsActionName, ValuesConstants.ProjectControllerName, new { id = project.Id }))'">
                         <td class="project-name">
                             @project.Name
-                            @*<a class="nav-link text-dark"
-                                asp-area=""
-                                asp-controller="Project"
-                                asp-action="Details">@project.Name</a>*@
                         </td>
-                        <td>@project.ProjectKey</td>
-                        <td>@project.Description</td>
                         <td>@project.Leader.UserName</td>
                         <td>@project.Milestones.Count</td>
                         <td>@project.CompletedMilestones.Count</td>
-                        <td>
-                            @*@foreach (var label in project.Labels)
-                                {
-                                    <span style="color:@label.Color">@label.Title</span>
-                                }*@
-                            <partial name="_LabelsPartial" model="project.Labels" />
-                        </td>
+                        @if (project.Labels != null && project.Labels.Any())
+                        {
+                            <td>
+                                <partial name="_LabelsPartial" model="project.Labels" />
+                            </td>
+                        }
+                        else
+                        {
+                            <td>
+                                @string.Format(
+                                    format: MessagesConstants.StillNotAddedItems,
+                                    arg0: GlobalConstants.Labels,
+                                    arg1: $"{project.Name} project")
+                            </td>
+                        }
                     </tr>
                 }
             </tbody>
         </table>
     }
-</div>
-<div>
-    @*@Html.ActionLink("Edit", "Edit", new { /* id = Model.PrimaryKey */ }) |
-        <a asp-action="Index">Back to List</a>*@
 </div>

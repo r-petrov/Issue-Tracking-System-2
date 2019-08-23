@@ -1,6 +1,7 @@
 ﻿namespace IssueTrackingSystem2.Web.Areas.Administration.Controllers
 {
     using IssueTrackingSystem2.Services.Data.Priority;
+    using IssueTrackingSystem2.Services.Data.Project;
     using IssueTrackingSystem2.Services.Mapping;
     using IssueTrackingSystem2.Services.Models;
     using IssueTrackingSystem2.Web.Infrastructure.Constants;
@@ -12,7 +13,8 @@
     {
         private readonly IPriorityService priorityService;
 
-        public PriorityController(IPriorityService priorityService)
+        public PriorityController(IPriorityService priorityService, IProjectService projectService)
+            : base(projectService)
         {
             this.priorityService = priorityService;
         }
@@ -33,9 +35,11 @@
         [HttpPost]
         public async Task<ActionResult> Create(PriorityInputModel inputModel)
         {
-            try
-            {
+            //try
+            //{
                 var priorityServiceModel = inputModel.To<PriorityServiceModel>();
+                priorityServiceModel.Project = await this.ProjectService.ByIdAsync(inputModel.ProjectId);
+
                 var priorityServiceModelResult = await this.priorityService.CreateAsync(priorityServiceModel);
 
                 return this.RedirectToRoute(
@@ -46,11 +50,12 @@
                         action = ValuesConstants.DetailsActionName,
                         id = priorityServiceModelResult.ProjectId,
                     });
-            }
-            catch
-            {
-                return View();
-            }
+            //}
+            //catch
+            //{
+            //    // TODO: Implement Exception logging in file in dropbox or some other file datastore
+            //    return View();
+            //}
         }
     }
 }

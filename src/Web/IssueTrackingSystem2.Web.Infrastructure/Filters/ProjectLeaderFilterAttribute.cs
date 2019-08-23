@@ -15,14 +15,14 @@
         public void OnActionExecuting(ActionExecutingContext context)
         {
             var actionArguments = context.ActionArguments;
-            var leaderIdArgument = (string)actionArguments[GlobalConstants.LeaderId];
-            if (string.IsNullOrEmpty(leaderIdArgument))
+            if (!actionArguments.ContainsKey(GlobalConstants.LeaderId))
             {
                 throw new Exception(string.Format(
                     format: MessagesConstants.NullOrEmptyArgument,
                     arg0: GlobalConstants.LeaderId));
             }
 
+            var leaderIdArgument = (string)actionArguments[GlobalConstants.LeaderId];
             var currentUserId = context.HttpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value;
             if (!context.HttpContext.User.IsInRole(GlobalConstants.AdministratorRoleName)
                     && currentUserId != leaderIdArgument)

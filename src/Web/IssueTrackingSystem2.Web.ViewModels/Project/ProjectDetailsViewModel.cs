@@ -25,7 +25,7 @@
 
         public ApplicationUserViewModel Leader { get; set; }
 
-        public ICollection<MilestoneViewModel> Milestones { get; set; }
+        public ICollection<MilestoneListViewModel> Milestones { get; set; }
 
         public ICollection<PriorityConciseViewModel> Priorities { get; set; }
 

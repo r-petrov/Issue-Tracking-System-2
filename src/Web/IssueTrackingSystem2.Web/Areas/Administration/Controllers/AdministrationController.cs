@@ -2,6 +2,7 @@
 {
     using IssueTrackingSystem2.Common;
     using IssueTrackingSystem2.Services.Data.ApplicationUsers;
+    using IssueTrackingSystem2.Services.Data.Project;
     using IssueTrackingSystem2.Web.Controllers;
 
     using Microsoft.AspNetCore.Authorization;
@@ -12,6 +13,11 @@
     public class AdministrationController : BaseController
     {
         public AdministrationController()
+        {
+        }
+
+        public AdministrationController(IProjectService projectService)
+            : base(projectService)
         {
         }
 

@@ -4,7 +4,7 @@
     using IssueTrackingSystem2.Services.Mapping;
     using System.Collections.Generic;
 
-    public class StatusServiceModel : IMapFrom<Status>
+    public class StatusServiceModel : IMapFrom<Status>, IMapTo<Status>
     {
         public int Id { get; set; }
 
