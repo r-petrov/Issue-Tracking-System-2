@@ -1,14 +1,17 @@
 ﻿namespace IssueTrackingSystem2.Web.InputModels.Milestone
 {
     using AutoMapper;
+    using IssueTrackingSystem2.Common;
     using IssueTrackingSystem2.Common.Enums;
     using IssueTrackingSystem2.Services.Mapping;
     using IssueTrackingSystem2.Services.Models;
+    using IssueTrackingSystem2.Web.Infrastructure.Extensions;
     using IssueTrackingSystem2.Web.InputModels.Project;
     using System;
+    using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
 
-    public class MilestoneCreateInputModel : IMapTo<MilestoneServiceModel>, IHaveCustomMappings
+    public class MilestoneCreateInputModel : IValidatableObject, IMapTo<MilestoneServiceModel>, IHaveCustomMappings
     {
         [Required]
         public string Title { get; set; }
@@ -24,9 +27,35 @@
         [Display(Name = "Scheduled Completion Date")]
         public DateTime CompletionDate { get; set; }
 
+        [Required]
         public string Status { get; set; }
 
         public ProjectConciseInputModel Project { get; set; }
+
+        public IEnumerable<ValidationResult> Validate(System.ComponentModel.DataAnnotations.ValidationContext validationContext)
+        {
+            if (this.StartDate < DateTime.UtcNow)
+            {
+                yield return new ValidationResult(string.Format(
+                    format: MessagesConstants.DateTimeEarlierThanNow,
+                    arg0: nameof(this.StartDate).SplitStringByCapitalLetters()));
+            }
+
+            if (this.StartDate < DateTime.UtcNow)
+            {
+                yield return new ValidationResult(string.Format(
+                    format: MessagesConstants.DateTimeEarlierThanNow,
+                    arg0: nameof(this.CompletionDate).SplitStringByCapitalLetters()));
+            }
+
+            if (this.StartDate > this.CompletionDate)
+            {
+                yield return new ValidationResult(string.Format(
+                    format: MessagesConstants.StartDateLaterThanEndDate,
+                    arg0: nameof(this.StartDate).SplitStringByCapitalLetters(),
+                    arg1: nameof(this.CompletionDate).SplitStringByCapitalLetters()));
+            }
+        }
 
         public void CreateMappings(IProfileExpression configuration)
         {

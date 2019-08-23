@@ -20,6 +20,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\IssueTrackingSystem2.Common\IssueTrackingSystem2.Common.csproj" />
     <ProjectReference Include="..\IssueTrackingSystem2.Data.Common\IssueTrackingSystem2.Data.Common.csproj" />
   </ItemGroup>
 

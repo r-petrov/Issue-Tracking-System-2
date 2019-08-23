@@ -21,6 +21,7 @@
     <ProjectReference Include="..\..\IssueTrackingSystem2.Common\IssueTrackingSystem2.Common.csproj" />
     <ProjectReference Include="..\..\Services\IssueTrackingSystem2.Services.Mapping\IssueTrackingSystem2.Services.Mapping.csproj" />
     <ProjectReference Include="..\..\Services\IssueTrackingSystem2.Services.Models\IssueTrackingSystem2.Services.Models.csproj" />
+    <ProjectReference Include="..\IssueTrackingSystem2.Web.Infrastructure\IssueTrackingSystem2.Web.Infrastructure.csproj" />
   </ItemGroup>
 
 </Project>
