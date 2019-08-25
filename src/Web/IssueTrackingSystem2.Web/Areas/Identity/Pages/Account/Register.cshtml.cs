@@ -1,6 +1,7 @@
 ﻿namespace IssueTrackingSystem2.Web.Areas.Identity.Pages.Account
 {
     using IssueTrackingSystem2.Common;
+    using IssueTrackingSystem2.Common.Infrastructure.Constants;
     using IssueTrackingSystem2.Data.Models;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Identity;

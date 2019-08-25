@@ -8,12 +8,16 @@
     using IssueTrackingSystem2.Services.Models;
     using IssueTrackingSystem2.Web.Infrastructure.Attributes;
     using IssueTrackingSystem2.Web.InputModels.Project;
+    using IssueTrackingSystem2.Web.ViewModels.Status;
     using System;
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
 
-    public class MilestoneCreateInputModel : IValidatableObject, IMapTo<MilestoneServiceModel>, IHaveCustomMappings
+    public class MilestoneUpdateInputModel 
+        : IValidatableObject, IMapFrom<MilestoneServiceModel>, IMapTo<MilestoneServiceModel>, IHaveCustomMappings
     {
+        public string Id { get; set; }
+
         [Required]
         public string Title { get; set; }
 
@@ -29,8 +33,12 @@
         public DateTime CompletionDate { get; set; }
 
         [Required]
+        public int StatusId { get; set; }
+
+        [Required]
         [EnumValidation(typeof(MilestoneStatuses))]
-        public string Status { get; set; }
+        [Display(Name = "Status Name")]
+        public string StatusName { get; set; }
 
         public IEnumerable<ValidationResult> Validate(System.ComponentModel.DataAnnotations.ValidationContext validationContext)
         {
@@ -59,21 +67,12 @@
 
         public void CreateMappings(IProfileExpression configuration)
         {
-            configuration.CreateMap<MilestoneCreateInputModel, MilestoneServiceModel>()
+            configuration.CreateMap<MilestoneUpdateInputModel, MilestoneServiceModel>()
                 .ForMember(dest => dest.Status, mapper => mapper.MapFrom(src => new StatusServiceModel()
                 {
-                    Name = src.Status,
-                    Type = StatusTypes.Milestone.ToString(),
+                    Name = src.StatusName,
+                    Type = StatusTypes.Milestone.ToString()
                 }));
         }
-
-        //[Required]
-        //[Display(Name = "Actual Start Date")]
-        //public DateTime? ActualStartDate { get; set; }
-
-        //[Required]
-        //[Display(Name = "Actual Completion Date")]
-        //public DateTime? ActualCompletionDate { get; set; }
-
     }
 }

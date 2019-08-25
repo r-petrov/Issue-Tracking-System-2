@@ -1,6 +1,8 @@
 ﻿namespace IssueTrackingSystem2.Data.Models
 {
     using IssueTrackingSystem2.Common;
+    using IssueTrackingSystem2.Common.Infrastructure.Constants;
+    using IssueTrackingSystem2.Common.Infrastructure.Extensions;
     using IssueTrackingSystem2.Data.Common.Models;
     using System;
     using System.Collections.Generic;
@@ -46,21 +48,21 @@
             if (this.StartDate < DateTime.UtcNow)
             {
                 yield return new ValidationResult(string.Format(
-                    format: MessagesConstants.DateTimeEarlierThanNow,
+                    format: MessagesConstants.DateTimeEarlierThanNow.SplitStringByCapitalLetters(),
                     arg0: nameof(this.StartDate)));
             }
 
             if (this.StartDate < DateTime.UtcNow)
             {
                 yield return new ValidationResult(string.Format(
-                    format: MessagesConstants.DateTimeEarlierThanNow,
+                    format: MessagesConstants.DateTimeEarlierThanNow.SplitStringByCapitalLetters(),
                     arg0: nameof(this.CompletionDate)));
             }
 
             if (this.StartDate > this.CompletionDate)
             {
                 yield return new ValidationResult(string.Format(
-                    format: MessagesConstants.StartDateLaterThanEndDate,
+                    format: MessagesConstants.StartDateLaterThanEndDate.SplitStringByCapitalLetters(),
                     arg0: nameof(this.StartDate),
                     arg1: nameof(this.CompletionDate)));
             }

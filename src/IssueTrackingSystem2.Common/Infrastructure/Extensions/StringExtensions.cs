@@ -1,4 +1,4 @@
-﻿namespace IssueTrackingSystem2.Web.Infrastructure.Extensions
+﻿namespace IssueTrackingSystem2.Common.Infrastructure.Extensions
 {
     using System.Text.RegularExpressions;
 

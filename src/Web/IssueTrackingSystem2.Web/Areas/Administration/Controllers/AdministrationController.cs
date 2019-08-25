@@ -1,6 +1,6 @@
 ﻿namespace IssueTrackingSystem2.Web.Areas.Administration.Controllers
 {
-    using IssueTrackingSystem2.Common;
+    using IssueTrackingSystem2.Common.Infrastructure.Constants;
     using IssueTrackingSystem2.Services.Data.ApplicationUsers;
     using IssueTrackingSystem2.Services.Data.Project;
     using IssueTrackingSystem2.Web.Controllers;

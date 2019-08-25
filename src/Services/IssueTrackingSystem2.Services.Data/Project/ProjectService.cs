@@ -1,6 +1,6 @@
 ﻿namespace IssueTrackingSystem2.Services.Data.Project
 {
-    using IssueTrackingSystem2.Common;
+    using IssueTrackingSystem2.Common.Infrastructure.Constants;
     using IssueTrackingSystem2.Data.Common.Repositories;
     using IssueTrackingSystem2.Data.Models;
     using IssueTrackingSystem2.Services.Mapping;

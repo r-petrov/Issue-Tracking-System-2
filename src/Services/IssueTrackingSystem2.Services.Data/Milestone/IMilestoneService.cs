@@ -8,5 +8,7 @@
         Task<MilestoneServiceModel> CreateAsync(MilestoneServiceModel milestoneServiceModel);
 
         Task<MilestoneServiceModel> ByIdAsync(string id);
+
+        Task<MilestoneServiceModel> UpdateAsync(MilestoneServiceModel milestoneServiceModel);
     }
 }

@@ -1,12 +1,12 @@
 ﻿namespace IssueTrackingSystem2.Services.Data.Milestone
 {
-    using IssueTrackingSystem2.Data.Models;
+    using IssueTrackingSystem2.Common.Infrastructure.Constants;
     using IssueTrackingSystem2.Data.Common.Repositories;
+    using IssueTrackingSystem2.Data.Models;
     using IssueTrackingSystem2.Services.Mapping;
     using IssueTrackingSystem2.Services.Models;
     using System;
     using System.Threading.Tasks;
-    using IssueTrackingSystem2.Common;
 
     public class MilestoneService : IMilestoneService
     {
@@ -41,6 +41,32 @@
             var milestoneServiceModel = milestone.To<MilestoneServiceModel>();
 
             return milestoneServiceModel;
+        }
+
+        public async Task<MilestoneServiceModel> UpdateAsync(MilestoneServiceModel milestoneServiceModel)
+        {
+            var milestone = await this.repository.ByIdAsync(milestoneServiceModel.Id);
+            if (milestone == null)
+            {
+                throw new Exception(string.Format(
+                   format: MessagesConstants.NullItem,
+                   arg0: GlobalConstants.Milestone,
+                   arg1: nameof(MilestoneServiceModel.Id),
+                   arg2: milestoneServiceModel.Id));
+            }
+
+            milestone.Title = milestoneServiceModel.Title;
+            milestone.Description = milestoneServiceModel.Description;
+            milestone.StartDate = milestoneServiceModel.StartDate;
+            milestone.CompletionDate = milestoneServiceModel.CompletionDate;
+            milestone.StatusId = milestoneServiceModel.StatusId;
+            milestone.Status.Name = milestoneServiceModel.Status.Name;
+            milestone.Status.Type = milestoneServiceModel.Status.Type;
+
+            var milestoneResult = await this.repository.UpdateAsync(milestone);
+            var milestoneServiceModelResult = milestoneResult.To<MilestoneServiceModel>();
+
+            return milestoneServiceModelResult;
         }
     }
 }

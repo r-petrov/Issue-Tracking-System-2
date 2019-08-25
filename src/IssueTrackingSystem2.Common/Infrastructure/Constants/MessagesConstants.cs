@@ -1,4 +1,4 @@
-﻿namespace IssueTrackingSystem2.Common
+﻿namespace IssueTrackingSystem2.Common.Infrastructure.Constants
 {
     public class MessagesConstants
     {
@@ -9,5 +9,8 @@
         public const string UnauthotizedForProjectLeaderAction = "Only the system Administrator and Project Leader have access to action {0}";
         public const string StartDateLaterThanEndDate = "{0} should not be later than {1}";
         public const string DateTimeEarlierThanNow = "{0} should not be earlier than now";
+        public const string NotAmongTheValidValues = "{0} is not among the valid values of {1}";
+
+        public const string ClickOnDesiredRow = "Click on desired {0} row to see its details";
     }
 }

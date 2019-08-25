@@ -5,8 +5,10 @@
     using System.Linq;
     using System.Threading.Tasks;
     using IssueTrackingSystem2.Common.Enums;
+    using IssueTrackingSystem2.Common.Infrastructure.Constants;
     using IssueTrackingSystem2.Services.Data.Milestone;
     using IssueTrackingSystem2.Services.Data.Project;
+    using IssueTrackingSystem2.Services.Data.Status;
     using IssueTrackingSystem2.Services.Mapping;
     using IssueTrackingSystem2.Services.Models;
     using IssueTrackingSystem2.Web.Infrastructure.Constants;
@@ -20,11 +22,18 @@
     public class MilestoneController : BaseController
     {
         private readonly IMilestoneService milestoneService;
+        private readonly IStatusService statusService;
+        private readonly IProjectService projectService;
 
-        public MilestoneController(IMilestoneService milestoneService, IProjectService projectService)
-            : base(projectService)
+        public MilestoneController(
+            IMilestoneService milestoneService,
+            IProjectService projectService,
+            IStatusService statusService)
+                : base(projectService)
         {
             this.milestoneService = milestoneService;
+            this.statusService = statusService;
+            this.projectService = projectService;
         }
 
         // GET: Milestone
@@ -37,6 +46,15 @@
         public async Task<ActionResult> Details(string id)
         {
             var milestoneServiceModel = await this.milestoneService.ByIdAsync(id);
+            if (milestoneServiceModel == null)
+            {
+                throw new Exception(string.Format(
+                    format: MessagesConstants.NullItem,
+                    arg0: GlobalConstants.Milestone,
+                    arg1: nameof(id),
+                    arg2: id));
+            }
+
             var milestoneViewModel = milestoneServiceModel.To<MilestoneDetailsViewModel>();
 
             return this.View(milestoneViewModel);
@@ -47,16 +65,10 @@
         [ProjectLeaderFilter]
         public async Task<ActionResult> Create(string projectId, string leaderId)
         {
-            var milestoneCreateInputModel = new MilestoneCreateInputModel()
-            {
-                Project = new ProjectConciseInputModel()
-                {
-                    Id = projectId,
-                    LeaderId = leaderId,
-                },
-            };
+            this.ViewData[ValuesConstants.ProjectId] = projectId;
+            this.ViewData[ValuesConstants.LeaderId] = leaderId;
 
-            return this.View(milestoneCreateInputModel);
+            return this.View();
         }
 
         // POST: Milestone/Create
@@ -66,18 +78,23 @@
         {
             //try
             //{
-                if (!this.ModelState.IsValid)
-                {
-                    return this.View(inputModel);
-                }
+            if (!this.ModelState.IsValid)
+            {
+                this.ViewData[ValuesConstants.ProjectId] = projectId;
+                this.ViewData[ValuesConstants.LeaderId] = leaderId;
 
-                var milestoneServiceModel = inputModel.To<MilestoneServiceModel>();
-                milestoneServiceModel.Project = await this.ProjectService.ByIdAsync(projectId);
-                var milestoneServiceModelResult = await this.milestoneService.CreateAsync(milestoneServiceModel);
+                return this.View(inputModel);
+            }
 
-                return this.RedirectToAction(
-                    actionName: nameof(this.Details),
-                    routeValues: new { id = milestoneServiceModelResult.Id });
+            var milestoneServiceModel = inputModel.To<MilestoneServiceModel>();
+            milestoneServiceModel.ProjectId = projectId;
+            milestoneServiceModel.Project = await this.ProjectService.ByIdAsync(projectId);
+
+            var milestoneServiceModelResult = await this.milestoneService.CreateAsync(milestoneServiceModel);
+
+            return this.RedirectToAction(
+                actionName: nameof(this.Details),
+                routeValues: new { id = milestoneServiceModelResult.Id });
             //}
             //catch
             //{
@@ -87,49 +104,68 @@
         }
 
         // GET: Milestone/Edit/5
-        public ActionResult Edit(int id)
+        [HttpGet]
+        [ProjectLeaderFilter]
+        public async Task<ActionResult> Update(string id, string leaderId)
         {
-            return View();
+            var milestoneServiceModel = await this.milestoneService.ByIdAsync(id);
+            if (milestoneServiceModel == null)
+            {
+                throw new Exception(string.Format(
+                    format: MessagesConstants.NullItem,
+                    arg0: GlobalConstants.Milestone,
+                    arg1: nameof(id),
+                    arg2: id));
+            }
+
+            var milestoneUpdateInputModel = milestoneServiceModel.To<MilestoneUpdateInputModel>();
+
+            var availableStatuses = this.statusService.GetAvailableMilestoneStatuses(milestoneUpdateInputModel.StatusName);
+            this.ViewData[GlobalConstants.Statuses] = availableStatuses;
+            this.ViewData[ValuesConstants.ProjectId] = milestoneServiceModel.Project.Id;
+            this.ViewData[ValuesConstants.LeaderId] = milestoneServiceModel.Project.Leader.Id;
+
+            return this.View(milestoneUpdateInputModel);
         }
 
         // POST: Milestone/Edit/5
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, IFormCollection collection)
+        [ProjectLeaderFilter]
+        public async Task<ActionResult> Update(
+            MilestoneUpdateInputModel milestoneUpdateInputModel,
+            string projectId,
+            string leaderId)
         {
-            try
+            //try
+            //{
+            if (!this.ModelState.IsValid)
             {
-                // TODO: Add update logic here
+                this.ViewData[ValuesConstants.ProjectId] = projectId;
+                this.ViewData[ValuesConstants.LeaderId] = leaderId;
 
-                return RedirectToAction(nameof(Index));
+                return this.View(milestoneUpdateInputModel);
             }
-            catch
-            {
-                return View();
-            }
+
+            var milestoneServiceModel = milestoneUpdateInputModel.To<MilestoneServiceModel>();
+            var milestoneServiceModelResult = await this.milestoneService.UpdateAsync(milestoneServiceModel);
+
+            return this.RedirectToAction(
+                actionName: nameof(this.Details),
+                routeValues: new { id = milestoneServiceModelResult.Id });
+            //}
+            //catch
+            //{
+            //    return View();
+            //}
         }
 
-        // GET: Milestone/Delete/5
-        public ActionResult Delete(int id)
+        private ProjectConciseInputModel SetProjectInputModel(string projectId, string leaderId)
         {
-            return View();
-        }
-
-        // POST: Milestone/Delete/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id, IFormCollection collection)
-        {
-            try
+            return new ProjectConciseInputModel()
             {
-                // TODO: Add delete logic here
-
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
+                Id = projectId,
+                LeaderId = leaderId,
+            };
         }
     }
 }

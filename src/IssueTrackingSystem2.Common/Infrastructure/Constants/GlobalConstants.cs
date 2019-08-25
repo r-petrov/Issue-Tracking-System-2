@@ -1,4 +1,4 @@
-﻿namespace IssueTrackingSystem2.Common
+﻿namespace IssueTrackingSystem2.Common.Infrastructure.Constants
 {
     public static class GlobalConstants
     {
@@ -13,5 +13,9 @@
         public const string Priorities = "priorities";
         public const string LeaderId = "leaderId";
         public const string Users = "users";
+        public const string Statuses = "statuses";
+
+        public const string Project = "Project";
+        public const string Milestone = "Milestone";
     }
 }

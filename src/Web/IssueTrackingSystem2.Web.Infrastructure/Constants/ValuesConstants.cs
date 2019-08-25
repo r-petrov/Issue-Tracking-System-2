@@ -16,6 +16,9 @@
         public const string CreateActionName = "Create";
         public const string UpdateActionName = "Update";
 
+        public const string ProjectId = "ProjectId";
+        public const string LeaderId = "LeaderId";
+
         public const string InvalidArgument = "InvalidArgument";
     }
 }

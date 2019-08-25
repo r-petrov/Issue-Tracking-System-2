@@ -1,6 +1,7 @@
 ﻿namespace IssueTrackingSystem2.Web.Controllers
 {
     using IssueTrackingSystem2.Common;
+    using IssueTrackingSystem2.Common.Infrastructure.Constants;
     using IssueTrackingSystem2.Services.Data.ApplicationUsers;
     using IssueTrackingSystem2.Services.Data.Project;
     using IssueTrackingSystem2.Services.Mapping;
@@ -10,6 +11,7 @@
     using IssueTrackingSystem2.Web.InputModels.Project;
     using IssueTrackingSystem2.Web.ViewModels.Project;
     using Microsoft.AspNetCore.Mvc;
+    using System;
     using System.Threading.Tasks;
 
     public class ProjectController : BaseController
@@ -43,7 +45,7 @@
         {
             if (string.IsNullOrEmpty(id))
             {
-                return this.BadRequest(string.Format(
+                throw new Exception(string.Format(
                     format: MessagesConstants.NullOrEmptyArgument,
                     arg0: nameof(id)));
             }
@@ -83,12 +85,10 @@
 
             var serviceModel = inputModel.To<ProjectServiceModel>();
             var updatedProjectServiceModel = await this.projectService.UpdateAsync(serviceModel);
-            var updatedInputModel = updatedProjectServiceModel.To<ProjectUpdateInputModel>();
 
             return this.RedirectToAction(
-                controllerName: "Project",
                 actionName: nameof(this.Details),
-                routeValues: new { id = updatedInputModel.Id });
+                routeValues: new { id = updatedProjectServiceModel.Id });
         }
     }
 }

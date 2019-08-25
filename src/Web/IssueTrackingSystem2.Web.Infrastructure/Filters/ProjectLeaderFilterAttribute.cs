@@ -1,7 +1,6 @@
 ﻿namespace IssueTrackingSystem2.Web.Infrastructure.Filters
 {
-    using IssueTrackingSystem2.Common;
-    using IssueTrackingSystem2.Web.Infrastructure.Constants;
+    using IssueTrackingSystem2.Common.Infrastructure.Constants;
     using Microsoft.AspNetCore.Mvc.Filters;
     using System;
     using System.Security.Claims;

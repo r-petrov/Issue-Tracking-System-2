@@ -20,6 +20,8 @@
     }
     else
     {
+        <h4>@($"{this.User.Identity.Name}'s Affiliated Projects")</h4>
+        <h6>@string.Format(format: MessagesConstants.ClickOnDesiredRow, arg0: GlobalConstants.Project)</h6>
         <table class="table table-striped">
             <thead>
                 <tr>

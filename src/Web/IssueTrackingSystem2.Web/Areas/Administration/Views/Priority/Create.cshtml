@@ -27,6 +27,11 @@
 </div>
 
 <div>
-    <a asp-action="Index">Back to List</a>
+    <a asp-area="" 
+       asp-controller="@ValuesConstants.ProjectControllerName" 
+       asp-action="@ValuesConstants.DetailsActionName" 
+       class="btn btn-info">
+        Back to List
+    </a>
 </div>
 
