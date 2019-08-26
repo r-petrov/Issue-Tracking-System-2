@@ -64,26 +64,29 @@
 
         [HttpPost]
         [ProjectLeaderFilter]
-        public async Task<ActionResult> Update(ProjectUpdateInputModel inputModel, string leaderId)
+        public async Task<ActionResult> Update(ProjectUpdateInputModel projectUpdateInputModel, string leaderId)
         {
-            if (inputModel == null)
+            if (projectUpdateInputModel == null)
             {
                 this.ViewData[ValuesConstants.InvalidArgument] = string.Format(
                     format: MessagesConstants.NullOrEmptyArgument,
-                    arg0: nameof(inputModel));
+                    arg0: nameof(projectUpdateInputModel));
 
                 return this.View();
             }
 
             if (!this.ModelState.IsValid)
             {
-                var usersSelectList = this.GetDropdownUsers();
-                this.ViewData[GlobalConstants.Users] = usersSelectList;
+                if (this.User.IsInRole(GlobalConstants.AdministratorRoleName))
+                {
+                    var usersSelectList = this.GetDropdownUsers();
+                    this.ViewData[GlobalConstants.Users] = usersSelectList;
+                }
 
-                return this.View(inputModel);
+                return this.View(projectUpdateInputModel);
             }
 
-            var serviceModel = inputModel.To<ProjectServiceModel>();
+            var serviceModel = projectUpdateInputModel.To<ProjectServiceModel>();
             var updatedProjectServiceModel = await this.projectService.UpdateAsync(serviceModel);
 
             return this.RedirectToAction(

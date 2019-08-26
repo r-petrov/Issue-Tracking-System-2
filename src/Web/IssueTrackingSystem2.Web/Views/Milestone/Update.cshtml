@@ -13,22 +13,22 @@
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
                 <label asp-for="Title" class="control-label"></label>
-                <input asp-for="Title" class="form-control" />
+                <input asp-for="Title" class="form-control text-primary" />
                 <span asp-validation-for="Title" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="Description" class="control-label"></label>
-                <input asp-for="Description" class="form-control" />
+                <input asp-for="Description" class="form-control text-primary" />
                 <span asp-validation-for="Description" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="StartDate" class="control-label"></label>
-                <input asp-for="StartDate" class="form-control" />
+                <input asp-for="StartDate" class="form-control text-primary" />
                 <span asp-validation-for="StartDate" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="CompletionDate" class="control-label"></label>
-                <input asp-for="CompletionDate" class="form-control" />
+                <input asp-for="CompletionDate" class="form-control text-primary" />
                 <span asp-validation-for="CompletionDate" class="text-danger"></span>
             </div>
             <div>
@@ -40,7 +40,7 @@
                 </div>
                 @if (this.ViewData[GlobalConstants.Statuses] != null)
                 {
-                    <select class="form-control" id="user" asp-for="StatusName">
+                    <select class="form-control text-primary" id="user" asp-for="StatusName">
                         <option selected disabled>--- Select Project Leader ---</option>
                         @foreach (var status in (SelectList)this.ViewData[GlobalConstants.Statuses])
                         {

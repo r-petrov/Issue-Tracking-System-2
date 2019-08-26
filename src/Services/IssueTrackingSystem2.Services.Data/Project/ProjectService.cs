@@ -5,6 +5,7 @@
     using IssueTrackingSystem2.Data.Models;
     using IssueTrackingSystem2.Services.Mapping;
     using IssueTrackingSystem2.Services.Models;
+    using Microsoft.AspNetCore.Identity;
     using System;
     using System.Linq;
     using System.Threading.Tasks;
@@ -12,10 +13,12 @@
     public class ProjectService : IProjectService
     {
         private readonly IDeletableEntityRepository<Project> repository;
+        private readonly Microsoft.AspNetCore.Identity.UserManager<ApplicationUser> userManager;
 
-        public ProjectService(IDeletableEntityRepository<Project> repository)
+        public ProjectService(IDeletableEntityRepository<Project> repository, UserManager<ApplicationUser> userManager)
         {
             this.repository = repository;
+            this.userManager = userManager;
         }
 
         public IQueryable<ProjectServiceModel> GetAll()
@@ -45,6 +48,8 @@
         public async Task<ProjectServiceModel> CreateAsync(ProjectServiceModel projectServiceModel)
         {
             Project project = projectServiceModel.To<Project>();
+            project.ProjectKey = this.GenerateProjectKey(projectServiceModel);
+
             var projectResult = await this.repository.AddAsync(project);
 
             // var result = await this.efDeletableEntityRepository.SaveChangesAsync();
@@ -56,11 +61,33 @@
 
         public async Task<ProjectServiceModel> UpdateAsync(ProjectServiceModel projectServiceModel)
         {
-            var project = projectServiceModel.To<Project>();
+            var project = await this.repository.ByIdAsync(projectServiceModel.Id);
+            project.Name = projectServiceModel.Name;
+            project.Description = projectServiceModel.Description;
+            project.ProjectKey = this.GenerateProjectKey(projectServiceModel);
+            project.LeaderId = projectServiceModel.LeaderId;
+            project.Leader = await this.userManager.FindByIdAsync(projectServiceModel.LeaderId);
+
+            //var project = projectServiceModel.To<Project>();
             var updatedProject = await this.repository.UpdateAsync(project);
             var updatedProjectServiceModel = updatedProject.To<ProjectServiceModel>();
 
             return updatedProjectServiceModel;
+        }
+
+        public string GenerateProjectKey(ProjectServiceModel projectServiceModel)
+        {
+            var projectNameParts = projectServiceModel.Name.Split(
+                new char[] { ' ' },
+                StringSplitOptions.RemoveEmptyEntries);
+
+            var projectKey = new System.Text.StringBuilder();
+            foreach (var projectNamePart in projectNameParts)
+            {
+                projectKey.Append(projectNamePart[0]);
+            }
+
+            return projectKey.ToString();
         }
     }
 }

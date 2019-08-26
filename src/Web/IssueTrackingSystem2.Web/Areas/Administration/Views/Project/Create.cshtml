@@ -18,7 +18,7 @@
                 <input type="text"
                        id="name" 
                        placeholder="Name..." 
-                       class="form-control text-primary text-center" 
+                       class="form-control text-success" 
                        asp-for="Name"  />
 
                 <span asp-validation-for="Name" class="text-danger"></span>
@@ -30,7 +30,7 @@
                 <input type="text" 
                        id="description" 
                        placeholder="Description..." 
-                       class="form-control text-primary text-center" 
+                       class="form-control text-success" 
                        asp-for="Description" />
 
                 <span asp-validation-for="Description" class="text-danger"></span>
@@ -39,7 +39,7 @@
                 <div class="d-flex">
                     <label asp-for="LeaderId" class="control-label"></label>
                 </div>
-                <select class="form-control text-primary" id="user" asp-for="LeaderId">
+                <select class="form-control text-success" id="user" asp-for="LeaderId">
                     <option selected disabled>--- Select Project Leader ---</option>
                     @foreach (var user in (SelectList)this.ViewData[GlobalConstants.Users])
                     {
@@ -55,7 +55,7 @@
                 <input type="text" 
                        id="priorities" 
                        placeholder="Priorities..." 
-                       class="form-control text-primary text-center" 
+                       class="form-control text-success" 
                        asp-for="Priorities" />
 
                 <span asp-validation-for="Priorities" class="text-danger"></span>

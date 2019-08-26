@@ -78,6 +78,15 @@
         [ProjectLeaderFilter]
         public async Task<ActionResult> Create(MilestoneCreateInputModel milestoneCreateInputModel, string projectId, string leaderId)
         {
+            if (milestoneCreateInputModel == null)
+            {
+                this.ViewData[ValuesConstants.InvalidArgument] = string.Format(
+                    format: MessagesConstants.NullOrEmptyArgument,
+                    arg0: nameof(milestoneCreateInputModel));
+
+                return this.View();
+            }
+
             //try
             //{
             if (!this.ModelState.IsValid)
@@ -136,6 +145,15 @@
             string projectId,
             string leaderId)
         {
+            if (milestoneUpdateInputModel == null)
+            {
+                this.ViewData[ValuesConstants.InvalidArgument] = string.Format(
+                    format: MessagesConstants.NullOrEmptyArgument,
+                    arg0: nameof(milestoneUpdateInputModel));
+
+                return this.View();
+            }
+
             //try
             //{
             if (!this.ModelState.IsValid)

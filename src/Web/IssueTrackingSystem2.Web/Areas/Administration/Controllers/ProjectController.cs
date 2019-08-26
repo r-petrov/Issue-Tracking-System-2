@@ -54,6 +54,7 @@
                 return this.View(inputModel);
             }
 
+            // TODO: try mapping
             //var projectServiceModel = inputModel.To<ProjectServiceModel>();
             var projectServiceModel = new ProjectServiceModel()
             {
@@ -62,7 +63,6 @@
                 LeaderId = inputModel.LeaderId,
             };
 
-            projectServiceModel.ProjectKey = this.GenerateProjectKey(inputModel);
             projectServiceModel.Priorities = this.GeneratePriorities(inputModel);
 
             var projectServiceModelResult = await this.projectService.CreateAsync(projectServiceModel);
@@ -83,18 +83,7 @@
             //}
         }
 
-        private string GenerateProjectKey(ProjectCreateInputModel inputModel)
-        {
-            var projectNameParts = inputModel.Name.Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
-            var projectKey = new System.Text.StringBuilder();
-            foreach (var projectNamePart in projectNameParts)
-            {
-                projectKey.Append(projectNamePart[0]);
-            }
-
-            return projectKey.ToString();
-        }
-
+        // TODO: Use it in custom mapping in ProjectCreateInputModel
         private IList<PriorityServiceModel> GeneratePriorities(ProjectCreateInputModel inputModel)
         {
             var priorityNames = inputModel.Priorities.Split(
