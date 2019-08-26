@@ -9,7 +9,7 @@
 <hr />
 <div class="row">
     <div class="col-md-4">
-        <form asp-action="Update">
+        <form asp-action="@ValuesConstants.UpdateActionName">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
                 <label asp-for="Title" class="control-label"></label>
@@ -63,10 +63,10 @@
                 <span asp-validation-for="StatusName" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <input asp-route-projectId=@this.ViewData[ValuesConstants.ProjectId]
-                       asp-route-leaderId=@this.ViewData[ValuesConstants.LeaderId]
+                <input asp-route-projectId=@Model.Project.Id
+                       asp-route-leaderId=@Model.Project.LeaderId
                        type="submit"
-                       value="Save"
+                       value="@ValuesConstants.Update"
                        class="btn btn-primary" />
             </div>
         </form>

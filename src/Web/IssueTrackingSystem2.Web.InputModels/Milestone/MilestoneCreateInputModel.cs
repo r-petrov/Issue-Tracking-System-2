@@ -32,6 +32,8 @@
         [EnumValidation(typeof(MilestoneStatuses))]
         public string Status { get; set; }
 
+        public ProjectConciseInputModel Project { get; set; }
+
         public IEnumerable<ValidationResult> Validate(System.ComponentModel.DataAnnotations.ValidationContext validationContext)
         {
             if (this.StartDate < DateTime.UtcNow)

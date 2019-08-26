@@ -40,21 +40,16 @@
         [Display(Name = "Status Name")]
         public string StatusName { get; set; }
 
+        public ProjectConciseInputModel Project { get; set; }
+
         public IEnumerable<ValidationResult> Validate(System.ComponentModel.DataAnnotations.ValidationContext validationContext)
         {
-            if (this.StartDate < DateTime.UtcNow)
-            {
-                yield return new ValidationResult(string.Format(
-                    format: MessagesConstants.DateTimeEarlierThanNow,
-                    arg0: nameof(this.StartDate).SplitStringByCapitalLetters()));
-            }
-
-            if (this.CompletionDate < DateTime.UtcNow)
-            {
-                yield return new ValidationResult(string.Format(
-                    format: MessagesConstants.DateTimeEarlierThanNow,
-                    arg0: nameof(this.CompletionDate).SplitStringByCapitalLetters()));
-            }
+            //if (this.CompletionDate < DateTime.UtcNow)
+            //{
+            //    yield return new ValidationResult(string.Format(
+            //        format: MessagesConstants.DateTimeEarlierThanNow,
+            //        arg0: nameof(this.CompletionDate).SplitStringByCapitalLetters()));
+            //}
 
             if (this.StartDate > this.CompletionDate)
             {

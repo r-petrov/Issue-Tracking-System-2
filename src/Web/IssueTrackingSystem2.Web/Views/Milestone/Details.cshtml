@@ -18,7 +18,7 @@
                    asp-action="@ValuesConstants.UpdateActionName"
                    asp-route-id="@Model.Id"
                    asp-route-leaderId="@Model.Project.LeaderId" class="btn btn-info button">
-                    Update
+                    @ValuesConstants.Update
                 </a>
                 <a asp-area=""
                    asp-controller="@ValuesConstants.IssueControllerName"
@@ -34,23 +34,27 @@
         <hr />
         <table class="table table-striped">
             <tr>
-                <th>@nameof(MilestoneListViewModel.Title):</th>
+                <th>@nameof(MilestoneDetailsViewModel.Title):</th>
                 <td>@Model.Title</td>
             </tr>
             <tr>
-                <th>@nameof(MilestoneListViewModel.StartDate).SplitStringByCapitalLetters():</th>
+                <th>@nameof(MilestoneDetailsViewModel.Description):</th>
+                <td>@Model.Description</td>
+            </tr>
+            <tr>
+                <th>@nameof(MilestoneDetailsViewModel.StartDate).SplitStringByCapitalLetters():</th>
                 <td>@Model.StartDate</td>
             </tr>
             <tr>
-                <th>@nameof(MilestoneListViewModel.CompletionDate).SplitStringByCapitalLetters():</th>
+                <th>@nameof(MilestoneDetailsViewModel.CompletionDate).SplitStringByCapitalLetters():</th>
                 <td>@Model.CompletionDate</td>
             </tr>
             <tr>
-                <th>@nameof(MilestoneListViewModel.Project)</th>
+                <th>@nameof(MilestoneDetailsViewModel.Project)</th>
                 <td>(Project ID: @Model.Project.Id) @Model.Project.Name</td>
             </tr>
             <tr>
-                <th>@nameof(MilestoneListViewModel.Status)</th>
+                <th>@nameof(MilestoneDetailsViewModel.Status)</th>
                 <td>@Model.Status.Name</td>
             </tr>
         </table>

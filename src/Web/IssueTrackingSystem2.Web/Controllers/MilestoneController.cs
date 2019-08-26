@@ -65,28 +65,29 @@
         [ProjectLeaderFilter]
         public async Task<ActionResult> Create(string projectId, string leaderId)
         {
-            this.ViewData[ValuesConstants.ProjectId] = projectId;
-            this.ViewData[ValuesConstants.LeaderId] = leaderId;
+            var milestoneCreateInputModel = new MilestoneCreateInputModel()
+            {
+                Project = this.SetProjectConciseInputModel(projectId: projectId, leaderId: leaderId),
+            };
 
-            return this.View();
+            return this.View(milestoneCreateInputModel);
         }
 
         // POST: Milestone/Create
         [HttpPost]
         [ProjectLeaderFilter]
-        public async Task<ActionResult> Create(MilestoneCreateInputModel inputModel, string projectId, string leaderId)
+        public async Task<ActionResult> Create(MilestoneCreateInputModel milestoneCreateInputModel, string projectId, string leaderId)
         {
             //try
             //{
             if (!this.ModelState.IsValid)
             {
-                this.ViewData[ValuesConstants.ProjectId] = projectId;
-                this.ViewData[ValuesConstants.LeaderId] = leaderId;
+                milestoneCreateInputModel.Project = this.SetProjectConciseInputModel(projectId: projectId, leaderId: leaderId);
 
-                return this.View(inputModel);
+                return this.View(milestoneCreateInputModel);
             }
 
-            var milestoneServiceModel = inputModel.To<MilestoneServiceModel>();
+            var milestoneServiceModel = milestoneCreateInputModel.To<MilestoneServiceModel>();
             milestoneServiceModel.ProjectId = projectId;
             milestoneServiceModel.Project = await this.ProjectService.ByIdAsync(projectId);
 
@@ -120,10 +121,9 @@
 
             var milestoneUpdateInputModel = milestoneServiceModel.To<MilestoneUpdateInputModel>();
 
-            var availableStatuses = this.statusService.GetAvailableMilestoneStatuses(milestoneUpdateInputModel.StatusName);
+            var availableStatuses = this.statusService.GetAvailableMilestoneStatuses(
+                milestoneUpdateInputModel.StatusName);
             this.ViewData[GlobalConstants.Statuses] = availableStatuses;
-            this.ViewData[ValuesConstants.ProjectId] = milestoneServiceModel.Project.Id;
-            this.ViewData[ValuesConstants.LeaderId] = milestoneServiceModel.Project.Leader.Id;
 
             return this.View(milestoneUpdateInputModel);
         }
@@ -140,8 +140,9 @@
             //{
             if (!this.ModelState.IsValid)
             {
-                this.ViewData[ValuesConstants.ProjectId] = projectId;
-                this.ViewData[ValuesConstants.LeaderId] = leaderId;
+                milestoneUpdateInputModel.Project = this.SetProjectConciseInputModel(
+                       projectId: projectId,
+                       leaderId: leaderId);
 
                 return this.View(milestoneUpdateInputModel);
             }
@@ -159,7 +160,7 @@
             //}
         }
 
-        private ProjectConciseInputModel SetProjectInputModel(string projectId, string leaderId)
+        private ProjectConciseInputModel SetProjectConciseInputModel(string projectId, string leaderId)
         {
             return new ProjectConciseInputModel()
             {
