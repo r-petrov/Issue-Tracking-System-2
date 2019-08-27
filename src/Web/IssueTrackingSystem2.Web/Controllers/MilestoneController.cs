@@ -98,7 +98,7 @@
 
             var milestoneServiceModel = milestoneCreateInputModel.To<MilestoneServiceModel>();
             milestoneServiceModel.ProjectId = projectId;
-            milestoneServiceModel.Project = await this.ProjectService.ByIdAsync(projectId);
+            //milestoneServiceModel.Project = await this.ProjectService.ByIdAsync(projectId);
 
             var milestoneServiceModelResult = await this.milestoneService.CreateAsync(milestoneServiceModel);
 

@@ -12,6 +12,7 @@
         public const string IssueControllerName = "Issue";
         public const string LabelControllerName = "Label";
         public const string PriorityControllerName = "Priority";
+        public const string CommentControllerName = "Comment";
 
         public const string DashboardActionName = "Dashboard";
         public const string DetailsActionName = "Details";
@@ -24,6 +25,8 @@
         public const string InvalidArgument = "InvalidArgument";
 
         public const string Create = "Create";
+        public const string Details = "Details";
         public const string Update = "Update";
+        public const string Add = "Add";
     }
 }

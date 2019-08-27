@@ -9,28 +9,28 @@
 <div class="flex-elements">
     <div class="col-md-6">
         @if (this.User.IsInRole(GlobalConstants.AdministratorRoleName)
-       || Model.LeaderId == this.UserManager.GetUserId(this.User))
+       || Model.Leader.Id == this.UserManager.GetUserId(this.User))
         {
             <div>
                 <a asp-area=""
                    asp-controller=@ValuesConstants.ProjectControllerName
                    asp-action=@ValuesConstants.UpdateActionName
                    asp-route-id="@Model.Id"
-                   asp-route-leaderId="@Model.LeaderId" class="btn btn-info button">
+                   asp-route-leaderId="@Model.Leader.Id" class="btn btn-info button">
                     @ValuesConstants.Update
                 </a>
                 <a asp-area=""
                    asp-controller=@ValuesConstants.MilestoneControllerName
                    asp-action=@ValuesConstants.CreateActionName
                    asp-route-projectId=@Model.Id
-                   asp-route-leaderId="@Model.LeaderId"
+                   asp-route-leaderId="@Model.Leader.Id"
                    class="btn btn-success button">
                     Create Milestone
                 </a>
                 <a asp-area=""
                    asp-controller=@ValuesConstants.LabelControllerName
                    asp-action=@ValuesConstants.CreateActionName
-                   asp-route-leaderId="@Model.LeaderId"
+                   asp-route-leaderId="@Model.Leader.Id"
                    class="btn btn-success button">
                     Create Label
                 </a>
@@ -63,24 +63,8 @@
                 <td>@Model.Description</td>
             </tr>
             <tr>
-                <th>@nameof(ProjectDetailsViewModel.Leader).SplitStringByCapitalLetters():</th>
+                <th>@nameof(ProjectDetailsViewModel.Leader)@*.SplitStringByCapitalLetters()*@:</th>
                 <td>(Current ID: @Model.Leader.Id) @Model.Leader.UserName</td>
-            </tr>
-            <tr>
-                <th>@nameof(ProjectDetailsViewModel.Labels):</th>
-                @if (Model.Labels != null && Model.Labels.Any())
-                {
-                    <td><partial name="_LabelsPartial" model="Model.Labels"></td>
-                }
-                else
-                {
-                    <td>
-                        @string.Format(
-                            format: MessagesConstants.StillNotAddedItems,
-                            arg0: GlobalConstants.Labels,
-                            arg1: Model.Name)
-                    </td>
-                }
             </tr>
             <tr>
                 <th>@nameof(ProjectDetailsViewModel.Priorities):</th>
@@ -94,6 +78,22 @@
                         @string.Format(
                             format: MessagesConstants.StillNotAddedItems,
                             arg0: GlobalConstants.Priorities,
+                            arg1: Model.Name)
+                    </td>
+                }
+            </tr>
+            <tr>
+                <th>@nameof(ProjectDetailsViewModel.Labels):</th>
+                @if (Model.Labels != null && Model.Labels.Any())
+                {
+                    <td><partial name="_LabelsPartial" model="Model.Labels"></td>
+                }
+                else
+                {
+                    <td>
+                        @string.Format(
+                            format: MessagesConstants.StillNotAddedItems,
+                            arg0: GlobalConstants.Labels,
                             arg1: Model.Name)
                     </td>
                 }

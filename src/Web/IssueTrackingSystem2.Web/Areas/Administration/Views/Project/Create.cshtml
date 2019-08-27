@@ -16,10 +16,10 @@
                     <label asp-for="Name" class="control-label"></label>
                 </div>
                 <input type="text"
-                       id="name" 
-                       placeholder="Name..." 
-                       class="form-control text-success" 
-                       asp-for="Name"  />
+                       id="name"
+                       placeholder="Name..."
+                       class="form-control text-success"
+                       asp-for="Name" />
 
                 <span asp-validation-for="Name" class="text-danger"></span>
             </div>
@@ -27,13 +27,25 @@
                 <div class="d-flex">
                     <label asp-for="Description" class="control-label"></label>
                 </div>
-                <input type="text" 
-                       id="description" 
-                       placeholder="Description..." 
-                       class="form-control text-success" 
+                <input type="text"
+                       id="description"
+                       placeholder="Description..."
+                       class="form-control text-success"
                        asp-for="Description" />
 
                 <span asp-validation-for="Description" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <div class="d-flex">
+                    <label asp-for="Priorities" class="control-label"></label>
+                </div>
+                <input type="text"
+                       id="priorities"
+                       placeholder="Priorities..."
+                       class="form-control text-success"
+                       asp-for="Priorities" />
+
+                <span asp-validation-for="Priorities" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <div class="d-flex">
@@ -47,18 +59,6 @@
                     }
                 </select>
                 <span asp-validation-for="LeaderId" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <div class="d-flex">
-                    <label asp-for="Priorities" class="control-label"></label>
-                </div>
-                <input type="text" 
-                       id="priorities" 
-                       placeholder="Priorities..." 
-                       class="form-control text-success" 
-                       asp-for="Priorities" />
-
-                <span asp-validation-for="Priorities" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-primary" />

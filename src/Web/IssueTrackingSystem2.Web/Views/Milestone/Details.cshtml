@@ -23,6 +23,7 @@
                 <a asp-area=""
                    asp-controller="@ValuesConstants.IssueControllerName"
                    asp-action="@ValuesConstants.CreateActionName"
+                   asp-route-projectId="@Model.Project.Id"
                    asp-route-milestoneId="@Model.Id"
                    asp-route-leaderId="@Model.Project.LeaderId"
                    class="btn btn-success button">

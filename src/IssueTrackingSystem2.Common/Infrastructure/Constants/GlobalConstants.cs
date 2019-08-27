@@ -17,5 +17,8 @@
 
         public const string Project = "Project";
         public const string Milestone = "Milestone";
+        public const string Issue = "Issue";
+        public const string Comment = "Comment";
+        public const string Label = "Label";
     }
 }

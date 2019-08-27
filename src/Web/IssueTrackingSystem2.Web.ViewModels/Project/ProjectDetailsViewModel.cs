@@ -20,8 +20,8 @@
         [Display(Name = "Project Key")]
         public string ProjectKey { get; set; }
 
-        [Display(Name = "Leader ID")]
-        public string LeaderId { get; set; }
+        //[Display(Name = "Leader ID")]
+        //public string LeaderId { get; set; }
 
         public ApplicationUserViewModel Leader { get; set; }
 

@@ -13,7 +13,5 @@
         Task<ProjectServiceModel> CreateAsync(ProjectServiceModel projectServiceModel);
 
         Task<ProjectServiceModel> UpdateAsync(ProjectServiceModel projectServiceModel);
-
-        string GenerateProjectKey(ProjectServiceModel projectServiceModel);
     }
 }

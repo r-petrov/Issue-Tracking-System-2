@@ -1,0 +1,87 @@
+﻿@model IssueCreateInputModel
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<h1>Create</h1>
+
+<h4>IssueCreateInputModel</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Title" class="control-label"></label>
+                <input asp-for="Title" class="form-control text-success" />
+                <span asp-validation-for="Title" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Description" class="control-label"></label>
+                <input asp-for="Description" class="form-control text-success" />
+                <span asp-validation-for="Description" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="DueDate" class="control-label"></label>
+                <input asp-for="DueDate" class="form-control text-success" />
+                <span asp-validation-for="DueDate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <div class="d-flex">
+                    <label asp-for="Priority" class="control-label"></label>
+                </div>
+                <select class="form-control text-success" id="priority" asp-for="Priority">
+                    <option selected disabled>--- Select Priority ---</option>
+                    @foreach (var priority in (SelectList)this.ViewData[GlobalConstants.Priorities])
+                    {
+                        <option value="@priority.Text">@priority.Text</option>
+                    }
+                </select>
+                <span asp-validation-for="Priority" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <div class="d-flex">
+                    <label asp-for="Status" class="control-label"></label>
+                </div>
+                <select asp-for="Status"
+                        asp-items="@(new SelectList(items: Enum.GetNames(typeof(IssueStatuses))))"
+                        id="status"
+                        class="form-control text-success">
+                    <option value="0">---Select Status---</option>
+                </select>
+                <span asp-validation-for="Status" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <div class="d-flex">
+                    <label asp-for="AssigneeId" class="control-label"></label>
+                </div>
+                <select class="form-control text-success" id="user" asp-for="AssigneeId">
+                    <option selected disabled>--- Select Issue Assignee ---</option>
+                    @foreach (var user in (SelectList)this.ViewData[GlobalConstants.Users])
+                    {
+                        <option value="@user.Value">@user.Text</option>
+                    }
+                </select>
+                <span asp-validation-for="AssigneeId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input asp-route-milestoneId="@Model.Milestone.Id"
+                       asp-route-leaderId="@Model.Milestone.ProjectLeaderId"
+                       type="submit"
+                       value="@ValuesConstants.Create"
+                       class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-controller="@ValuesConstants.MilestoneControllerName" 
+       asp-action="@ValuesConstants.DetailsActionName"
+       asp-route-id="@Model.Milestone.Id">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

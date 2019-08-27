@@ -27,6 +27,9 @@
         [Required]
         public virtual Status Status { get; set; }
 
+        [Required]
+        public string Priority { get; set; }
+
         public DateTime DueDate { get; set; }
 
         public string MilestoneId { get; set; }

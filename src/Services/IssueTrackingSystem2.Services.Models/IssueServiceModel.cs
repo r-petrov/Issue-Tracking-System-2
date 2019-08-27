@@ -5,7 +5,7 @@
     using System;
     using System.Collections.Generic;
 
-    public class IssueServiceModel : IMapFrom<Issue>
+    public class IssueServiceModel : IMapFrom<Issue>, IMapTo<Issue>
     {
         public string Id { get; set; }
 
@@ -18,6 +18,8 @@
         public int StatusId { get; set; }
 
         public StatusServiceModel Status { get; set; }
+
+        public string Priority { get; set; }
 
         public DateTime DueDate { get; set; }
 

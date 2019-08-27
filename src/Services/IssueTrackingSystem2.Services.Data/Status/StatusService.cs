@@ -12,20 +12,25 @@
     {
         public SelectList GetAvailableMilestoneStatuses(string currentStatus)
         {
-            if (!Enum.IsDefined(enumType: typeof(MilestoneStatuses), value: currentStatus))
-            {
-                throw new Exception(string.Format(
-                    format: MessagesConstants.NotAmongTheValidValues,
-                    arg0: currentStatus,
-                    arg1: typeof(MilestoneStatuses).Name));
-            }
+            //if (!Enum.IsDefined(enumType: typeof(MilestoneStatuses), value: currentStatus))
+            //{
+            //    throw new Exception(string.Format(
+            //        format: MessagesConstants.NotAmongTheValidValues,
+            //        arg0: currentStatus,
+            //        arg1: typeof(MilestoneStatuses).Name));
+            //}
 
-            var methodName = $"GetAvailableMilestone{currentStatus}Statuses";
-            var methodInfo = this.GetType().GetMethod(
-                name: methodName,
-                bindingAttr: BindingFlags.Instance | BindingFlags.NonPublic);
+            //var methodName = $"GetAvailableMilestone{currentStatus}Statuses";
+            //var methodInfo = this.GetType().GetMethod(
+            //    name: methodName,
+            //    bindingAttr: BindingFlags.Instance | BindingFlags.NonPublic);
 
-            var availableStatuses = (SelectList)methodInfo.Invoke(obj: this, parameters: null);
+            var currentMethod = this.GetCurrentMethod(
+                                    statusType: typeof(MilestoneStatuses),
+                                    statusPrefix: GlobalConstants.Milestone,
+                                    currentStatus: currentStatus);
+
+            var availableStatuses = (SelectList)currentMethod.Invoke(obj: this, parameters: null);
 
             return availableStatuses;
         }
@@ -75,6 +80,97 @@
             var statusesSelectList = new SelectList(items: availableStatuses);
 
             return statusesSelectList;
+        }
+
+        public SelectList GetAvailableIssueStatuses(string currentStatus)
+        {
+            var currentMethod = this.GetCurrentMethod(
+                                   statusType: typeof(IssueStatuses),
+                                   statusPrefix: GlobalConstants.Issue,
+                                   currentStatus: currentStatus);
+
+            var availableStatuses = (SelectList)currentMethod.Invoke(obj: this, parameters: null);
+
+            return availableStatuses;
+        }
+
+        private SelectList GetAvailableIssueOpenStatuses()
+        {
+            IList<string> availableStatuses = new List<string>();
+            availableStatuses.AddRange(
+                    IssueStatuses.InProgress.ToString(),
+                    IssueStatuses.Resolved.ToString(),
+                    IssueStatuses.Closed.ToString());
+
+            var statusesSelectList = new SelectList(items: availableStatuses);
+
+            return statusesSelectList;
+        }
+
+        private SelectList GetAvailableIssueInProgressStatuses()
+        {
+            IList<string> availableStatuses = new List<string>();
+            availableStatuses.AddRange(
+                    IssueStatuses.Open.ToString(),
+                    IssueStatuses.Resolved.ToString(),
+                    IssueStatuses.Closed.ToString());
+
+            var statusesSelectList = new SelectList(items: availableStatuses);
+
+            return statusesSelectList;
+        }
+
+        private SelectList GetAvailableIssueResolvedStatuses()
+        {
+            IList<string> availableStatuses = new List<string>();
+            availableStatuses.AddRange(
+                    IssueStatuses.Reopened.ToString(),
+                    IssueStatuses.Closed.ToString());
+
+            var statusesSelectList = new SelectList(items: availableStatuses);
+
+            return statusesSelectList;
+        }
+
+        private SelectList GetAvailableIssueReopenedStatuses()
+        {
+            IList<string> availableStatuses = new List<string>();
+            availableStatuses.AddRange(
+                    IssueStatuses.InProgress.ToString(),
+                    IssueStatuses.Resolved.ToString(),
+                    IssueStatuses.Closed.ToString());
+
+            var statusesSelectList = new SelectList(items: availableStatuses);
+
+            return statusesSelectList;
+        }
+
+        private SelectList GetAvailableIssueClosedStatuses()
+        {
+            IList<string> availableStatuses = new List<string>();
+            availableStatuses.Add(IssueStatuses.Reopened.ToString());
+
+            var statusesSelectList = new SelectList(items: availableStatuses);
+
+            return statusesSelectList;
+        }
+
+        private MethodInfo GetCurrentMethod(Type statusType, string statusPrefix, string currentStatus)
+        {
+            if (!Enum.IsDefined(enumType: statusType, value: currentStatus))
+            {
+                throw new Exception(string.Format(
+                    format: MessagesConstants.NotAmongTheValidValues,
+                    arg0: currentStatus,
+                    arg1: statusType.Name));
+            }
+
+            var methodName = $"GetAvailable{statusPrefix}{currentStatus}Statuses";
+            var methodInfo = this.GetType().GetMethod(
+                name: methodName,
+                bindingAttr: BindingFlags.Instance | BindingFlags.NonPublic);
+
+            return methodInfo;
         }
     }
 }

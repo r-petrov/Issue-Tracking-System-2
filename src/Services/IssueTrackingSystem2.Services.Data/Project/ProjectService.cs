@@ -1,6 +1,7 @@
 ﻿namespace IssueTrackingSystem2.Services.Data.Project
 {
     using IssueTrackingSystem2.Common.Infrastructure.Constants;
+    using IssueTrackingSystem2.Common.Infrastructure.Extensions;
     using IssueTrackingSystem2.Data.Common.Repositories;
     using IssueTrackingSystem2.Data.Models;
     using IssueTrackingSystem2.Services.Mapping;
@@ -48,7 +49,7 @@
         public async Task<ProjectServiceModel> CreateAsync(ProjectServiceModel projectServiceModel)
         {
             Project project = projectServiceModel.To<Project>();
-            project.ProjectKey = this.GenerateProjectKey(projectServiceModel);
+            project.ProjectKey = projectServiceModel.Name.ApendStringCapitalLetters();
 
             var projectResult = await this.repository.AddAsync(project);
 
@@ -64,7 +65,7 @@
             var project = await this.repository.ByIdAsync(projectServiceModel.Id);
             project.Name = projectServiceModel.Name;
             project.Description = projectServiceModel.Description;
-            project.ProjectKey = this.GenerateProjectKey(projectServiceModel);
+            project.ProjectKey = projectServiceModel.Name.ApendStringCapitalLetters();
             project.LeaderId = projectServiceModel.LeaderId;
             project.Leader = await this.userManager.FindByIdAsync(projectServiceModel.LeaderId);
 
@@ -73,21 +74,6 @@
             var updatedProjectServiceModel = updatedProject.To<ProjectServiceModel>();
 
             return updatedProjectServiceModel;
-        }
-
-        public string GenerateProjectKey(ProjectServiceModel projectServiceModel)
-        {
-            var projectNameParts = projectServiceModel.Name.Split(
-                new char[] { ' ' },
-                StringSplitOptions.RemoveEmptyEntries);
-
-            var projectKey = new System.Text.StringBuilder();
-            foreach (var projectNamePart in projectNameParts)
-            {
-                projectKey.Append(projectNamePart[0]);
-            }
-
-            return projectKey.ToString();
         }
     }
 }

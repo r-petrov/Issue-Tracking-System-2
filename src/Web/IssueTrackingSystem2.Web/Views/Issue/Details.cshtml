@@ -1,0 +1,125 @@
+﻿@model IssueDetailsViewModel
+
+@{
+    ViewData["Title"] = $"{GlobalConstants.Issue} {ValuesConstants.Details}";
+}
+
+<h1>@ViewData["Title"]</h1>
+
+<div class="flex-elements">
+    <div class="col-md-6">
+        @if (this.User.IsInRole(GlobalConstants.AdministratorRoleName)
+            || Model.Milestone.Project.LeaderId == this.UserManager.GetUserId(this.User)
+            || Model.Assignee.Id == this.UserManager.GetUserId(this.User))
+        {
+        <div>
+            <a asp-area=""
+               asp-controller=@ValuesConstants.IssueControllerName
+               asp-action=@ValuesConstants.UpdateActionName
+               asp-route-id="@Model.Id"
+               asp-route-leaderId="@Model.Milestone.Project.LeaderId" class="btn btn-info button">
+                @ValuesConstants.Update @GlobalConstants.Issue
+            </a>
+            <a asp-area=""
+               asp-controller=@ValuesConstants.CommentControllerName
+               asp-action=@ValuesConstants.CreateActionName
+               asp-route-projectId=@Model.Id
+               asp-route-leaderId="@Model.Milestone.Project.LeaderId"
+               class="btn btn-success button">
+                @ValuesConstants.Add @GlobalConstants.Comment
+            </a>
+            <a asp-area=""
+               asp-controller=@ValuesConstants.LabelControllerName
+               asp-action=@ValuesConstants.CreateActionName
+               asp-route-id="@Model.Id"
+               asp-route-leaderId="@Model.Milestone.Project.LeaderId"
+               class="btn btn-success button">
+                @ValuesConstants.Add @GlobalConstants.Label
+            </a>
+        </div>
+        }
+
+        <hr />
+        <table class="table table-striped">
+            <tr>
+                <th>@nameof(IssueDetailsViewModel.IssueKey).SplitStringByCapitalLetters():</th>
+                <td>@Model.IssueKey</td>
+            </tr>
+            <tr>
+                <th>@nameof(IssueDetailsViewModel.Title):</th>
+                <td>@Model.Title</td>
+            </tr>
+            <tr>
+                <th>@nameof(IssueDetailsViewModel.Description):</th>
+                <td>@Model.Description</td>
+            </tr>
+            <tr>
+                <th>@nameof(IssueDetailsViewModel.Assignee):</th>
+                <td>(Current ID: @Model.Assignee.Id) @Model.Assignee.UserName</td>
+            </tr>
+            <tr>
+                <th>@nameof(IssueDetailsViewModel.Milestone)</th>
+                <td>(@GlobalConstants.Milestone ID: @Model.Milestone.Id) @Model.Milestone.Name</td>
+            </tr>
+            <tr>
+                <th>@nameof(IssueDetailsMilestoneViewModel.Project)</th>
+                <td>(Project ID: @Model.Milestone.Project.Id) @Model.Milestone.Project.Name</td>
+            </tr>
+            <tr>
+                <th>@nameof(IssueDetailsViewModel.Status):</th>
+                <td>@Model.Status.Name</td>
+            </tr>
+            <tr>
+                <th>@nameof(IssueDetailsViewModel.Priority):</th>
+                <td>@Model.Priority</td>
+            </tr>
+            <tr>
+                <th>@nameof(IssueDetailsViewModel.Labels):</th>
+                @if (Model.Labels != null && Model.Labels.Any())
+                {
+                    <td><partial name="_LabelsPartial" model="Model.Labels"></td>
+                }
+                else
+                {
+                    <td>
+                        @string.Format(
+                            format: MessagesConstants.StillNotAddedItems,
+                            arg0: GlobalConstants.Labels,
+                            arg1: Model.Title)
+                    </td>
+                }
+            </tr>
+        </table>
+    </div>
+
+    @*<hr />
+    <div>
+        <h4>@($"{Model.Title}'s {nameof(Model.Issues)}")</h4>
+        @if (Model.Issues != null && Model.Issues.Any())
+        {
+            <partial name="_IssuesPartial" model="@Model.Issues" />
+
+            if (Model.CompletedIssues != null && Model.CompletedIssues.Any())
+            {
+                <br />
+                <h4>@($"{Model.Title}'s {nameof(Model.CompletedIssues)}")</h4>
+                <partial name="_IssuesPartial" model="@Model.CompletedIssues" />
+            }
+        }
+        else
+        {
+            <h6>
+                @string.Format(
+                    format: MessagesConstants.StillNotAddedItems,
+                    arg0: GlobalConstants.Issues,
+                    arg1: Model.Title)
+            </h6>
+        }
+    </div>*@
+</div>
+<div>
+    <a asp-controller="@ValuesConstants.MilestoneControllerName" 
+       asp-action="@ValuesConstants.DetailsActionName" 
+       asp-route-id="@Model.Milestone.Id"
+       class="btn btn-info">Back to List</a>
+</div>

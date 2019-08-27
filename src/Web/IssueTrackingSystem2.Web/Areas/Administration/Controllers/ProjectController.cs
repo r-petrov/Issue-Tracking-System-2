@@ -51,6 +51,9 @@
 
             if (!this.ModelState.IsValid)
             {
+                var usersSelectList = this.GetDropdownUsers();
+                this.ViewData[GlobalConstants.Users] = usersSelectList;
+
                 return this.View(inputModel);
             }
 
