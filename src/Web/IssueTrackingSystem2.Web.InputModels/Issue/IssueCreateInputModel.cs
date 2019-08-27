@@ -1,16 +1,14 @@
-﻿using AutoMapper;
-using IssueTrackingSystem2.Common.Enums;
-using IssueTrackingSystem2.Services.Mapping;
-using IssueTrackingSystem2.Services.Models;
-using IssueTrackingSystem2.Web.Infrastructure.Attributes;
-using IssueTrackingSystem2.Web.InputModels.Milestone;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Text;
-
-namespace IssueTrackingSystem2.Web.InputModels.Issue
+﻿namespace IssueTrackingSystem2.Web.InputModels.Issue
 {
+    using AutoMapper;
+    using IssueTrackingSystem2.Common.Enums;
+    using IssueTrackingSystem2.Services.Mapping;
+    using IssueTrackingSystem2.Services.Models;
+    using IssueTrackingSystem2.Web.Infrastructure.Attributes;
+    using IssueTrackingSystem2.Web.InputModels.Milestone;
+    using System;
+    using System.ComponentModel.DataAnnotations;
+
     public class IssueCreateInputModel : IMapTo<IssueServiceModel>, IHaveCustomMappings
     {
         [Required]
@@ -20,6 +18,7 @@ namespace IssueTrackingSystem2.Web.InputModels.Issue
         public string Description { get; set; }
 
         [Display(Name = "Due Date")]
+        [DateTimeValidation(nameof(DueDate))]
         public DateTime DueDate { get; set; }
 
         [Required]

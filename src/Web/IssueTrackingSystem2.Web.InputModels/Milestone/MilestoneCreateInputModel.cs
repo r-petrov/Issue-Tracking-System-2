@@ -22,10 +22,12 @@
 
         [Required]
         [Display(Name = "Start Date")]
+        [DateTimeValidation(nameof(StartDate))]
         public DateTime StartDate { get; set; }
 
         [Required]
         [Display(Name = "Completion Date")]
+        [DateTimeValidation(nameof(CompletionDate))]
         public DateTime CompletionDate { get; set; }
 
         [Required]
@@ -36,20 +38,6 @@
 
         public IEnumerable<ValidationResult> Validate(System.ComponentModel.DataAnnotations.ValidationContext validationContext)
         {
-            if (this.StartDate < DateTime.UtcNow)
-            {
-                yield return new ValidationResult(string.Format(
-                    format: MessagesConstants.DateTimeEarlierThanNow,
-                    arg0: nameof(this.StartDate).SplitStringByCapitalLetters()));
-            }
-
-            if (this.CompletionDate < DateTime.UtcNow)
-            {
-                yield return new ValidationResult(string.Format(
-                    format: MessagesConstants.DateTimeEarlierThanNow,
-                    arg0: nameof(this.CompletionDate).SplitStringByCapitalLetters()));
-            }
-
             if (this.StartDate > this.CompletionDate)
             {
                 yield return new ValidationResult(string.Format(
