@@ -33,6 +33,8 @@ namespace IssueTrackingSystem2.Web.InputModels.Issue
         [Display(Name = "Issue Assignee")]
         public string AssigneeId { get; set; }
 
+        public string Comment { get; set; }
+
         public MilestoneConciseInputModel Milestone { get; set; }
 
         public void CreateMappings(IProfileExpression configuration)

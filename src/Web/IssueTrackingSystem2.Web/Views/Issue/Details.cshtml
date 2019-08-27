@@ -17,7 +17,7 @@
                asp-controller=@ValuesConstants.IssueControllerName
                asp-action=@ValuesConstants.UpdateActionName
                asp-route-id="@Model.Id"
-               asp-route-leaderId="@Model.Milestone.Project.LeaderId" class="btn btn-info button">
+               asp-route-leaderId="@Model.Milestone.Project.LeaderId" class="btn btn-success button">
                 @ValuesConstants.Update @GlobalConstants.Issue
             </a>
             <a asp-area=""
@@ -25,16 +25,16 @@
                asp-action=@ValuesConstants.CreateActionName
                asp-route-projectId=@Model.Id
                asp-route-leaderId="@Model.Milestone.Project.LeaderId"
-               class="btn btn-success button">
-                @ValuesConstants.Add @GlobalConstants.Comment
+               class="btn btn-light text-info button">
+                @Model.Title's @GlobalConstants.Comment
             </a>
             <a asp-area=""
                asp-controller=@ValuesConstants.LabelControllerName
                asp-action=@ValuesConstants.CreateActionName
                asp-route-id="@Model.Id"
                asp-route-leaderId="@Model.Milestone.Project.LeaderId"
-               class="btn btn-success button">
-                @ValuesConstants.Add @GlobalConstants.Label
+               class="btn btn-light text-info button">
+                @Model.Title's @GlobalConstants.Labels
             </a>
         </div>
         }
@@ -91,31 +91,6 @@
             </tr>
         </table>
     </div>
-
-    @*<hr />
-    <div>
-        <h4>@($"{Model.Title}'s {nameof(Model.Issues)}")</h4>
-        @if (Model.Issues != null && Model.Issues.Any())
-        {
-            <partial name="_IssuesPartial" model="@Model.Issues" />
-
-            if (Model.CompletedIssues != null && Model.CompletedIssues.Any())
-            {
-                <br />
-                <h4>@($"{Model.Title}'s {nameof(Model.CompletedIssues)}")</h4>
-                <partial name="_IssuesPartial" model="@Model.CompletedIssues" />
-            }
-        }
-        else
-        {
-            <h6>
-                @string.Format(
-                    format: MessagesConstants.StillNotAddedItems,
-                    arg0: GlobalConstants.Issues,
-                    arg1: Model.Title)
-            </h6>
-        }
-    </div>*@
 </div>
 <div>
     <a asp-controller="@ValuesConstants.MilestoneControllerName" 

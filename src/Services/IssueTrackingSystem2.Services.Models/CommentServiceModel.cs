@@ -4,7 +4,7 @@
     using IssueTrackingSystem2.Services.Mapping;
     using System;
 
-    public class CommentServiceModel : IMapFrom<Comment>
+    public class CommentServiceModel : IMapFrom<Comment>, IMapTo<Comment>
     {
         public string Id { get; set; }
 

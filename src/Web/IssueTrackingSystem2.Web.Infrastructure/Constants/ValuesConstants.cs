@@ -18,6 +18,7 @@
         public const string DetailsActionName = "Details";
         public const string CreateActionName = "Create";
         public const string UpdateActionName = "Update";
+        public const string AllActionName = "All";
 
         public const string ProjectId = "ProjectId";
         public const string LeaderId = "LeaderId";

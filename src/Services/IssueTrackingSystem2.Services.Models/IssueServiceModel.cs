@@ -7,6 +7,12 @@
 
     public class IssueServiceModel : IMapFrom<Issue>, IMapTo<Issue>
     {
+        public IssueServiceModel()
+        {
+            this.Labels = new List<LabelServiceModel>();
+            this.Comments = new List<CommentServiceModel>();
+        }
+
         public string Id { get; set; }
 
         public string Title { get; set; }

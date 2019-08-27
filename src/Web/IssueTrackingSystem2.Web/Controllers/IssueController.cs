@@ -25,8 +25,8 @@
         private readonly IMilestoneService milestoneService;
 
         public IssueController(
-            IIssueService issueService, 
-            IMilestoneService milestoneService, 
+            IIssueService issueService,
+            IMilestoneService milestoneService,
             IApplicationUserService applicationUserService)
                 : base(applicationUserService)
         {
@@ -40,7 +40,7 @@
             var issueServiceModel = await this.issueService.ByIdAsync(id);
             var issueDetailsViewModel = issueServiceModel.To<IssueDetailsViewModel>();
 
-            return View();
+            return this.View(issueDetailsViewModel);
         }
 
         // GET: Issue/Create
@@ -73,40 +73,46 @@
         {
             //try
             //{
-                if (issueCreateInputModel == null)
-                {
-                    this.ViewData[ValuesConstants.InvalidArgument] = string.Format(
-                        format: MessagesConstants.NullOrEmptyArgument,
-                        arg0: nameof(issueCreateInputModel));
+            if (issueCreateInputModel == null)
+            {
+                this.ViewData[ValuesConstants.InvalidArgument] = string.Format(
+                    format: MessagesConstants.NullOrEmptyArgument,
+                    arg0: nameof(issueCreateInputModel));
 
-                    return this.View();
-                }
+                return this.View();
+            }
 
-                if (!this.ModelState.IsValid)
-                {
-                    issueCreateInputModel.Milestone = this.SetMilestoneConciseInputModel(
-                        milestoneId: milestoneId,
-                        leaderId: leaderId);
+            if (!this.ModelState.IsValid)
+            {
+                issueCreateInputModel.Milestone = this.SetMilestoneConciseInputModel(
+                    milestoneId: milestoneId,
+                    leaderId: leaderId);
 
-                    var milestoneServiceModel = await this.milestoneService.ByIdAsync(milestoneId);
-                    SelectList prioritiesSelectList = this.GetDropdownPriorities(milestoneServiceModel);
-                    this.ViewData[GlobalConstants.Priorities] = prioritiesSelectList;
+                var milestoneServiceModel = await this.milestoneService.ByIdAsync(milestoneId);
+                SelectList prioritiesSelectList = this.GetDropdownPriorities(milestoneServiceModel);
+                this.ViewData[GlobalConstants.Priorities] = prioritiesSelectList;
 
-                    var usersSelectList = this.GetDropdownUsers();
-                    this.ViewData[GlobalConstants.Users] = usersSelectList;
+                var usersSelectList = this.GetDropdownUsers();
+                this.ViewData[GlobalConstants.Users] = usersSelectList;
 
-                    return this.View(issueCreateInputModel);
-                }
+                return this.View(issueCreateInputModel);
+            }
 
-                var issueServiceModel = issueCreateInputModel.To<IssueServiceModel>();
-                issueServiceModel.MilestoneId = milestoneId;
-                //issueServiceModel.Milestone = await this.milestoneService.ByIdAsync(milestoneId);
+            var issueServiceModel = issueCreateInputModel.To<IssueServiceModel>();
+            issueServiceModel.MilestoneId = milestoneId;
+            //issueServiceModel.Milestone = await this.milestoneService.ByIdAsync(milestoneId);
+            issueServiceModel.Comments.Add(new CommentServiceModel()
+            {
+                CreatedAt = DateTime.UtcNow,
+                CreatorId = issueCreateInputModel.AssigneeId,
+                Text = issueCreateInputModel.Comment,
+            });
 
-                var issueServiceModelResult = await this.issueService.CreateAsync(issueServiceModel);
+            var issueServiceModelResult = await this.issueService.CreateAsync(issueServiceModel);
 
-                return this.RedirectToAction(
-                    actionName: nameof(this.Details), 
-                    routeValues: new { id = issueServiceModelResult.Id });
+            return this.RedirectToAction(
+                actionName: nameof(this.Details),
+                routeValues: new { id = issueServiceModelResult.Id });
             //}
             //catch
             //{
