@@ -12,6 +12,7 @@
     using IssueTrackingSystem2.Web.ViewModels.Project;
     using Microsoft.AspNetCore.Mvc;
     using System;
+    using System.Linq;
     using System.Threading.Tasks;
 
     public class ProjectController : BaseController
@@ -22,6 +23,18 @@
                 : base(applicationUserService)
         {
             this.projectService = projectService;
+        }
+
+        public ActionResult List()
+        {
+            // TODO: Add Pagination
+            // TODO: Add filters, i.e. Project name
+            var projectListServiceModels = this.projectService.GetAll().ToList();
+            var projectListViewModels = projectListServiceModels
+                    .To<ProjectListViewModel>()
+                    .OrderByDescending(project => project.CreatedOn);
+
+            return this.View(projectListViewModels);
         }
 
         // GET: Project/Details/5

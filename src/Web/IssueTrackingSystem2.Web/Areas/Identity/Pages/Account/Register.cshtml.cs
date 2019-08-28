@@ -3,6 +3,7 @@
     using IssueTrackingSystem2.Common;
     using IssueTrackingSystem2.Common.Infrastructure.Constants;
     using IssueTrackingSystem2.Data.Models;
+    using IssueTrackingSystem2.Web.Infrastructure.Constants;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Identity.UI.Services;
@@ -48,7 +49,7 @@
 
         public async Task<IActionResult> OnPostAsync(string returnUrl = null)
         {
-            returnUrl = returnUrl ?? this.Url.Content("~/Home/Dashboard");
+            returnUrl = returnUrl ?? this.Url.Content($"~/{ValuesConstants.ProjectControllerName}/{ValuesConstants.ListActionName}");
             if (this.ModelState.IsValid)
             {
                 var isRoot = !this.userManager.Users.Any();

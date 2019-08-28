@@ -1,6 +1,7 @@
 ﻿namespace IssueTrackingSystem2.Web.Areas.Identity.Pages.Account
 {
     using IssueTrackingSystem2.Data.Models;
+    using IssueTrackingSystem2.Web.Infrastructure.Constants;
     using Microsoft.AspNetCore.Authentication;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Identity;
@@ -83,7 +84,7 @@
                     //    returnUrl = this.Url.Content("~/Administration/Dashboard/");
                     //}
 
-                    returnUrl = this.Url.Content("~/Home/Dashboard/");
+                    returnUrl = this.Url.Content($"~/{ValuesConstants.ProjectControllerName}/{ValuesConstants.ListActionName}/");
                     this.logger.LogInformation("User logged in.");
 
                     return this.LocalRedirect(returnUrl);
