@@ -2,74 +2,58 @@
 @model IEnumerable<ProjectListViewModel>
 
 <div>
-    @if (Model == null || !Model.Any())
-    {
-        if (this.User.IsInRole(GlobalConstants.AdministratorRoleName))
-        {
-            <h3>@this.User.Identity.Name still have not created any projects</h3>
-        }
-        else
-        {
-            <h3>
-                @string.Format(
-                    format: MessagesConstants.StillHaveNotBeenAssignedTo,
-                    arg0: this.User.Identity.Name,
-                    arg1: $"{GlobalConstants.Projects} or {GlobalConstants.Issues}")
-            </h3>
-        }
-    }
-    else
-    {
-        <h4>@($"{this.User.Identity.Name}'s Affiliated Projects")</h4>
-        <h6>@string.Format(format: MessagesConstants.ClickOnDesiredRow, arg0: GlobalConstants.Project)</h6>
-        <table class="table table-striped">
-            <thead>
-                <tr>
-                    <th>
-                        <h3>@nameof(ProjectListViewModel.Name)</h3>
-                    </th>
-                    <th>
-                        <h3>@nameof(ProjectListViewModel.Leader)</h3>
-                    </th>
-                    <th>
-                        <h3>@nameof(ProjectListViewModel.Milestones)</h3>
-                    </th>
-                    <th>
-                        <h3>@nameof(ProjectListViewModel.CompletedMilestones).SplitStringByCapitalLetters()</h3>
-                    </th>
-                    <th>
-                        <h3>@nameof(ProjectListViewModel.Labels)</h3>
-                    </th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach (var project in Model)
-                {
-                    <tr onclick="location.href = '@(Url.Action(ValuesConstants.DetailsActionName, ValuesConstants.ProjectControllerName, new { id = project.Id }))'">
-                        <td class="project-name">
-                            @project.Name
+    <h4>@string.Format(format: MessagesConstants.ClickOnDesiredRow, arg0: GlobalConstants.Project)</h4>
+    <table class="table table-striped table-hover table-responsive">
+        <thead class="thead-light">
+            <tr>
+                <th>
+                    <h3>@nameof(ProjectListViewModel.Name)</h3>
+                </th>
+                <th>
+                    <h3>@nameof(ProjectListViewModel.Labels)</h3>
+                </th>
+                <th>
+                    <h3>@nameof(ProjectListViewModel.Leader)</h3>
+                </th>
+                <th>
+                    <h3>@nameof(ProjectListViewModel.Milestones)</h3>
+                </th>
+                <th>
+                    <h3>@nameof(ProjectListViewModel.CompletedMilestones).SplitStringByCapitalLetters()</h3>
+                </th>
+            </tr>
+        </thead>
+        <tbody >
+            @foreach (var project in Model)
+            {
+                <tr class="border-top" 
+                    onclick="location.href = '@(Url.Action(
+                        ValuesConstants.DetailsActionName, 
+                        ValuesConstants.ProjectControllerName, 
+                        new { id = project.Id }))'">
+                    <td>
+                        @project.Name
+                    </td>
+                    @if (project.Labels != null && project.Labels.Any())
+                    {
+                        <td>
+                            <partial name="_LabelsPartial" model="project.Labels" />
                         </td>
-                        <td>@project.Leader.UserName</td>
-                        <td>@project.Milestones.Count</td>
-                        <td>@project.CompletedMilestones.Count</td>
-                        @if (project.Labels != null && project.Labels.Any())
-                        {
-                            <td>
-                                <partial name="_LabelsPartial" model="project.Labels" />
-                            </td>
-                        }
-                        else
-                        {
-                            <td>
-                                @string.Format(
-                                    format: MessagesConstants.StillNotAddedItems,
-                                    arg0: GlobalConstants.Labels,
-                                    arg1: $"{project.Name} project")
-                            </td>
-                        }
-                    </tr>
-                }
-            </tbody>
-        </table>
-    }
+                    }
+                    else
+                    {
+                        <td>
+                            @string.Format(
+                                format: MessagesConstants.StillNotAddedItems,
+                                arg0: GlobalConstants.Labels,
+                                arg1: $"{project.Name} project")
+                        </td>
+                    }
+                    <td>@project.Leader.UserName</td>
+                    <td>@project.Milestones.Count</td>
+                    <td>@project.CompletedMilestones.Count</td>
+                </tr>
+            }
+        </tbody>
+    </table>
 </div>

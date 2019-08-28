@@ -2,13 +2,12 @@
 @model IEnumerable<ProjectListViewModel>
 
 @{
-    ViewData["Title"] = "Dashboard";
+    ViewData["Title"] = $"{this.User.Identity.Name}'s Affiliated Projects' Dashboard";
 }
 
 <h1>@ViewData["Title"]</h1>
 
 <hr />
-
 @if (this.User.IsInRole(GlobalConstants.AdministratorRoleName))
 {
     <p>
@@ -18,22 +17,32 @@
     </p>
 
     <h2>Created projects by @this.User.Identity.Name</h2>
-    <partial name="_DashboardProjectPartial" model="Model" />
+    if (Model != null && Model.Any())
+    {
+        <partial name="_DashboardProjectPartial" model="Model" />
+    }
+    else
+    {
+        <h3>@this.User.Identity.Name still have not created any projects</h3>
+    }
 }
 else
 {
-    if (Model.Where(model => model.Leader.Id == this.UserManager.GetUserId(this.User)).Any())
+    var isProjectLeader = Model.Where(model => model.Leader.Id == this.UserManager.GetUserId(this.User)).Any();
+    if (isProjectLeader)
     {
         <h2>Projects that @this.User.Identity.Name is a Project Leader</h2>
         <partial name="_DashboardProjectPartial"
                  model="@Model.Where(model => model.Leader.Id == this.UserManager.GetUserId(this.User))" />
     }
 
-    if (Model
+    var isIssueAssignee = Model
         .Where(model => model.Milestones
             .Any(milestone => milestone.Issues
                 .Any(issue => issue.AssigneeId == this.UserManager.GetUserId(this.User))))
-        .Any())
+        .Any();
+
+    if (isIssueAssignee)
     {
         <h2>Projects with issues that @this.User.Identity.Name is an Issue Assignee</h2>
         <partial name="_DashboardProjectPartial"
@@ -41,5 +50,15 @@ else
                             .Where(model => model.Milestones
                                 .Any(milestone => milestone.Issues
                                     .Any(issue => issue.AssigneeId == this.UserManager.GetUserId(this.User))))" />
+    }
+
+    @if (!isProjectLeader && !isIssueAssignee)
+    {
+        <h3>
+            @string.Format(
+                format: MessagesConstants.StillHaveNotBeenAssignedTo,
+                arg0: this.User.Identity.Name,
+                arg1: $"{GlobalConstants.Projects} or {GlobalConstants.Issues}")
+        </h3>
     }
 }
