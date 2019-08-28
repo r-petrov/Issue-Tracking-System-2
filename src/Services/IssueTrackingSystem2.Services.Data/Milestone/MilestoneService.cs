@@ -59,7 +59,6 @@
             milestone.Description = milestoneServiceModel.Description;
             milestone.StartDate = milestoneServiceModel.StartDate;
             milestone.CompletionDate = milestoneServiceModel.CompletionDate;
-            milestone.StatusId = milestoneServiceModel.StatusId;
             milestone.Status.Name = milestoneServiceModel.Status.Name;
             milestone.Status.Type = milestoneServiceModel.Status.Type;
 

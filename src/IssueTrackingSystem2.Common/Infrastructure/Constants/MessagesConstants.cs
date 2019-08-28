@@ -10,6 +10,7 @@
         public const string StartDateLaterThanEndDate = "{0} should not be later than {1}";
         public const string DateTimeEarlierThanNow = "{0} should not be earlier than now";
         public const string NotAmongTheValidValues = "{0} is not among the valid values of {1}";
+        public const string InvalidMilestoneStatus = "Milestones with {0} could not have status {1}";
 
         public const string ClickOnDesiredRow = "Click on desired {0} row to see its details";
     }

@@ -11,9 +11,10 @@
         public const string Milestones = "milestones";
         public const string Labels = "labels";
         public const string Priorities = "priorities";
-        public const string LeaderId = "leaderId";
         public const string Users = "users";
         public const string Statuses = "statuses";
+        public const string LeaderId = "leaderId";
+        public const string AssigneeId = "assigneeId";
 
         public const string Project = "Project";
         public const string Milestone = "Milestone";

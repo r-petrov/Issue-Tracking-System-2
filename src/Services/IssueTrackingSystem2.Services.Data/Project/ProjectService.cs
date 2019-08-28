@@ -69,7 +69,6 @@
             project.LeaderId = projectServiceModel.LeaderId;
             project.Leader = await this.userManager.FindByIdAsync(projectServiceModel.LeaderId);
 
-            //var project = projectServiceModel.To<Project>();
             var updatedProject = await this.repository.UpdateAsync(project);
             var updatedProjectServiceModel = updatedProject.To<ProjectServiceModel>();
 

@@ -33,9 +33,6 @@
         public DateTime CompletionDate { get; set; }
 
         [Required]
-        public int StatusId { get; set; }
-
-        [Required]
         [EnumValidation(typeof(MilestoneStatuses))]
         [Display(Name = "Status Name")]
         public string StatusName { get; set; }
@@ -57,6 +54,41 @@
                     format: MessagesConstants.StartDateLaterThanEndDate,
                     arg0: nameof(this.StartDate).SplitStringByCapitalLetters(),
                     arg1: nameof(this.CompletionDate).SplitStringByCapitalLetters()));
+            }
+
+            if ((this.StartDate <= DateTime.UtcNow || this.CompletionDate <= DateTime.UtcNow) 
+                    && this.StatusName == MilestoneStatuses.NotStarted.ToString())
+            {
+                yield return new ValidationResult(string.Format(
+                    format: MessagesConstants.InvalidMilestoneStatus,
+                    arg0: $"{nameof(this.StartDate).SplitStringByCapitalLetters()} or {nameof(this.CompletionDate).SplitStringByCapitalLetters()} earlier or equal than now",
+                    arg1: MilestoneStatuses.NotStarted.ToString()));
+            }
+
+            if ((this.StartDate > DateTime.UtcNow || this.CompletionDate < DateTime.UtcNow)
+                    && this.StatusName == MilestoneStatuses.Started.ToString())
+            {
+                yield return new ValidationResult(string.Format(
+                    format: MessagesConstants.InvalidMilestoneStatus,
+                    arg0: $"{nameof(this.StartDate).SplitStringByCapitalLetters()} later than now and {nameof(this.CompletionDate).SplitStringByCapitalLetters()} earlier than now",
+                    arg1: MilestoneStatuses.Started.ToString()));
+            }
+
+            if ((this.StartDate >= DateTime.UtcNow || this.CompletionDate >= DateTime.UtcNow)
+                    && this.StatusName == MilestoneStatuses.Overdued.ToString())
+            {
+                yield return new ValidationResult(string.Format(
+                    format: MessagesConstants.InvalidMilestoneStatus,
+                    arg0: $"{nameof(this.StartDate).SplitStringByCapitalLetters()} or {nameof(this.CompletionDate).SplitStringByCapitalLetters()} later or equal than now",
+                    arg1: MilestoneStatuses.Overdued.ToString()));
+            }
+
+            if (this.StartDate >= DateTime.UtcNow && this.StatusName == MilestoneStatuses.Completed.ToString())
+            {
+                yield return new ValidationResult(string.Format(
+                    format: MessagesConstants.InvalidMilestoneStatus,
+                    arg0: $"{nameof(this.StartDate).SplitStringByCapitalLetters()} later or equal than now",
+                    arg1: MilestoneStatuses.Completed.ToString()));
             }
         }
 

@@ -1,5 +1,6 @@
 ﻿namespace IssueTrackingSystem2.Services.Data.Issue
 {
+    using IssueTrackingSystem2.Common.Infrastructure.Constants;
     using IssueTrackingSystem2.Common.Infrastructure.Extensions;
     using IssueTrackingSystem2.Data.Common.Repositories;
     using IssueTrackingSystem2.Data.Models;
@@ -33,6 +34,33 @@
             var issueServiceModel = issue.To<IssueServiceModel>();
 
             return issueServiceModel;
+        }
+
+        public async Task<IssueServiceModel> UpdateAsync(IssueServiceModel issueServiceModel)
+        {
+            var issue = await this.repository.ByIdAsync(issueServiceModel.Id);
+            if (issue == null)
+            {
+                throw new Exception(string.Format(
+                   format: MessagesConstants.NullItem,
+                   arg0: GlobalConstants.Issue,
+                   arg1: nameof(IssueServiceModel.Id),
+                   arg2: issueServiceModel.Id));
+            }
+
+            issue.Title = issueServiceModel.Title;
+            issue.Description = issueServiceModel.Description;
+            issue.IssueKey = issueServiceModel.Title.ApendStringCapitalLetters();
+            issue.DueDate = issueServiceModel.DueDate;
+            issue.Priority = issueServiceModel.Priority;
+            issue.Status.Name = issueServiceModel.Status.Name;
+            issue.Status.Type = issueServiceModel.Status.Type;
+            issue.AssigneeId = issueServiceModel.AssigneeId;
+
+            var updatedIssue = await this.repository.UpdateAsync(issue);
+            var updatedIssueServiceModel = updatedIssue.To<IssueServiceModel>();
+
+            return updatedIssueServiceModel;
         }
     }
 }

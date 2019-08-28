@@ -7,7 +7,7 @@
 <h1>@ViewData["Title"]</h1>
 
 <div class="flex-elements">
-    <div class="col-md-6">
+    <div class="col-md-8">
         @if (this.User.IsInRole(GlobalConstants.AdministratorRoleName)
             || Model.Milestone.Project.LeaderId == this.UserManager.GetUserId(this.User)
             || Model.Assignee.Id == this.UserManager.GetUserId(this.User))
@@ -17,7 +17,8 @@
                asp-controller=@ValuesConstants.IssueControllerName
                asp-action=@ValuesConstants.UpdateActionName
                asp-route-id="@Model.Id"
-               asp-route-leaderId="@Model.Milestone.Project.LeaderId" class="btn btn-success button">
+               asp-route-leaderId="@Model.Milestone.Project.LeaderId" class="btn btn-success button"
+               asp-route-assigneeId="@Model.Assignee.Id">
                 @ValuesConstants.Update @GlobalConstants.Issue
             </a>
             <a asp-area=""

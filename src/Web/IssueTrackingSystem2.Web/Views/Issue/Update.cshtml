@@ -1,0 +1,165 @@
+﻿@model IssueUpdateInputModel
+
+@{
+    ViewData["Title"] = $"{GlobalConstants.Issue} {ValuesConstants.Update}";
+}
+
+<h1>@ViewData["Title"]</h1>
+
+<hr />
+@if (ViewData.ContainsKey(ValuesConstants.InvalidArgument))
+{
+    <h4>@ViewData[ValuesConstants.InvalidArgument]</h4>
+}
+
+@{
+    var isUserAdminOrProjectLeader = this.User.IsInRole(GlobalConstants.AdministratorRoleName)
+              || this.UserManager.GetUserId(this.User) == Model.Milestone.ProjectLeaderId;
+}
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Update">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            @if (isUserAdminOrProjectLeader = this.User.IsInRole(GlobalConstants.AdministratorRoleName)
+           || this.UserManager.GetUserId(this.User) == Model.Milestone.ProjectLeaderId)
+            {
+                <div class="form-group">
+                    <label asp-for="Title" class="control-label"></label>
+                    <input asp-for="Title" class="form-control" />
+                    <span asp-validation-for="Title" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Description" class="control-label"></label>
+                    <input asp-for="Description" class="form-control" />
+                    <span asp-validation-for="Description" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="DueDate" class="control-label"></label>
+                    <input asp-for="DueDate" class="form-control" />
+                    <span asp-validation-for="DueDate" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Priority" class="control-label"></label>
+                    <select class="form-control text-success" id="priority" asp-for="Priority">
+                        <option selected disabled>--- Select Priority ---</option>
+                        @foreach (var priority in (SelectList)this.ViewData[GlobalConstants.Priorities])
+                        {
+                            <option value="@priority.Text">@priority.Text</option>
+                        }
+                    </select>
+                    <span asp-validation-for="Priority" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="AssigneeId" class="control-label"></label>
+                    <select class="form-control text-primary" id="user" asp-for="AssigneeId">
+                        <option selected disabled>--- Select Issue Assignee ---</option>
+                        @foreach (var user in (SelectList)this.ViewData[GlobalConstants.Users])
+                        {
+                            if (user.Value == Model.AssigneeId)
+                            {
+                                <option value="@user.Value" selected>@user.Text</option>
+                            }
+                            else
+                            {
+                                <option value="@user.Value">@user.Text</option>
+                            }
+                        }
+                    </select>
+                    <span asp-validation-for="AssigneeId" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="StatusName" class="control-label"></label>
+                    @if (this.ViewData[GlobalConstants.Statuses] != null)
+                    {
+                        <select class="form-control text-primary" id="user" asp-for="StatusName">
+                            <option selected disabled>--- Select Issue Status ---</option>
+                            @foreach (var status in (SelectList)this.ViewData[GlobalConstants.Statuses])
+                            {
+                                if (status.Text == Model.StatusName)
+                                {
+                                    <option value="@status.Text" selected>@status.Text</option>
+                                }
+                                else
+                                {
+                                    <option value="@status.Text">@status.Text</option>
+                                }
+                            }
+                        </select>
+                    }
+                    else
+                    {
+                        // In case when invalid input data had been submitted and the user was redirected to the same page with filled in fields
+                        <input asp-for="StatusName" value=@Model.StatusName class="form-control" readonly />
+                    }
+                    <span asp-validation-for="StatusName" class="text-danger"></span>
+                </div>
+            }
+            else if (this.UserManager.GetUserId(this.User) == Model.AssigneeId)
+            {
+                <div class="form-group">
+                    <label asp-for="Title" class="control-label"></label>
+                    <input asp-for="Title" value="@Model.Title" class="form-control" readonly />
+                </div>
+                <div class="form-group">
+                    <label asp-for="Description" class="control-label"></label>
+                    <input asp-for="Description" value="@Model.Description" class="form-control" readonly />
+                </div>
+                <div class="form-group">
+                    <label asp-for="DueDate" class="control-label"></label>
+                    <input asp-for="DueDate" value="@Model.DueDate" type="datetime" class="form-control" readonly />
+                </div>
+                <div class="form-group">
+                    <label asp-for="Priority" class="control-label"></label>
+                    <input asp-for="Priority" value="@Model.Priority" class="form-control" readonly />
+                </div>
+                <div class="form-group">
+                    <label asp-for="AssigneeId" class="control-label"></label>
+                    <input asp-for="AssigneeId" value="@Model.AssigneeId" class="form-control" readonly />
+                </div>
+                <div class="form-group">
+                    <label asp-for="StatusName" class="control-label"></label>
+                    @if (this.ViewData[GlobalConstants.Statuses] != null)
+                    {
+                        <select class="form-control text-primary" id="user" asp-for="StatusName">
+                            <option selected disabled>--- Select Issue Status ---</option>
+                            @foreach (var status in (SelectList)this.ViewData[GlobalConstants.Statuses])
+                            {
+                                if (status.Text == Model.StatusName)
+                                {
+                                    <option value="@status.Text" selected>@status.Text</option>
+                                }
+                                else
+                                {
+                                    <option value="@status.Text">@status.Text</option>
+                                }
+                            }
+                        </select>
+                    }
+                    else
+                    {
+                        // In case when invalid input data had been submitted and the user was redirected to the same page with filled in fields
+                        <input asp-for="StatusName" value=@Model.StatusName class="form-control" readonly />
+                    }
+                    <span asp-validation-for="StatusName" class="text-danger"></span>
+                </div>
+            }
+
+            <div class="form-group">
+                <input asp-route-milestoneId="@Model.Milestone.Id"
+                       asp-route-leaderId="@Model.Milestone.ProjectLeaderId"
+                       asp-route-assigneeId="@Model.AssigneeId"
+                       type="submit"
+                       value="Save"
+                       class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

@@ -8,5 +8,7 @@
         Task<IssueServiceModel> CreateAsync(IssueServiceModel issueServiceModel);
 
         Task<IssueServiceModel> ByIdAsync(string id);
+
+        Task<IssueServiceModel> UpdateAsync(IssueServiceModel issueServiceModel);
     }
 }

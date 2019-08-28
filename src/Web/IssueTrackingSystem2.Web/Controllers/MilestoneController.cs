@@ -76,7 +76,10 @@
         // POST: Milestone/Create
         [HttpPost]
         [ProjectLeaderFilter]
-        public async Task<ActionResult> Create(MilestoneCreateInputModel milestoneCreateInputModel, string projectId, string leaderId)
+        public async Task<ActionResult> Create(
+            MilestoneCreateInputModel milestoneCreateInputModel,
+            string projectId,
+            string leaderId)
         {
             if (milestoneCreateInputModel == null)
             {

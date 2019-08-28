@@ -98,6 +98,7 @@
         {
             IList<string> availableStatuses = new List<string>();
             availableStatuses.AddRange(
+                    IssueStatuses.Open.ToString(),
                     IssueStatuses.InProgress.ToString(),
                     IssueStatuses.Resolved.ToString(),
                     IssueStatuses.Closed.ToString());
@@ -111,6 +112,7 @@
         {
             IList<string> availableStatuses = new List<string>();
             availableStatuses.AddRange(
+                    IssueStatuses.InProgress.ToString(),
                     IssueStatuses.Open.ToString(),
                     IssueStatuses.Resolved.ToString(),
                     IssueStatuses.Closed.ToString());
@@ -124,6 +126,7 @@
         {
             IList<string> availableStatuses = new List<string>();
             availableStatuses.AddRange(
+                    IssueStatuses.Resolved.ToString(),
                     IssueStatuses.Reopened.ToString(),
                     IssueStatuses.Closed.ToString());
 
@@ -136,6 +139,7 @@
         {
             IList<string> availableStatuses = new List<string>();
             availableStatuses.AddRange(
+                    IssueStatuses.Reopened.ToString(),
                     IssueStatuses.InProgress.ToString(),
                     IssueStatuses.Resolved.ToString(),
                     IssueStatuses.Closed.ToString());
@@ -148,7 +152,9 @@
         private SelectList GetAvailableIssueClosedStatuses()
         {
             IList<string> availableStatuses = new List<string>();
-            availableStatuses.Add(IssueStatuses.Reopened.ToString());
+            availableStatuses.AddRange(
+                    IssueStatuses.Closed.ToString(),
+                    IssueStatuses.Reopened.ToString());
 
             var statusesSelectList = new SelectList(items: availableStatuses);
 

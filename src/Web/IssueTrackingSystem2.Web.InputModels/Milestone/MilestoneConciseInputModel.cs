@@ -1,11 +1,9 @@
-﻿using IssueTrackingSystem2.Web.InputModels.Project;
-using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace IssueTrackingSystem2.Web.InputModels.Milestone
+﻿namespace IssueTrackingSystem2.Web.InputModels.Milestone
 {
-    public class MilestoneConciseInputModel
+    using IssueTrackingSystem2.Services.Mapping;
+    using IssueTrackingSystem2.Services.Models;
+
+    public class MilestoneConciseInputModel : IMapFrom<MilestoneServiceModel>, IMapTo<MilestoneServiceModel>
     {
         public string Id { get; set; }
 

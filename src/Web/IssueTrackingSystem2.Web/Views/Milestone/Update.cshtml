@@ -36,9 +36,6 @@
                 <input asp-for="CompletionDate" class="form-control text-primary" />
                 <span asp-validation-for="CompletionDate" class="text-danger"></span>
             </div>
-            <div>
-                <input asp-for=@Model.StatusId hidden />
-            </div>
             <div class="form-group">
                 <div class="d-flex">
                     <label asp-for="StatusName" class="control-label"></label>
@@ -46,7 +43,7 @@
                 @if (this.ViewData[GlobalConstants.Statuses] != null)
                 {
                     <select class="form-control text-primary" id="user" asp-for="StatusName">
-                        <option selected disabled>--- Select Project Leader ---</option>
+                        <option selected disabled>--- Select Milestone Status ---</option>
                         @foreach (var status in (SelectList)this.ViewData[GlobalConstants.Statuses])
                         {
                             if (status.Text == Model.StatusName)

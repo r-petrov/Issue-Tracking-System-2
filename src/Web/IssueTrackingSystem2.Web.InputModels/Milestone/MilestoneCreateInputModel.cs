@@ -45,6 +45,41 @@
                     arg0: nameof(this.StartDate).SplitStringByCapitalLetters(),
                     arg1: nameof(this.CompletionDate).SplitStringByCapitalLetters()));
             }
+
+            if ((this.StartDate <= DateTime.UtcNow || this.CompletionDate <= DateTime.UtcNow)
+                    && this.Status == MilestoneStatuses.NotStarted.ToString())
+            {
+                yield return new ValidationResult(string.Format(
+                    format: MessagesConstants.InvalidMilestoneStatus,
+                    arg0: $"{nameof(this.StartDate).SplitStringByCapitalLetters()} or {nameof(this.CompletionDate).SplitStringByCapitalLetters()} earlier or equal than now",
+                    arg1: MilestoneStatuses.NotStarted.ToString()));
+            }
+
+            if ((this.StartDate > DateTime.UtcNow || this.CompletionDate < DateTime.UtcNow)
+                    && this.Status == MilestoneStatuses.Started.ToString())
+            {
+                yield return new ValidationResult(string.Format(
+                    format: MessagesConstants.InvalidMilestoneStatus,
+                    arg0: $"{nameof(this.StartDate).SplitStringByCapitalLetters()} later than now and {nameof(this.CompletionDate).SplitStringByCapitalLetters()} earlier than now",
+                    arg1: MilestoneStatuses.Started.ToString()));
+            }
+
+            if ((this.StartDate >= DateTime.UtcNow || this.CompletionDate >= DateTime.UtcNow)
+                    && this.Status == MilestoneStatuses.Overdued.ToString())
+            {
+                yield return new ValidationResult(string.Format(
+                    format: MessagesConstants.InvalidMilestoneStatus,
+                    arg0: $"{nameof(this.StartDate).SplitStringByCapitalLetters()} or {nameof(this.CompletionDate).SplitStringByCapitalLetters()} later or equal than now",
+                    arg1: MilestoneStatuses.Overdued.ToString()));
+            }
+
+            if (this.StartDate >= DateTime.UtcNow && this.Status == MilestoneStatuses.Completed.ToString())
+            {
+                yield return new ValidationResult(string.Format(
+                    format: MessagesConstants.InvalidMilestoneStatus,
+                    arg0: $"{nameof(this.StartDate).SplitStringByCapitalLetters()} later or equal than now",
+                    arg1: MilestoneStatuses.Completed.ToString()));
+            }
         }
 
         public void CreateMappings(IProfileExpression configuration)
