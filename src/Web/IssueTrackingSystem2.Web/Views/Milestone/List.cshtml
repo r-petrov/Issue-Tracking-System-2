@@ -1,0 +1,82 @@
+﻿@model MilestonesViewModel
+
+@{
+    ViewData["Title"] = $"{Model.Project.Name}'s {GlobalConstants.Milestones}";
+}
+
+<h1>@ViewData["Title"]</h1>
+
+<hr />
+@if (this.User.IsInRole(GlobalConstants.AdministratorRoleName)
+      || Model.Project.LeaderId == this.UserManager.GetUserId(this.User))
+{
+    <div>
+        <a asp-area=""
+           asp-controller=@ValuesConstants.MilestoneControllerName
+           asp-action=@ValuesConstants.CreateActionName
+           asp-route-projectId=@Model.Project.Id
+           asp-route-leaderId="@Model.Project.LeaderId"
+           class="btn btn-success button">
+            Create Milestone
+        </a>
+    </div>
+}
+
+<br />
+<div>
+    @if (Model.Milestones != null && Model.Milestones.Any())
+    {
+        <h5>@string.Format(format: MessagesConstants.ClickOnDesiredRow, arg0: GlobalConstants.Milestone)</h5>
+        <div class="table table-striped col-md-12 fixed">
+            <table class="table table-striped">
+                <thead class="thead-light">
+                    <tr>
+                        <th>@nameof(MilestoneListViewModel.Title)</th>
+                        <th>@nameof(MilestoneListViewModel.StartDate).SplitStringByCapitalLetters()</th>
+                        <th>@nameof(MilestoneListViewModel.CompletionDate).SplitStringByCapitalLetters()</th>
+                        <th>@nameof(MilestoneListViewModel.Status)</th>
+                        <th>@nameof(MilestoneListViewModel.Issues)</th>
+                        <th>@nameof(MilestoneListViewModel.CompletedIssues).SplitStringByCapitalLetters()</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var milestone in Model.Milestones)
+                    {
+                        <tr onclick="location.href = '@(Url.Action(ValuesConstants.DetailsActionName, ValuesConstants.MilestoneControllerName, new { id = milestone.Id }))'">
+                            <td>@milestone.Title</td>
+                            <td>
+                                @milestone.StartDate
+                            </td>
+                            <td>
+                                @milestone.CompletionDate
+                            </td>
+                            <td>@milestone.Status.Name</td>
+                            <td>@milestone.Issues.Count</td>
+                            <td>@milestone.CompletedIssues.Count</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    }
+    else
+    {
+        <div>
+            <p>
+                @string.Format(
+                    format: MessagesConstants.StillNotAddedItems,
+                    arg0: GlobalConstants.Milestones,
+                    arg1: Model.Project.Name)
+            </p>
+        </div>
+    }
+</div>
+<br />
+<div>
+    <a asp-controller="@ValuesConstants.ProjectControllerName"
+       asp-action="@ValuesConstants.DetailsActionName"
+       asp-route-id="@Model.Project.Id"
+       class="btn btn-info">
+        Back to @ValuesConstants.Details
+    </a>
+</div>

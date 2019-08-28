@@ -29,20 +29,6 @@
             return this.View();
         }
 
-        [HttpGet]
-        public IActionResult Dashboard()
-        {
-            // TODO: Add Pagination
-            // TODO: Add filters, i.e. Project name
-            var projects = this.projectService
-                .GetAll()
-                .To<ProjectListViewModel>()
-                .ToList()
-                .OrderByDescending(project => project.CreatedOn);
-
-            return this.View(projects);
-        }
-
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error() => this.View();
     }

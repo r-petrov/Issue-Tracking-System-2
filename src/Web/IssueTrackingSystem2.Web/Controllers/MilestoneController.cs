@@ -1,10 +1,5 @@
 ﻿namespace IssueTrackingSystem2.Web.Controllers
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Threading.Tasks;
-    using IssueTrackingSystem2.Common.Enums;
     using IssueTrackingSystem2.Common.Infrastructure.Constants;
     using IssueTrackingSystem2.Services.Data.Milestone;
     using IssueTrackingSystem2.Services.Data.Project;
@@ -16,8 +11,11 @@
     using IssueTrackingSystem2.Web.InputModels.Milestone;
     using IssueTrackingSystem2.Web.InputModels.Project;
     using IssueTrackingSystem2.Web.ViewModels.Milestone;
-    using Microsoft.AspNetCore.Http;
+    using IssueTrackingSystem2.Web.ViewModels.Project;
     using Microsoft.AspNetCore.Mvc;
+    using System;
+    using System.Linq;
+    using System.Threading.Tasks;
 
     public class MilestoneController : BaseController
     {
@@ -37,9 +35,19 @@
         }
 
         // GET: Milestone
-        public ActionResult Index()
+        public ActionResult List(string projectId)
         {
-            return this.View();
+            var milestonListServiceModels = this.milestoneService.All(projectId).ToList();
+            var milestoneListViewModels = milestonListServiceModels.To<MilestoneListViewModel>().ToList();
+            var projectServiceModel = this.projectService.ByIdAsync(projectId).GetAwaiter().GetResult();
+            var projectConciseViewModel = projectServiceModel.To<ProjectConciseViewModel>();
+            var milestonesViewModel = new MilestonesViewModel()
+            {
+                Milestones = milestoneListViewModels,
+                Project = projectConciseViewModel,
+            };
+
+            return this.View(milestonesViewModel);
         }
 
         // GET: Milestone/Details/5

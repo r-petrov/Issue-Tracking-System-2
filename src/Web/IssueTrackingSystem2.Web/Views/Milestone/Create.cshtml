@@ -66,9 +66,9 @@
 </div>
 
 <div>
-    <a asp-controller="@ValuesConstants.ProjectControllerName"
-       asp-action="@ValuesConstants.DetailsActionName"
-       asp-route-id="@ViewData[ValuesConstants.ProjectId]"
+    <a asp-controller="@ValuesConstants.MilestoneControllerName"
+       asp-action="@ValuesConstants.ListActionName"
+       asp-route-projectId="@Model.Project.Id"
        class="btn btn-info">
         Back to List
     </a>

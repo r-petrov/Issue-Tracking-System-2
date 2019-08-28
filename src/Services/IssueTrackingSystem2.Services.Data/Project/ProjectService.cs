@@ -22,7 +22,7 @@
             this.userManager = userManager;
         }
 
-        public IQueryable<ProjectServiceModel> GetAll()
+        public IQueryable<ProjectServiceModel> All()
         {
             var projects = this.repository.All().To<ProjectServiceModel>();
 

@@ -6,6 +6,7 @@
     using IssueTrackingSystem2.Services.Mapping;
     using IssueTrackingSystem2.Services.Models;
     using System;
+    using System.Linq;
     using System.Threading.Tasks;
 
     public class MilestoneService : IMilestoneService
@@ -15,6 +16,14 @@
         public MilestoneService(IDeletableEntityRepository<Milestone> repository)
         {
             this.repository = repository;
+        }
+
+        public IQueryable<MilestoneServiceModel> All(string projectId)
+        {
+            var milestones = this.repository.All().Where(milestone => milestone.ProjectId == projectId);
+            var milestonListServiceModels = milestones.To<MilestoneServiceModel>();
+
+            return milestonListServiceModels;
         }
 
         public async Task<MilestoneServiceModel> CreateAsync(MilestoneServiceModel milestoneServiceModel)

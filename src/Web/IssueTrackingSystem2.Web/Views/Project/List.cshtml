@@ -10,13 +10,14 @@
 <hr />
 @if (this.User.IsInRole(GlobalConstants.AdministratorRoleName))
 {
-    <p>
+    <div>
         <a class="btn btn-success" asp-area="Administration" asp-controller="Project" asp-action="Create">
             <span class="text-dark font-weight-bold">Create New Project</span>
         </a>
-    </p>
+    </div>
 
-    <h2>Created projects by @this.User.Identity.Name</h2>
+    <br />
+    <h4>Created projects by @this.User.Identity.Name</h4>
     if (Model != null && Model.Any())
     {
         <partial name="_ProjectsPartial" model="Model" />
@@ -31,7 +32,7 @@ else
     var isProjectLeader = Model.Where(model => model.Leader.Id == this.UserManager.GetUserId(this.User)).Any();
     if (isProjectLeader)
     {
-        <h2>Projects that @this.User.Identity.Name is a Project Leader</h2>
+        <h4>Projects that @this.User.Identity.Name is a Project Leader</h4>
         <partial name="_ProjectsPartial"
                  model="@Model.Where(model => model.Leader.Id == this.UserManager.GetUserId(this.User))" />
     }
@@ -44,7 +45,7 @@ else
 
     if (isIssueAssignee)
     {
-        <h2>Projects with issues that @this.User.Identity.Name is an Issue Assignee</h2>
+        <h4>Projects with issues that @this.User.Identity.Name is an Issue Assignee</h4>
         <partial name="_ProjectsPartial"
                  model="@Model
                             .Where(model => model.Milestones
@@ -54,11 +55,11 @@ else
 
     @if (!isProjectLeader && !isIssueAssignee)
     {
-        <h3>
+        <h4>
             @string.Format(
                 format: MessagesConstants.StillHaveNotBeenAssignedTo,
                 arg0: this.User.Identity.Name,
                 arg1: $"{GlobalConstants.Projects} or {GlobalConstants.Issues}")
-        </h3>
+        </h4>
     }
 }

@@ -6,7 +6,7 @@
 
     public interface IProjectService
     {
-        IQueryable<ProjectServiceModel> GetAll();
+        IQueryable<ProjectServiceModel> All();
 
         Task<ProjectServiceModel> ByIdAsync(string id);
 

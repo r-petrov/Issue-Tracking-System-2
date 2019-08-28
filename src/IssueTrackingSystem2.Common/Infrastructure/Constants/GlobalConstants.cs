@@ -6,13 +6,14 @@
         public const string UserRoleName = "User";
         public const string ProjectLeaderRoleName = "ProjectLeader";
         public const string IssueAssigneeRoleName = "IssueAssignee";
-        public const string Projects = "projects";
-        public const string Issues = "issues";
-        public const string Milestones = "milestones";
-        public const string Labels = "labels";
-        public const string Priorities = "priorities";
-        public const string Users = "users";
-        public const string Statuses = "statuses";
+        public const string Projects = "Projects";
+        public const string Issues = "Issues";
+        public const string Milestones = "Milestones";
+        public const string Labels = "Labels";
+        public const string Priorities = "Priorities";
+        public const string Users = "Users";
+        public const string Statuses = "Statuses";
+
         public const string LeaderId = "leaderId";
         public const string AssigneeId = "assigneeId";
 
