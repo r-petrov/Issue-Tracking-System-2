@@ -35,55 +35,55 @@
 
         // POST: Project/Create
         [HttpPost]
-        public async Task<ActionResult> Create(ProjectCreateInputModel inputModel)
+        public async Task<ActionResult> Create(ProjectCreateInputModel projectCreateInputModel)
         {
-            //try
-            //{
-
-            if (inputModel == null)
+            try
             {
-                this.ViewData[ValuesConstants.InvalidArgument] = string.Format(
-                    format: MessagesConstants.NullOrEmptyArgument,
-                    arg0: nameof(inputModel));
-
-                return this.View();
-            }
-
-            if (!this.ModelState.IsValid)
-            {
-                var usersSelectList = this.GetDropdownUsers();
-                this.ViewData[GlobalConstants.Users] = usersSelectList;
-
-                return this.View(inputModel);
-            }
-
-            // TODO: try mapping
-            //var projectServiceModel = inputModel.To<ProjectServiceModel>();
-            var projectServiceModel = new ProjectServiceModel()
-            {
-                Name = inputModel.Name,
-                Description = inputModel.Description,
-                LeaderId = inputModel.LeaderId,
-            };
-
-            projectServiceModel.Priorities = this.GeneratePriorities(inputModel);
-
-            var projectServiceModelResult = await this.projectService.CreateAsync(projectServiceModel);
-
-            return this.RedirectToRoute(
-                routeName: ValuesConstants.DefaultRouteName,
-                routeValues: new
+                if (projectCreateInputModel == null)
                 {
-                    controller = ValuesConstants.ProjectControllerName,
-                    action = ValuesConstants.DetailsActionName,
-                    id = projectServiceModelResult.Id,
-                });
-            //}
-            //catch
-            //{
-            //    // TODO: Implement Exception logging in file in dropbox or some other file datastore
-            //    return this.View(inputModel);
-            //}
+                    this.ViewData[ValuesConstants.InvalidArgument] = string.Format(
+                        format: MessagesConstants.NullOrEmptyArgument,
+                        arg0: nameof(projectCreateInputModel));
+
+                    return this.View();
+                }
+
+                if (!this.ModelState.IsValid)
+                {
+                    var usersSelectList = this.GetDropdownUsers();
+                    this.ViewData[GlobalConstants.Users] = usersSelectList;
+
+                    return this.View(projectCreateInputModel);
+                }
+
+                // TODO: try mapping
+                //var projectServiceModel = inputModel.To<ProjectServiceModel>();
+                var projectServiceModel = new ProjectServiceModel()
+                {
+                    Name = projectCreateInputModel.Name,
+                    Description = projectCreateInputModel.Description,
+                    LeaderId = projectCreateInputModel.LeaderId,
+                };
+
+                projectServiceModel.Priorities = this.GeneratePriorities(projectCreateInputModel);
+
+                var projectServiceModelResult = await this.projectService.CreateAsync(projectServiceModel);
+
+                return this.RedirectToRoute(
+                    routeName: ValuesConstants.DefaultRouteName,
+                    routeValues: new
+                    {
+                        controller = ValuesConstants.ProjectControllerName,
+                        action = ValuesConstants.DetailsActionName,
+                        id = projectServiceModelResult.Id,
+                    });
+            }
+            catch (Exception ex)
+            {
+                this.ViewData[ValuesConstants.InvalidArgument] = ex.Message;
+
+                return this.View(projectCreateInputModel);
+            }
         }
 
         // TODO: Use it in custom mapping in ProjectCreateInputModel

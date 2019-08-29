@@ -53,19 +53,28 @@
         // GET: Milestone/Details/5
         public async Task<ActionResult> Details(string id)
         {
-            var milestoneServiceModel = await this.milestoneService.ByIdAsync(id);
-            if (milestoneServiceModel == null)
+            try
             {
-                throw new Exception(string.Format(
-                    format: MessagesConstants.NullItem,
-                    arg0: GlobalConstants.Milestone,
-                    arg1: nameof(id),
-                    arg2: id));
+                var milestoneServiceModel = await this.milestoneService.ByIdAsync(id);
+                if (milestoneServiceModel == null)
+                {
+                    throw new Exception(string.Format(
+                        format: MessagesConstants.NullItem,
+                        arg0: GlobalConstants.Milestone,
+                        arg1: nameof(id),
+                        arg2: id));
+                }
+
+                var milestoneViewModel = milestoneServiceModel.To<MilestoneDetailsViewModel>();
+
+                return this.View(milestoneViewModel);
             }
+            catch (Exception ex)
+            {
+                this.ViewData[ValuesConstants.InvalidArgument] = ex.Message;
 
-            var milestoneViewModel = milestoneServiceModel.To<MilestoneDetailsViewModel>();
-
-            return this.View(milestoneViewModel);
+                return this.RedirectToAction(nameof(this.List));
+            }
         }
 
         // GET: Milestone/Create
@@ -89,39 +98,43 @@
             string projectId,
             string leaderId)
         {
-            if (milestoneCreateInputModel == null)
+            try
             {
-                this.ViewData[ValuesConstants.InvalidArgument] = string.Format(
-                    format: MessagesConstants.NullOrEmptyArgument,
-                    arg0: nameof(milestoneCreateInputModel));
+                if (milestoneCreateInputModel == null)
+                {
+                    this.ViewData[ValuesConstants.InvalidArgument] = string.Format(
+                        format: MessagesConstants.NullOrEmptyArgument,
+                        arg0: nameof(milestoneCreateInputModel));
 
-                return this.View();
+                    return this.View();
+                }
+
+                if (!this.ModelState.IsValid)
+                {
+                    milestoneCreateInputModel.Project = this.SetProjectConciseInputModel(projectId: projectId, leaderId: leaderId);
+
+                    return this.View(milestoneCreateInputModel);
+                }
+
+                var milestoneServiceModel = milestoneCreateInputModel.To<MilestoneServiceModel>();
+                milestoneServiceModel.ProjectId = projectId;
+                //milestoneServiceModel.Project = await this.ProjectService.ByIdAsync(projectId);
+
+                var milestoneServiceModelResult = await this.milestoneService.CreateAsync(milestoneServiceModel);
+
+                return this.RedirectToAction(
+                    actionName: nameof(this.Details),
+                    routeValues: new { id = milestoneServiceModelResult.Id });
             }
-
-            //try
-            //{
-            if (!this.ModelState.IsValid)
+            catch (Exception ex)
             {
-                milestoneCreateInputModel.Project = this.SetProjectConciseInputModel(projectId: projectId, leaderId: leaderId);
+                this.ViewData[ValuesConstants.InvalidArgument] = ex.Message;
+                milestoneCreateInputModel.Project = this.SetProjectConciseInputModel(
+                    projectId: projectId,
+                    leaderId: leaderId);
 
                 return this.View(milestoneCreateInputModel);
             }
-
-            var milestoneServiceModel = milestoneCreateInputModel.To<MilestoneServiceModel>();
-            milestoneServiceModel.ProjectId = projectId;
-            //milestoneServiceModel.Project = await this.ProjectService.ByIdAsync(projectId);
-
-            var milestoneServiceModelResult = await this.milestoneService.CreateAsync(milestoneServiceModel);
-
-            return this.RedirectToAction(
-                actionName: nameof(this.Details),
-                routeValues: new { id = milestoneServiceModelResult.Id });
-            //}
-            //catch
-            //{
-            //    // TODO: Implement Exception logging in file in dropbox or some other file datastore
-            //    return this.View();
-            //}
         }
 
         // GET: Milestone/Edit/5
@@ -129,23 +142,32 @@
         [ProjectLeaderFilter]
         public async Task<ActionResult> Update(string id, string leaderId)
         {
-            var milestoneServiceModel = await this.milestoneService.ByIdAsync(id);
-            if (milestoneServiceModel == null)
+            try
             {
-                throw new Exception(string.Format(
-                    format: MessagesConstants.NullItem,
-                    arg0: GlobalConstants.Milestone,
-                    arg1: nameof(id),
-                    arg2: id));
+                var milestoneServiceModel = await this.milestoneService.ByIdAsync(id);
+                if (milestoneServiceModel == null)
+                {
+                    throw new Exception(string.Format(
+                        format: MessagesConstants.NullItem,
+                        arg0: GlobalConstants.Milestone,
+                        arg1: nameof(id),
+                        arg2: id));
+                }
+
+                var milestoneUpdateInputModel = milestoneServiceModel.To<MilestoneUpdateInputModel>();
+
+                var availableStatuses = this.statusService.GetAvailableMilestoneStatuses(
+                    milestoneUpdateInputModel.StatusName);
+                this.ViewData[GlobalConstants.Statuses] = availableStatuses;
+
+                return this.View(milestoneUpdateInputModel);
             }
+            catch (Exception ex)
+            {
+                this.ViewData[ValuesConstants.InvalidArgument] = ex.Message;
 
-            var milestoneUpdateInputModel = milestoneServiceModel.To<MilestoneUpdateInputModel>();
-
-            var availableStatuses = this.statusService.GetAvailableMilestoneStatuses(
-                milestoneUpdateInputModel.StatusName);
-            this.ViewData[GlobalConstants.Statuses] = availableStatuses;
-
-            return this.View(milestoneUpdateInputModel);
+                return this.RedirectToAction(actionName: nameof(this.Details), routeValues: new { id = id });
+            }
         }
 
         // POST: Milestone/Edit/5
@@ -156,37 +178,39 @@
             string projectId,
             string leaderId)
         {
-            if (milestoneUpdateInputModel == null)
+            try
             {
-                this.ViewData[ValuesConstants.InvalidArgument] = string.Format(
-                    format: MessagesConstants.NullOrEmptyArgument,
-                    arg0: nameof(milestoneUpdateInputModel));
+                if (milestoneUpdateInputModel == null)
+                {
+                    this.ViewData[ValuesConstants.InvalidArgument] = string.Format(
+                        format: MessagesConstants.NullOrEmptyArgument,
+                        arg0: nameof(milestoneUpdateInputModel));
 
-                return this.View();
+                    return this.View();
+                }
+
+                if (!this.ModelState.IsValid)
+                {
+                    milestoneUpdateInputModel.Project = this.SetProjectConciseInputModel(
+                           projectId: projectId,
+                           leaderId: leaderId);
+
+                    return this.View(milestoneUpdateInputModel);
+                }
+
+                var milestoneServiceModel = milestoneUpdateInputModel.To<MilestoneServiceModel>();
+                var milestoneServiceModelResult = await this.milestoneService.UpdateAsync(milestoneServiceModel);
+
+                return this.RedirectToAction(
+                    actionName: nameof(this.Details),
+                    routeValues: new { id = milestoneServiceModelResult.Id });
             }
-
-            //try
-            //{
-            if (!this.ModelState.IsValid)
+            catch (Exception ex)
             {
-                milestoneUpdateInputModel.Project = this.SetProjectConciseInputModel(
-                       projectId: projectId,
-                       leaderId: leaderId);
+                this.ViewData[ValuesConstants.InvalidArgument] = ex.Message;
 
                 return this.View(milestoneUpdateInputModel);
             }
-
-            var milestoneServiceModel = milestoneUpdateInputModel.To<MilestoneServiceModel>();
-            var milestoneServiceModelResult = await this.milestoneService.UpdateAsync(milestoneServiceModel);
-
-            return this.RedirectToAction(
-                actionName: nameof(this.Details),
-                routeValues: new { id = milestoneServiceModelResult.Id });
-            //}
-            //catch
-            //{
-            //    return View();
-            //}
         }
 
         private ProjectConciseInputModel SetProjectConciseInputModel(string projectId, string leaderId)

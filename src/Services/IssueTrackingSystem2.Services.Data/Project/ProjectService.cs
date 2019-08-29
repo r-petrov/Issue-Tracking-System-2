@@ -49,11 +49,18 @@
         public async Task<ProjectServiceModel> CreateAsync(ProjectServiceModel projectServiceModel)
         {
             Project project = projectServiceModel.To<Project>();
+            if (project == null)
+            {
+                throw new Exception(string.Format(
+                   format: MessagesConstants.NullItem,
+                   arg0: GlobalConstants.Project,
+                   arg1: nameof(ProjectServiceModel.Id),
+                   arg2: projectServiceModel.Id));
+            }
+
             project.ProjectKey = projectServiceModel.Name.ApendStringCapitalLetters();
 
             var projectResult = await this.repository.AddAsync(project);
-
-            // var result = await this.efDeletableEntityRepository.SaveChangesAsync();
 
             var projectServiceModelResult = projectResult.To<ProjectServiceModel>();
 
@@ -63,6 +70,15 @@
         public async Task<ProjectServiceModel> UpdateAsync(ProjectServiceModel projectServiceModel)
         {
             var project = await this.repository.ByIdAsync(projectServiceModel.Id);
+            if (project == null)
+            {
+                throw new Exception(string.Format(
+                   format: MessagesConstants.NullItem,
+                   arg0: GlobalConstants.Project,
+                   arg1: nameof(ProjectServiceModel.Id),
+                   arg2: projectServiceModel.Id));
+            }
+
             project.Name = projectServiceModel.Name;
             project.Description = projectServiceModel.Description;
             project.ProjectKey = projectServiceModel.Name.ApendStringCapitalLetters();

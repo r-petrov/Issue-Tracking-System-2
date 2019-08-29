@@ -27,7 +27,7 @@
                asp-route-projectId=@Model.Id
                asp-route-leaderId="@Model.Milestone.Project.LeaderId"
                class="btn btn-light text-info button">
-                @Model.Title's @GlobalConstants.Comment
+                @GlobalConstants.Comments
             </a>
             <a asp-area=""
                asp-controller=@ValuesConstants.LabelControllerName
@@ -35,7 +35,7 @@
                asp-route-id="@Model.Id"
                asp-route-leaderId="@Model.Milestone.Project.LeaderId"
                class="btn btn-light text-info button">
-                @Model.Title's @GlobalConstants.Labels
+                @GlobalConstants.Labels
             </a>
         </div>
         }

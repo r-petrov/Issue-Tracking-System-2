@@ -1,17 +1,12 @@
 ﻿@model IssueCreateInputModel
 
 @{
-    ViewData["Title"] = "Create";
+    ViewData["Title"] = $"{ValuesConstants.Create} {GlobalConstants.Issue}";
 }
 
-<h1>Create</h1>
+<h1>@ViewData["Title"]</h1>
 
 <hr />
-@if (ViewData.ContainsKey(ValuesConstants.InvalidArgument))
-{
-    <h4>@ViewData[ValuesConstants.InvalidArgument]</h4>
-}
-
 <div class="row">
     <div class="col-md-4">
         <form asp-action="Create">

@@ -41,55 +41,44 @@
         [HttpGet]
         public async Task<ActionResult> Details(string id)
         {
-            if (string.IsNullOrEmpty(id))
+            try
             {
-                return this.BadRequest(string.Format(format: MessagesConstants.NullOrEmptyArgument, arg0: nameof(id)));
+                if (string.IsNullOrEmpty(id))
+                {
+                    throw new Exception(string.Format(
+                        format: MessagesConstants.NullOrEmptyArgument, 
+                        arg0: nameof(id)));
+                }
+
+                var project = await this.projectService.ByIdAsync(id);
+                var projectViewModel = project.To<ProjectDetailsViewModel>();
+
+                return this.View(projectViewModel);
             }
+            catch (Exception ex)
+            {
+                this.ViewData[ValuesConstants.InvalidArgument] = ex.Message;
 
-            var project = await this.projectService.ByIdAsync(id);
-            var projectViewModel = project.To<ProjectDetailsViewModel>();
-
-            return this.View(projectViewModel);
+                return this.RedirectToAction(actionName: nameof(this.List));
+            }
         }
 
         [HttpGet]
         [ProjectLeaderFilter]
         public async Task<ActionResult> Update(string id, string leaderId)
         {
-            if (string.IsNullOrEmpty(id))
+            try
             {
-                throw new Exception(string.Format(
-                    format: MessagesConstants.NullOrEmptyArgument,
-                    arg0: nameof(id)));
-            }
+                if (string.IsNullOrEmpty(id))
+                {
+                    throw new Exception(string.Format(
+                        format: MessagesConstants.NullOrEmptyArgument,
+                        arg0: nameof(id)));
+                }
 
-            var projectServiceModel = await this.projectService.ByIdAsync(id);
-            var projectUpdateInputModel = projectServiceModel.To<ProjectUpdateInputModel>();
+                var projectServiceModel = await this.projectService.ByIdAsync(id);
+                var projectUpdateInputModel = projectServiceModel.To<ProjectUpdateInputModel>();
 
-            if (this.User.IsInRole(GlobalConstants.AdministratorRoleName))
-            {
-                var usersSelectList = this.GetDropdownUsers();
-                this.ViewData[GlobalConstants.Users] = usersSelectList;
-            }
-
-            return this.View(projectUpdateInputModel);
-        }
-
-        [HttpPost]
-        [ProjectLeaderFilter]
-        public async Task<ActionResult> Update(ProjectUpdateInputModel projectUpdateInputModel, string leaderId)
-        {
-            if (projectUpdateInputModel == null)
-            {
-                this.ViewData[ValuesConstants.InvalidArgument] = string.Format(
-                    format: MessagesConstants.NullOrEmptyArgument,
-                    arg0: nameof(projectUpdateInputModel));
-
-                return this.View();
-            }
-
-            if (!this.ModelState.IsValid)
-            {
                 if (this.User.IsInRole(GlobalConstants.AdministratorRoleName))
                 {
                     var usersSelectList = this.GetDropdownUsers();
@@ -98,13 +87,58 @@
 
                 return this.View(projectUpdateInputModel);
             }
+            catch (Exception ex)
+            {
+                this.ViewData[ValuesConstants.InvalidArgument] = ex.Message;
 
-            var serviceModel = projectUpdateInputModel.To<ProjectServiceModel>();
-            var updatedProjectServiceModel = await this.projectService.UpdateAsync(serviceModel);
+                return this.RedirectToAction(actionName: nameof(this.Details), routeValues: new { id = id });
+            }
+        }
 
-            return this.RedirectToAction(
-                actionName: nameof(this.Details),
-                routeValues: new { id = updatedProjectServiceModel.Id });
+        [HttpPost]
+        [ProjectLeaderFilter]
+        public async Task<ActionResult> Update(ProjectUpdateInputModel projectUpdateInputModel, string leaderId)
+        {
+            try
+            {
+                if (projectUpdateInputModel == null)
+                {
+                    this.ViewData[ValuesConstants.InvalidArgument] = string.Format(
+                        format: MessagesConstants.NullOrEmptyArgument,
+                        arg0: nameof(projectUpdateInputModel));
+
+                    return this.View();
+                }
+
+                if (!this.ModelState.IsValid)
+                {
+                    if (this.User.IsInRole(GlobalConstants.AdministratorRoleName))
+                    {
+                        var usersSelectList = this.GetDropdownUsers();
+                        this.ViewData[GlobalConstants.Users] = usersSelectList;
+                    }
+
+                    return this.View(projectUpdateInputModel);
+                }
+
+                var serviceModel = projectUpdateInputModel.To<ProjectServiceModel>();
+                var updatedProjectServiceModel = await this.projectService.UpdateAsync(serviceModel);
+
+                return this.RedirectToAction(
+                    actionName: nameof(this.Details),
+                    routeValues: new { id = updatedProjectServiceModel.Id });
+            }
+            catch (Exception ex)
+            {
+                this.ViewData[ValuesConstants.InvalidArgument] = ex.Message;
+                if (this.User.IsInRole(GlobalConstants.AdministratorRoleName))
+                {
+                    var usersSelectList = this.GetDropdownUsers();
+                    this.ViewData[GlobalConstants.Users] = usersSelectList;
+                }
+
+                return this.View(projectUpdateInputModel);
+            }
         }
     }
 }

@@ -1,5 +1,6 @@
 ﻿namespace IssueTrackingSystem2.Services.Data.Milestone
 {
+    using IssueTrackingSystem2.Common.Enums;
     using IssueTrackingSystem2.Common.Infrastructure.Constants;
     using IssueTrackingSystem2.Data.Common.Repositories;
     using IssueTrackingSystem2.Data.Models;
@@ -62,6 +63,20 @@
                    arg0: GlobalConstants.Milestone,
                    arg1: nameof(MilestoneServiceModel.Id),
                    arg2: milestoneServiceModel.Id));
+            }
+
+            var milestoneHasActingIssues = milestone.Issues
+                .Where(issue => (issue.Status.Name == IssueStatuses.Open.ToString()
+                    || issue.Status.Name == IssueStatuses.InProgress.ToString()
+                    || issue.Status.Name == IssueStatuses.Reopened.ToString())).Any();
+
+            if (milestoneServiceModel.Status.Name == MilestoneStatuses.Completed.ToString()
+                && milestoneHasActingIssues)
+            {
+                throw new Exception(string.Format(
+                    format: MessagesConstants.InvalidMilestoneStatus,
+                    arg0: "acting issues",
+                    arg1: MilestoneStatuses.Completed.ToString()));
             }
 
             milestone.Title = milestoneServiceModel.Title;

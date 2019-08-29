@@ -13,6 +13,7 @@
         public const string Priorities = "Priorities";
         public const string Users = "Users";
         public const string Statuses = "Statuses";
+        public const string Comments = "Comments";
 
         public const string LeaderId = "leaderId";
         public const string AssigneeId = "assigneeId";

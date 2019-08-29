@@ -68,6 +68,11 @@
     <div class="container">
         <partial name="_CookieConsentPartial" />
         <main role="main" class="pb-3">
+            @if (ViewData.ContainsKey(ValuesConstants.InvalidArgument))
+            {
+                <h4 class="text-danger">@ViewData[ValuesConstants.InvalidArgument]</h4>
+            }
+
             @this.RenderBody()
         </main>
     </div>
