@@ -9,6 +9,7 @@
                 <th>@nameof(IssueListViewModel.DueDate)</th>
                 <th>@nameof(IssueListViewModel.Assignee)</th>
                 <th>@nameof(IssueListViewModel.Labels)</th>
+                <th>@nameof(IssueListViewModel.Comments)</th>
             </tr>
         </thead>
         <tbody>
@@ -32,6 +33,8 @@
                                 arg1: $"{issue.Title} issue")
                         </td>
                     }
+
+                    <td>@($"({issue.Comments})")</td>
                 </tr>
             }
         </tbody>

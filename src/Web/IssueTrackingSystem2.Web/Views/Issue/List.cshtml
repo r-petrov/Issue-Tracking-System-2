@@ -9,6 +9,20 @@
 
 <hr />
 <div>
+    @if (this.User.IsInRole(GlobalConstants.AdministratorRoleName)
+        || Model.Milestone.Project.LeaderId == this.UserManager.GetUserId(this.User))
+    {
+        <a asp-area=""
+           asp-controller="@ValuesConstants.IssueControllerName"
+           asp-action="@ValuesConstants.CreateActionName"
+           asp-route-milestoneId="@Model.Milestone.Id"
+           asp-route-leaderId="@Model.Milestone.Project.LeaderId"
+           class="btn btn-success button">
+            @ValuesConstants.Create @GlobalConstants.Issue
+        </a>
+    }
+</div>
+<div>
     @if (Model.Issues != null && Model.Issues.Any())
     {
         <h5>@string.Format(format: MessagesConstants.ClickOnDesiredRow, arg0: GlobalConstants.Milestone)</h5>

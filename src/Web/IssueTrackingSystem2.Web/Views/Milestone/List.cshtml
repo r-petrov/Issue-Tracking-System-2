@@ -51,8 +51,8 @@
                                 @milestone.CompletionDate
                             </td>
                             <td>@milestone.Status.Name</td>
-                            <td>@milestone.Issues.Count</td>
-                            <td>@milestone.CompletedIssues.Count</td>
+                            <td>@($"({milestone.Issues.Count})")</td>
+                            <td>@($"({milestone.CompletedIssues.Count})")</td>
                         </tr>
                     }
                 </tbody>

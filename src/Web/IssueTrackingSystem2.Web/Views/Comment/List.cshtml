@@ -1,0 +1,79 @@
+﻿@model CommentsViewModel
+
+@{
+    ViewData["Title"] = $"{Model.Issue.Title}'s {GlobalConstants.Comments}";
+}
+
+<h1>@this.ViewData["Title"]</h1>
+
+<hr />
+@if (this.User.IsInRole(GlobalConstants.AdministratorRoleName)
+      || Model.Issue.Milestone.Project.LeaderId == this.UserManager.GetUserId(this.User)
+      || Model.Issue.AssigneeId == this.UserManager.GetUserId(this.User))
+{
+    <div>
+        <a asp-area=""
+           asp-controller=@ValuesConstants.CommentControllerName
+           asp-action=@ValuesConstants.CreateActionName
+           asp-route-issueId=@Model.Issue.Id
+           asp-route-leaderId="@Model.Issue.Milestone.Project.LeaderId"
+           asp-route-assigneeId="@Model.Issue.AssigneeId"
+           class="btn btn-success button">
+            @ValuesConstants.Create @GlobalConstants.Comment
+        </a>
+    </div>
+}
+
+<br />
+<div>
+    @if (Model.Comments != null && Model.Comments.Any())
+    {
+        @*<h5>@string.Format(format: MessagesConstants.ClickOnDesiredRow, arg0: GlobalConstants.Comment)</h5>*@
+        <div class="table table-striped col-md-12 fixed">
+            <table class="table table-striped">
+                <thead class="thead-light">
+                    <tr>
+                        <th>@nameof(CommentListViewModel.Text)</th>
+                        <th>@nameof(CommentListViewModel.CreatedBy).SplitStringByCapitalLetters()</th>
+                        <th>@nameof(CommentListViewModel.CreatedAt).SplitStringByCapitalLetters()</th>
+                        <th>@nameof(CommentListViewModel.UpdatedAt).SplitStringByCapitalLetters()</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var comment in Model.Comments)
+                    {
+                        <tr @*onclick="location.href = '@(Url.Action(ValuesConstants.DetailsActionName, ValuesConstants.MilestoneControllerName, new { id = milestone.Id }))'"*@>
+                            <td>@comment.Text</td>
+                            <td>
+                                @($"(ID: {comment.CreatedBy.Id}) {comment.CreatedBy.UserName}")
+                            </td>
+                            <td>
+                                @comment.CreatedAt
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    }
+    else
+    {
+        <div>
+            <p>
+                @string.Format(
+                    format: MessagesConstants.StillNotAddedItems,
+                    arg0: GlobalConstants.Comments,
+                    arg1: Model.Issue.Title)
+            </p>
+        </div>
+    }
+</div>
+<br />
+<div>
+    <a asp-controller="@ValuesConstants.IssueControllerName"
+       asp-action="@ValuesConstants.DetailsActionName"
+       asp-route-id="@Model.Issue.Id"
+       class="btn btn-info">
+        Back to @ValuesConstants.Details
+    </a>
+</div>

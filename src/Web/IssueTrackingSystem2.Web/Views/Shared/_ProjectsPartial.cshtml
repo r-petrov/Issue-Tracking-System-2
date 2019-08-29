@@ -54,8 +54,8 @@
                             </td>
                         }
                         <td>@project.Leader.UserName</td>
-                        <td>@project.Milestones.Count</td>
-                        <td>@project.CompletedMilestones.Count</td>
+                        <td>@($"({project.Milestones.Count})")</td>
+                        <td>@($"({project.CompletedMilestones.Count})")</td>
                         <td>@project.CreatedOn</td>
                     </tr>
                 }

@@ -23,17 +23,15 @@
             </a>
             <a asp-area=""
                asp-controller=@ValuesConstants.CommentControllerName
-               asp-action=@ValuesConstants.CreateActionName
-               asp-route-projectId=@Model.Id
-               asp-route-leaderId="@Model.Milestone.Project.LeaderId"
+               asp-action=@ValuesConstants.ListActionName
+               asp-route-issueId=@Model.Id
                class="btn btn-light text-info button">
                 @GlobalConstants.Comments
             </a>
             <a asp-area=""
                asp-controller=@ValuesConstants.LabelControllerName
-               asp-action=@ValuesConstants.CreateActionName
-               asp-route-id="@Model.Id"
-               asp-route-leaderId="@Model.Milestone.Project.LeaderId"
+               asp-action=@ValuesConstants.ListActionName
+               asp-route-issueId="@Model.Id"
                class="btn btn-light text-info button">
                 @GlobalConstants.Labels
             </a>
