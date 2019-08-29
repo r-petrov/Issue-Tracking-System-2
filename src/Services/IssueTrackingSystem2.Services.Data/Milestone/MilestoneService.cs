@@ -22,9 +22,9 @@
         public IQueryable<MilestoneServiceModel> All(string projectId)
         {
             var milestones = this.repository.All().Where(milestone => milestone.ProjectId == projectId);
-            var milestonListServiceModels = milestones.To<MilestoneServiceModel>();
+            var milestoneListServiceModels = milestones.To<MilestoneServiceModel>();
 
-            return milestonListServiceModels;
+            return milestoneListServiceModels;
         }
 
         public async Task<MilestoneServiceModel> CreateAsync(MilestoneServiceModel milestoneServiceModel)

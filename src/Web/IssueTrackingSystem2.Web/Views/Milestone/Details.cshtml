@@ -34,7 +34,7 @@
 
             <a asp-area=""
                asp-controller="@ValuesConstants.IssueControllerName"
-               asp-action="@ValuesConstants.AllActionName"
+               asp-action="@ValuesConstants.ListActionName"
                asp-route-milestoneId="@Model.Id"
                class="btn btn-light text-info text-lg-center font-weight-bold">
                 @GlobalConstants.Issues
@@ -70,30 +70,7 @@
         </table>
     </div>
 
-    <hr />
-    <div>
-        <h4>@($"{Model.Title}'s {nameof(Model.Issues)}")</h4>
-        @if (Model.Issues != null && Model.Issues.Any())
-        {
-            <partial name="_IssuesPartial" model="@Model.Issues" />
-
-            if (Model.CompletedIssues != null && Model.CompletedIssues.Any())
-            {
-                <br />
-                <h4>@($"{Model.Title}'s {nameof(Model.CompletedIssues)}")</h4>
-                <partial name="_IssuesPartial" model="@Model.CompletedIssues" />
-            }
-        }
-        else
-        {
-            <h6>
-                @string.Format(
-                    format: MessagesConstants.StillNotAddedItems,
-                    arg0: GlobalConstants.Issues,
-                    arg1: Model.Title)
-            </h6>
-        }
-    </div>
+    
 </div>
 <br />
 <div>

@@ -4,11 +4,11 @@
     using IssueTrackingSystem2.Services.Models;
     using IssueTrackingSystem2.Web.ViewModels.Project;
 
-    public class IssueDetailsMilestoneViewModel : IMapFrom<MilestoneServiceModel>
+    public class IssuesMilestoneViewModel : IMapFrom<MilestoneServiceModel>
     {
         public string Id { get; set; }
 
-        public string Name { get; set; }
+        public string Title { get; set; }
 
         public ProjectConciseViewModel Project { get; set; }
     }

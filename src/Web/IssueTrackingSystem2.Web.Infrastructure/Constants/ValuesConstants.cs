@@ -29,5 +29,6 @@
         public const string Details = "Details";
         public const string Update = "Update";
         public const string Add = "Add";
+        public const string List = "List";
     }
 }

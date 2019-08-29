@@ -37,8 +37,8 @@
         // GET: Milestone
         public ActionResult List(string projectId)
         {
-            var milestonListServiceModels = this.milestoneService.All(projectId).ToList();
-            var milestoneListViewModels = milestonListServiceModels.To<MilestoneListViewModel>().ToList();
+            var milestoneListServiceModels = this.milestoneService.All(projectId).ToList();
+            var milestoneListViewModels = milestoneListServiceModels.To<MilestoneListViewModel>().ToList();
             var projectServiceModel = this.projectService.ByIdAsync(projectId).GetAwaiter().GetResult();
             var projectConciseViewModel = projectServiceModel.To<ProjectConciseViewModel>();
             var milestonesViewModel = new MilestonesViewModel()

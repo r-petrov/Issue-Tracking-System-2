@@ -1,0 +1,45 @@
+﻿@using System.Linq
+@model IssuesViewModel
+
+@{
+    ViewData["Title"] = $"{Model.Milestone.Title}'s {GlobalConstants.Issues}";
+}
+
+<h1>@ViewData["Title"]</h1>
+
+<hr />
+<div>
+    @if (Model.Issues != null && Model.Issues.Any())
+    {
+        <h5>@string.Format(format: MessagesConstants.ClickOnDesiredRow, arg0: GlobalConstants.Milestone)</h5>
+        <partial name="_IssuesPartial" model="@Model.Issues" />
+
+        var completedIssues = Model.Issues.Where(issue => 
+            issue.Status.Name.ToLower() == IssueStatuses.Closed.ToString().ToLower()
+            || issue.Status.Name.ToLower() == IssueStatuses.Resolved.ToString().ToLower());
+
+        if (completedIssues != null && completedIssues.Any())
+        {
+            <br />
+            <h4>@($"{Model.Milestone.Title}'s {nameof(completedIssues)}")</h4>
+            <partial name="_IssuesPartial" model="completedIssues" />
+        }
+    }
+    else
+    {
+        <h6>
+            @string.Format(
+                format: MessagesConstants.StillNotAddedItems,
+                arg0: GlobalConstants.Issues,
+                arg1: Model.Milestone.Title)
+        </h6>
+    }
+</div>
+<div>
+    <a asp-controller="@ValuesConstants.MilestoneControllerName"
+       asp-action="@ValuesConstants.DetailsActionName"
+       asp-route-id="@Model.Milestone.Id"
+       class="btn btn-info">
+        Back to @ValuesConstants.Details
+    </a>
+</div>

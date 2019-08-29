@@ -12,6 +12,7 @@
     using IssueTrackingSystem2.Web.InputModels.Issue;
     using IssueTrackingSystem2.Web.InputModels.Milestone;
     using IssueTrackingSystem2.Web.ViewModels.Issue;
+    using IssueTrackingSystem2.Web.ViewModels.Milestone;
     using Microsoft.AspNetCore.Http;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.AspNetCore.Mvc.Rendering;
@@ -39,9 +40,20 @@
             this.statusService = statusService;
         }
 
-        public ActionResult List()
+        public ActionResult List(string milestoneId)
         {
-            return this.View();
+            var issueListServiceModels = this.issueService.All(milestoneId).ToList();
+            var issueListViewModels = issueListServiceModels.To<IssueListViewModel>().ToList();
+            var milestoneServiceModel = this.milestoneService.ByIdAsync(milestoneId).GetAwaiter().GetResult();
+            var milestoneConciseViewModel = milestoneServiceModel.To<IssuesMilestoneViewModel>();
+
+            var issuesViewModel = new IssuesViewModel()
+            {
+                Issues = issueListViewModels,
+                Milestone = milestoneConciseViewModel,
+            };
+
+            return this.View(issuesViewModel);
         }
 
         // GET: Issue/Details/5
@@ -80,22 +92,6 @@
                 {
                     Milestone = this.SetMilestoneConciseInputModel(milestoneId, leaderId),
                 };
-
-                //var milestoneServiceModel = await this.milestoneService.ByIdAsync(milestoneId);
-                //if (milestoneServiceModel == null)
-                //{
-                //    throw new Exception(string.Format(
-                //            format: MessagesConstants.NullItem,
-                //            arg0: GlobalConstants.Milestone,
-                //            arg1: nameof(milestoneId),
-                //            arg2: milestoneId));
-                //}
-
-                //SelectList prioritiesSelectList = this.GetDropdownPriorities(milestoneServiceModel.Project.Priorities);
-                //this.ViewData[GlobalConstants.Priorities] = prioritiesSelectList;
-
-                //var usersSelectList = this.GetDropdownUsers();
-                //this.ViewData[GlobalConstants.Users] = usersSelectList;
 
                 await this.SetDropdowns(milestoneId);
 

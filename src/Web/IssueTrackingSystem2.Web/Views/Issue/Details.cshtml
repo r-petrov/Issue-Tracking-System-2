@@ -60,10 +60,10 @@
             </tr>
             <tr>
                 <th>@nameof(IssueDetailsViewModel.Milestone)</th>
-                <td>(@GlobalConstants.Milestone ID: @Model.Milestone.Id) @Model.Milestone.Name</td>
+                <td>(@GlobalConstants.Milestone ID: @Model.Milestone.Id) @Model.Milestone.Title</td>
             </tr>
             <tr>
-                <th>@nameof(IssueDetailsMilestoneViewModel.Project)</th>
+                <th>@nameof(IssuesMilestoneViewModel.Project)</th>
                 <td>(Project ID: @Model.Milestone.Project.Id) @Model.Milestone.Project.Name</td>
             </tr>
             <tr>
@@ -94,8 +94,8 @@
     </div>
 </div>
 <div>
-    <a asp-controller="@ValuesConstants.MilestoneControllerName" 
-       asp-action="@ValuesConstants.DetailsActionName" 
-       asp-route-id="@Model.Milestone.Id"
+    <a asp-controller="@ValuesConstants.IssueControllerName" 
+       asp-action="@ValuesConstants.ListActionName" 
+       asp-route-milestoneId="@Model.Milestone.Id"
        class="btn btn-info">Back to List</a>
 </div>

@@ -26,7 +26,7 @@
         [Display(Name = "Due Date")]
         public DateTime DueDate { get; set; }
 
-        public IssueDetailsMilestoneViewModel Milestone { get; set; }
+        public IssuesMilestoneViewModel Milestone { get; set; }
 
         //public string AssigneeId { get; set; }
 

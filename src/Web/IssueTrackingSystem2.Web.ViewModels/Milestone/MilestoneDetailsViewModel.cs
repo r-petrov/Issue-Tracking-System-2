@@ -40,7 +40,8 @@
         {
             configuration.CreateMap<MilestoneServiceModel, MilestoneListViewModel>()
                 .ForMember(dest => dest.CompletedIssues, mapper => mapper.MapFrom(
-                    src => src.Issues.Where(issue => issue.Status.Name == IssueStatuses.Closed.ToString()
+                    src => src.Issues.Where(
+                        issue => issue.Status.Name.ToLower() == IssueStatuses.Closed.ToString().ToLower()
                         || issue.Status.Name.ToLower() == IssueStatuses.Resolved.ToString().ToLower())));
         }
     }
