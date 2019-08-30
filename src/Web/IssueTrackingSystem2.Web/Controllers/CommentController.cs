@@ -11,7 +11,6 @@
     using IssueTrackingSystem2.Web.InputModels.Issue;
     using IssueTrackingSystem2.Web.ViewModels.Comment;
     using IssueTrackingSystem2.Web.ViewModels.Issue;
-    using Microsoft.AspNetCore.Http;
     using Microsoft.AspNetCore.Mvc;
     using System;
     using System.Linq;
@@ -137,7 +136,15 @@
                             arg2: commentServiceModel));
                 }
 
-                var commentViewModel = commentServiceModel.To<CommentDetailsViewModel>();
+                var currentUserId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
+                if (!this.User.IsInRole(GlobalConstants.AdministratorRoleName))
+                {
+                    if (currentUserId != commentServiceModel.CreatorId)
+                    {
+                        throw new Exception(MessagesConstants.DeleteCommentsUsersLimitation);
+                    }
+                }
+
                 var issueServiceModel = await this.issueService.ByIdAsync(commentServiceModel.IssueId);
                 if (issueServiceModel == null)
                 {
@@ -148,6 +155,7 @@
                            arg2: commentServiceModel.IssueId));
                 }
 
+                var commentViewModel = commentServiceModel.To<CommentDetailsViewModel>();
                 var issueViewModel = issueServiceModel.To<CommentDeleteIssueViewModel>();
                 var commentDeleteViewModel = new CommentDeleteViewModel()
                 {
