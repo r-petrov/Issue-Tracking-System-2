@@ -22,7 +22,12 @@
 
         public IEnumerable<IssueServiceModel> All(string milestoneId)
         {
-            var issues = this.repository.All().Where(issue => issue.MilestoneId == milestoneId).ToList();
+            var issues = this.repository
+                .All()
+                .Where(issue => issue.MilestoneId == milestoneId)
+                .OrderByDescending(issue => issue.DueDate)
+                .ToList();
+
             var issueListServiceModels = issues.To<IssueServiceModel>();
 
             return issueListServiceModels;

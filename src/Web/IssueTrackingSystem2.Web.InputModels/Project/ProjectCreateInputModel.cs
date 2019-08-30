@@ -21,10 +21,10 @@
         [Required]
         public string Priorities { get; set; }
 
-        //public void CreateMappings(IProfileExpression configuration)
-        //{
-        ////    configuration.CreateMap<ProjectCreateInputModel, ProjectServiceModel>()
-        ////        .ForMember(dest => dest.CreatedOn, mapper => mapper.MapFrom(src => DateTime.UtcNow));
-        //}
+        public void CreateMappings(IProfileExpression configuration)
+        {
+            configuration.CreateMap<ProjectCreateInputModel, ProjectServiceModel>()
+                .ForMember(dest => dest.CreatedOn, mapper => mapper.MapFrom(src => DateTime.UtcNow));
+        }
     }
 }

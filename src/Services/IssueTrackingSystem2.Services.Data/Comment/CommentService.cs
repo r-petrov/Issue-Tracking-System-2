@@ -21,7 +21,12 @@
 
         public IEnumerable<CommentServiceModel> All(string issueId)
         {
-            var comments = this.repository.All().Where(comment => comment.IssueId == issueId).ToList();
+            var comments = this.repository
+                .All()
+                .Where(comment => comment.IssueId == issueId)
+                .OrderByDescending(comment => comment.CreatedAt)
+                .ToList();
+
             var commentServiceModels = comments.To<CommentServiceModel>();
 
             return commentServiceModels;

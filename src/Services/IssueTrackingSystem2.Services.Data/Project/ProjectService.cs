@@ -25,7 +25,7 @@
 
         public IEnumerable<ProjectServiceModel> All()
         {
-            var projects = this.repository.All().ToList();
+            var projects = this.repository.All().OrderByDescending(project => project.CreatedOn).ToList();
             var projectServiceModels = projects.To<ProjectServiceModel>();
 
             return projectServiceModels;

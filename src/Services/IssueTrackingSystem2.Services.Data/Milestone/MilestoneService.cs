@@ -28,6 +28,18 @@
         //    return milestoneListServiceModels;
         //}
 
+        public IEnumerable<MilestoneServiceModel> All(string projectId)
+        {
+            var milestones = this.repository
+                .All()
+                .Where(milestone => milestone.ProjectId == projectId)
+                .OrderByDescending(milestone => milestone.CompletionDate)
+                .ToList();
+            var milestoneListServiceModels = milestones.To<MilestoneServiceModel>();
+
+            return milestoneListServiceModels;
+        }
+
         public async Task<MilestoneServiceModel> CreateAsync(MilestoneServiceModel milestoneServiceModel)
         {
             var milestone = milestoneServiceModel.To<Milestone>();
@@ -91,14 +103,6 @@
             var milestoneServiceModelResult = milestoneResult.To<MilestoneServiceModel>();
 
             return milestoneServiceModelResult;
-        }
-
-        public IEnumerable<MilestoneServiceModel> All(string projectId)
-        {
-            var milestones = this.repository.All().Where(milestone => milestone.ProjectId == projectId).ToList();
-            var milestoneListServiceModels = milestones.To<MilestoneServiceModel>();
-
-            return milestoneListServiceModels;
         }
     }
 }

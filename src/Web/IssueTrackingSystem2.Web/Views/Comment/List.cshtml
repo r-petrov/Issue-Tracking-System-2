@@ -65,7 +65,6 @@
                         <th>@nameof(CommentListViewModel.Text)</th>
                         <th>@nameof(CommentListViewModel.CreatedBy).SplitStringByCapitalLetters()</th>
                         <th>@nameof(CommentListViewModel.CreatedAt).SplitStringByCapitalLetters()</th>
-                        <th>@nameof(CommentListViewModel.UpdatedAt).SplitStringByCapitalLetters()</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -79,15 +78,6 @@
                         <td>
                             @comment.CreatedAt
                         </td>
-                        @if (comment.UpdatedAt != null && comment.UpdatedAt != DateTime.MinValue)
-                        {
-                            <td>@comment.UpdatedAt</td>
-                        }
-                        else
-                        {
-                            <td>-</td>
-                        }
-
                         @if (this.User.IsInRole(GlobalConstants.AdministratorRoleName))
                         {
                             <td>
