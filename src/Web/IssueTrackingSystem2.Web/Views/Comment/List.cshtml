@@ -71,32 +71,39 @@
                 <tbody>
                     @foreach (var comment in Model.Comments)
                     {
-                        <tr @*onclick="location.href = '@(Url.Action(ValuesConstants.DetailsActionName, ValuesConstants.MilestoneControllerName, new { id = milestone.Id }))'"*@>
-                            <td>@comment.Text</td>
+                    <tr @*onclick="location.href = '@(Url.Action(ValuesConstants.DetailsActionName, ValuesConstants.MilestoneControllerName, new { id = milestone.Id }))'"*@>
+                        <td>@comment.Text</td>
+                        <td>
+                            @($"(ID: {comment.CreatedBy.Id}) {comment.CreatedBy.UserName}")
+                        </td>
+                        <td>
+                            @comment.CreatedAt
+                        </td>
+                        @if (comment.UpdatedAt != null && comment.UpdatedAt != DateTime.MinValue)
+                        {
+                            <td>@comment.UpdatedAt</td>
+                        }
+                        else
+                        {
+                            <td>-</td>
+                        }
+
+                        @if (this.User.IsInRole(GlobalConstants.AdministratorRoleName))
+                        {
                             <td>
-                                @($"(ID: {comment.CreatedBy.Id}) {comment.CreatedBy.UserName}")
-                            </td>
-                            <td>
-                                @comment.CreatedAt
-                            </td>
-                            @if (comment.UpdatedAt != null && comment.UpdatedAt != DateTime.MinValue)
-                            {
-                                <td>@comment.UpdatedAt</td>
-                            }
-                            else
-                            {
-                                <td>-</td>
-                            }
-                            <td><a asp-action="Delete" 
+                                <a asp-area="@ValuesConstants.AdministrationAreaName"
+                                   asp-controller="@ValuesConstants.CommentControllerName"
+                                   asp-action="@ValuesConstants.DeleteActionName"
                                    asp-route-id="@comment.Id"
                                    asp-route-issueId="@Model.Issue.Id"
                                    asp-route-leaderId="@Model.Issue.Milestone.Project.LeaderId"
                                    asp-route-assigneeId="@Model.Issue.AssigneeId"
                                    class="btn btn-danger">
-                                Delete
+                                    Delete
                                 </a>
                             </td>
-                        </tr>
+                        }
+                    </tr>
                     }
                 </tbody>
             </table>
