@@ -17,6 +17,7 @@
 
         public const string LeaderId = "leaderId";
         public const string AssigneeId = "assigneeId";
+        public const string IssueId = "issueId";
 
         public const string Project = "Project";
         public const string Milestone = "Milestone";

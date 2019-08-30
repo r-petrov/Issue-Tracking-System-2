@@ -26,7 +26,7 @@
                    asp-action=@ValuesConstants.CreateActionName
                    asp-route-leaderId="@Model.Leader.Id"
                    class="btn btn-success button">
-                    Create Label
+                    @GlobalConstants.Label
                 </a>
 
                 @if (this.User.IsInRole(GlobalConstants.AdministratorRoleName))

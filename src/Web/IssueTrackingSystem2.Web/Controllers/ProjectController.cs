@@ -29,7 +29,7 @@
         {
             // TODO: Add Pagination
             // TODO: Add filters, i.e. Project name
-            var projectListServiceModels = this.projectService.All().ToList();
+            var projectListServiceModels = this.projectService.All();
             var projectListViewModels = projectListServiceModels
                     .To<ProjectListViewModel>()
                     .OrderByDescending(project => project.CreatedOn);

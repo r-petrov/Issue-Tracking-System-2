@@ -1,0 +1,41 @@
+﻿@model IssueTrackingSystem2.Web.InputModels.Comment.CommentCreateInputModel
+
+@{
+    ViewData["Title"] = $"{ValuesConstants.Create} {GlobalConstants.Comment}";
+}
+
+<h1>@ViewData["Title"]</h1>
+
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Text" class="control-label"></label>
+                <textarea asp-for="Text" class="form-control" ></textarea>
+                <span asp-validation-for="Text" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input asp-route-issueId="@Model.Issue.Id"
+                       asp-route-leaderId="@Model.Issue.Milestone.ProjectLeaderId"
+                       asp-route-assigneeId="@Model.Issue.AssigneeId"
+                       type="submit" 
+                       value="Create"
+                       class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-controller="@ValuesConstants.CommentControllerName" 
+       asp-action="@ValuesConstants.ListActionName" 
+       asp-route-issueId="@Model.Issue.Id"
+       class="btn btn-info">Back to List
+    </a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

@@ -1,10 +1,15 @@
 ﻿namespace IssueTrackingSystem2.Services.Data.Comment
 {
     using IssueTrackingSystem2.Services.Models;
+    using System.Collections.Generic;
     using System.Linq;
+    using System.Threading.Tasks;
 
     public interface ICommentService
     {
-        IQueryable<CommentServiceModel> All(string issueId);
+        IEnumerable<CommentServiceModel> All(string issueId);
+        //IQueryable<CommentServiceModel> All(string issueId);
+
+        Task<CommentServiceModel> CreateAsync(CommentServiceModel commentServiceModel);
     }
 }

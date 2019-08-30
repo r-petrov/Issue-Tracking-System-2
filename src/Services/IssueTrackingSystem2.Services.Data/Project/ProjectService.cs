@@ -8,6 +8,7 @@
     using IssueTrackingSystem2.Services.Models;
     using Microsoft.AspNetCore.Identity;
     using System;
+    using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
 
@@ -22,11 +23,12 @@
             this.userManager = userManager;
         }
 
-        public IQueryable<ProjectServiceModel> All()
+        public IEnumerable<ProjectServiceModel> All()
         {
-            var projects = this.repository.All().To<ProjectServiceModel>();
+            var projects = this.repository.All().ToList();
+            var projectServiceModels = projects.To<ProjectServiceModel>();
 
-            return projects;
+            return projectServiceModels;
         }
 
         public async Task<ProjectServiceModel> ByIdAsync(string id)

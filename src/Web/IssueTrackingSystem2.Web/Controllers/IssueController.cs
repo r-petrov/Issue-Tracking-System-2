@@ -42,7 +42,7 @@
 
         public ActionResult List(string milestoneId)
         {
-            var issueListServiceModels = this.issueService.All(milestoneId).ToList();
+            var issueListServiceModels = this.issueService.All(milestoneId);
             var issueListViewModels = issueListServiceModels.To<IssueListViewModel>().ToList();
             var milestoneServiceModel = this.milestoneService.ByIdAsync(milestoneId).GetAwaiter().GetResult();
             var milestoneConciseViewModel = milestoneServiceModel.To<IssuesMilestoneViewModel>();
@@ -101,7 +101,9 @@
             {
                 this.ViewData[ValuesConstants.InvalidArgument] = ex.Message;
 
-                return this.RedirectToAction(nameof(this.List));
+                return this.RedirectToAction(
+                    actionName: nameof(this.List),
+                    routeValues: new { milestoneId = milestoneId });
             }
         }
 

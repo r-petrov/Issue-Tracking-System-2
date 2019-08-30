@@ -1,5 +1,9 @@
 ﻿@model CommentsViewModel
 
+@*<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>*@
+
 @{
     ViewData["Title"] = $"{Model.Issue.Title}'s {GlobalConstants.Comments}";
 }
@@ -8,8 +12,8 @@
 
 <hr />
 @if (this.User.IsInRole(GlobalConstants.AdministratorRoleName)
-      || Model.Issue.Milestone.Project.LeaderId == this.UserManager.GetUserId(this.User)
-      || Model.Issue.AssigneeId == this.UserManager.GetUserId(this.User))
+        || Model.Issue.Milestone.Project.LeaderId == this.UserManager.GetUserId(this.User)
+        || Model.Issue.AssigneeId == this.UserManager.GetUserId(this.User))
 {
     <div>
         <a asp-area=""
@@ -19,9 +23,34 @@
            asp-route-leaderId="@Model.Issue.Milestone.Project.LeaderId"
            asp-route-assigneeId="@Model.Issue.AssigneeId"
            class="btn btn-success button">
-            @ValuesConstants.Create @GlobalConstants.Comment
+            @ValuesConstants.Create
         </a>
     </div>
+
+    @*<!-- Trigger the modal with a button -->
+    <button type="button" class="btn btn-success btn-lg" data-toggle="modal" data-target="#myModal">Add Comment</button>
+
+    <!-- Modal -->
+    <div id="myModal" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+            <form asp-controller="@ValuesConstants.CommentControllerName" asp-action="Create">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <div class="form-group">
+                    <label asp-for="Text" class="control-label"></label>
+                    <textarea asp-for="Text" class="form-control text-success" />
+                    <span asp-validation-for="Text" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <input asp-controller="@ValuesConstants.CommentControllerName"
+                           asp-action="@ValuesConstants.CreateActionName"
+                           asp-route-issueId="@this.ViewData[GlobalConstants.IssueId]"
+                           type="submit"
+                           value="Create"
+                           class="btn btn-primary" />
+                </div>
+            </form>
+        </div>
+    </div>*@
 }
 
 <br />
@@ -50,6 +79,15 @@
                             <td>
                                 @comment.CreatedAt
                             </td>
+                            @if (comment.UpdatedAt != null && comment.UpdatedAt != DateTime.MinValue)
+                            {
+                                <td>@comment.UpdatedAt</td>
+                            }
+                            else
+                            {
+                                <td>-</td>
+                            }
+
                         </tr>
                     }
                 </tbody>

@@ -7,6 +7,7 @@
     using IssueTrackingSystem2.Services.Mapping;
     using IssueTrackingSystem2.Services.Models;
     using System;
+    using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
 
@@ -19,13 +20,13 @@
             this.repository = repository;
         }
 
-        public IQueryable<MilestoneServiceModel> All(string projectId)
-        {
-            var milestones = this.repository.All().Where(milestone => milestone.ProjectId == projectId);
-            var milestoneListServiceModels = milestones.To<MilestoneServiceModel>();
+        //public IQueryable<MilestoneServiceModel> All(string projectId)
+        //{
+        //    var milestones = this.repository.All().Where(milestone => milestone.ProjectId == projectId);
+        //    var milestoneListServiceModels = milestones.To<MilestoneServiceModel>();
 
-            return milestoneListServiceModels;
-        }
+        //    return milestoneListServiceModels;
+        //}
 
         public async Task<MilestoneServiceModel> CreateAsync(MilestoneServiceModel milestoneServiceModel)
         {
@@ -90,6 +91,14 @@
             var milestoneServiceModelResult = milestoneResult.To<MilestoneServiceModel>();
 
             return milestoneServiceModelResult;
+        }
+
+        public IEnumerable<MilestoneServiceModel> All(string projectId)
+        {
+            var milestones = this.repository.All().Where(milestone => milestone.ProjectId == projectId).ToList();
+            var milestoneListServiceModels = milestones.To<MilestoneServiceModel>();
+
+            return milestoneListServiceModels;
         }
     }
 }
