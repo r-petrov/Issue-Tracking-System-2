@@ -19,6 +19,8 @@
         public const string CreateActionName = "Create";
         public const string UpdateActionName = "Update";
         public const string AllActionName = "All";
+        public const string DeleteActionName = "Delete";
+        public const string ConfirmDeleteActionName = "ConfirmDelete";
 
         public const string ProjectId = "ProjectId";
         public const string LeaderId = "LeaderId";
@@ -30,5 +32,7 @@
         public const string Update = "Update";
         public const string Add = "Add";
         public const string List = "List";
+        public const string Delete = "Delete";
+        public const string ConfirmDelete = "ConfirmDelete";
     }
 }

@@ -1,0 +1,50 @@
+﻿@model CommentDeleteViewModel
+
+@{
+    ViewData["Title"] = $"{ValuesConstants.Delete} {GlobalConstants.Comment}";
+}
+
+<h1>@ViewData["Title"]</h1>
+
+<h3>Are you sure you want to delete this comment?</h3>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="@ValuesConstants.ConfirmDelete">
+            <div class="form-group">
+                <label asp-for="@Model.Comment.Id" class="control-label"></label>
+                <input type="text" class="form-control" value="@Model.Comment.Id" disabled />
+            </div>
+            <div class="form-group">
+                <label asp-for="@Model.Comment.Text" class="control-label"></label>
+                <input type="text" class="form-control" value="@Model.Comment.Text" disabled />
+            </div>
+            <div class="form-group">
+                <label asp-for="@Model.Comment.CreatedBy" class="control-label"></label>
+                <input type="text" class="form-control" value="@Model.Comment.CreatedBy.UserName" disabled />
+            </div>
+            <div class="form-group">
+                <label asp-for="@Model.Comment.CreatedAt" class="control-label"></label>
+                <input type="text" class="form-control" value="@Model.Comment.CreatedAt" disabled />
+            </div>
+            <div class="form-group">
+                <input asp-action="@ValuesConstants.ConfirmDeleteActionName"
+                       asp-route-id="@Model.Comment.Id"
+                       asp-route-issueId="@Model.Issue.Id"
+                       asp-route-leaderId="@Model.Issue.Milestone.ProjectLeaderId"
+                       asp-route-assigneeId="@Model.Issue.AssigneeId"
+                       type="submit"
+                       value="@ValuesConstants.Delete"
+                       class="btn btn-danger" />
+            </div>
+        </form>
+    </div>
+</div>
+<div>
+    <a asp-controller="@ValuesConstants.CommentControllerName"
+       asp-action="@ValuesConstants.ListActionName"
+       asp-route-issueId="@Model.Issue.Id"
+       class="btn btn-info">
+        Back to List
+    </a>
+</div>

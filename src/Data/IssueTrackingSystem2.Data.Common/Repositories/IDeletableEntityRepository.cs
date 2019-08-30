@@ -15,6 +15,8 @@
 
         Task<TEntity> GetByIdWithDeletedAsync(params object[] id);
 
+        Task<TEntity> DeleteAsync(TEntity entity);
+
         void HardDelete(TEntity entity);
 
         bool HardDeleteMultiple(IEnumerable<TEntity> entities);

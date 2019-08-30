@@ -87,7 +87,15 @@
                             {
                                 <td>-</td>
                             }
-
+                            <td><a asp-action="Delete" 
+                                   asp-route-id="@comment.Id"
+                                   asp-route-issueId="@Model.Issue.Id"
+                                   asp-route-leaderId="@Model.Issue.Milestone.Project.LeaderId"
+                                   asp-route-assigneeId="@Model.Issue.AssigneeId"
+                                   class="btn btn-danger">
+                                Delete
+                                </a>
+                            </td>
                         </tr>
                     }
                 </tbody>

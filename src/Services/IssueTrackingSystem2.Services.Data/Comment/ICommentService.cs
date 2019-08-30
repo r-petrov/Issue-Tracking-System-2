@@ -9,7 +9,10 @@
     {
         IEnumerable<CommentServiceModel> All(string issueId);
         //IQueryable<CommentServiceModel> All(string issueId);
+        Task<CommentServiceModel> ByIdAsync(string id);
 
         Task<CommentServiceModel> CreateAsync(CommentServiceModel commentServiceModel);
+
+        Task<CommentServiceModel> RemoveSafeAsync(string id);
     }
 }

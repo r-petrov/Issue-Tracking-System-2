@@ -58,5 +58,15 @@
 
             this.UpdateAsync(entity).GetAwaiter().GetResult();
         }
+
+        public async Task<TEntity> DeleteAsync(TEntity entity)
+        {
+            entity.IsDeleted = true;
+            entity.DeletedOn = DateTime.UtcNow;
+
+            var result = await this.UpdateAsync(entity);
+
+            return result;
+        }
     }
 }

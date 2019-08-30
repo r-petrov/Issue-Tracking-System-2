@@ -120,27 +120,59 @@
             }
         }
 
-        // GET: Comment/Delete/5
-        public ActionResult Delete(int id)
+        //// GET: Comment/Delete/5
+        [HttpGet]
+        [IssueAssigneeFilterAttribute]
+        public async Task<ActionResult> Delete(string id, string issueId, string leaderId, string assigneeId)
         {
-            return View();
+            try
+            {
+                var commentServiceModel = await this.commentService.ByIdAsync(id);
+                if (commentServiceModel == null)
+                {
+                    throw new Exception(string.Format(
+                            format: MessagesConstants.NullItem,
+                            arg0: GlobalConstants.Comment,
+                            arg1: nameof(commentServiceModel),
+                            arg2: commentServiceModel));
+                }
+
+                var commentViewModel = commentServiceModel.To<CommentDetailsViewModel>();
+                var issueServiceModel = await this.issueService.ByIdAsync(commentServiceModel.IssueId);
+                if (issueServiceModel == null)
+                {
+                    throw new Exception(string.Format(
+                           format: MessagesConstants.NullItem,
+                           arg0: GlobalConstants.Issue,
+                           arg1: nameof(CommentServiceModel.IssueId),
+                           arg2: commentServiceModel.IssueId));
+                }
+
+                var issueViewModel = issueServiceModel.To<CommentDeleteIssueViewModel>();
+                var commentDeleteViewModel = new CommentDeleteViewModel()
+                {
+                    Comment = commentViewModel,
+                    Issue = issueViewModel,
+                };
+
+                return this.View(commentDeleteViewModel);
+            }
+            catch (Exception ex)
+            {
+                this.ViewData[ValuesConstants.InvalidArgument] = ex.Message;
+
+                return this.RedirectToAction(actionName: nameof(this.List), routeValues: new { issueId = issueId });
+            }
         }
 
         // POST: Comment/Delete/5
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id, IFormCollection collection)
+        [IssueAssigneeFilterAttribute]
+        public async Task<ActionResult> ConfirmDelete(string id, string issueId, string leaderId, string assigneeId)
         {
-            try
-            {
-                // TODO: Add delete logic here
+            var commentServiceModelResult = await this.commentService.RemoveSafeAsync(id);
 
-                return this.RedirectToAction(nameof(this.List));
-            }
-            catch
-            {
-                return View();
-            }
+            return this.RedirectToAction(actionName: nameof(this.List), routeValues: new { issueId = issueId });
         }
 
         private async Task<IssueConciseInputModel> SetIssueConciseInputModel(string issueId)
@@ -156,6 +188,7 @@
             }
 
             var issueConciseInputModel = issueServiceModel.To<IssueConciseInputModel>();
+
             return issueConciseInputModel;
         }
     }
