@@ -58,6 +58,15 @@
         public async Task<IssueServiceModel> ByIdAsync(string id)
         {
             var issue = await this.repository.ByIdAsync(id);
+            if (issue == null)
+            {
+                throw new Exception(string.Format(
+                    format: MessagesConstants.NullItem,
+                    arg0: nameof(issue),
+                    arg1: nameof(id),
+                    arg2: id));
+            }
+
             var issueServiceModel = issue.To<IssueServiceModel>();
 
             return issueServiceModel;

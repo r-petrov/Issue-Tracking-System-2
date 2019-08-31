@@ -1,0 +1,68 @@
+﻿@model LabelDetailsViewModel
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h1>@ViewData["Title"]</h1>
+
+<div class="flex-elements">
+    <div class="col-md-8">
+        <hr />
+        <table class="table table-striped">
+            <tr>
+                <th>@nameof(LabelDetailsViewModel.Title):</th>
+                <td>
+                    <span style="color:@Model.Color" class="text-white font-weight-bold">
+                        @Model.Title
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <th>@nameof(LabelDetailsViewModel.Description):</th>
+                <td>@Model.Description</td>
+            </tr>
+            <tr>
+                <th>@nameof(LabelDetailsViewModel.CreatedBy).SplitStringByCapitalLetters():</th>
+                <td>(Current ID: @Model.CreatedBy.Id) @Model.CreatedBy.UserName</td>
+            </tr>
+            <tr>
+                <th>@nameof(LabelDetailsViewModel.Projects)</th>
+                <td>
+                    @foreach (var project in Model.Projects)
+                    {
+                        <span>
+                            <a asp-controller="@ValuesConstants.ProjectControllerName"
+                               asp-action="@ValuesConstants.DetailsActionName"
+                               asp-route-id="@project.Id">
+                                @project.Name
+                            </a>
+                        </span>
+                    }
+                </td>
+            </tr>
+            <tr>
+                <th>@nameof(LabelDetailsViewModel.Issues)</th>
+                <td>
+                    @foreach (var issue in Model.Issues)
+                    {
+                        <span>
+                            <a asp-controller="@ValuesConstants.ProjectControllerName"
+                               asp-action="@ValuesConstants.DetailsActionName"
+                               asp-route-id="@issue.Id">
+                                @issue.Title
+                            </a>
+                        </span>
+                    }
+                </td>
+            </tr>
+        </table>
+    </div>
+</div>
+<div>
+    <a asp-controller="@ValuesConstants.LabelControllerName"
+       asp-action="@ValuesConstants.ListActionName"
+       class="btn btn-info font-weight-bold">
+        Back to List
+    </a>
+</div>
