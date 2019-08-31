@@ -18,9 +18,9 @@
     <header>
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
             <div class="container">
-                <a class="navbar-brand" 
-                   asp-area="" 
-                   asp-controller="@ValuesConstants.ProjectControllerName" 
+                <a class="navbar-brand"
+                   asp-area=""
+                   asp-controller="@ValuesConstants.ProjectControllerName"
                    asp-action="@ValuesConstants.ListActionName">
                     IssueTrackingSystem2
                 </a>
@@ -45,16 +45,24 @@
                     {
                         <ul class="navbar-nav flex-grow-1">
                             <li class="nav-item">
-                                <a asp-area="" 
-                                   asp-controller="@ValuesConstants.ProjectControllerName" 
+                                <a asp-area=""
+                                   asp-controller="@ValuesConstants.ProjectControllerName"
                                    asp-action="@ValuesConstants.ListActionName"
                                    class="nav-link text-dark">
-                                    Projects
+                                    @GlobalConstants.Projects
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Settings" asp-action="Index">Settings</a>
+                                <a asp-area=""
+                                   asp-controller="@ValuesConstants.IssueControllerName"
+                                   asp-action="@ValuesConstants.ListAllActionName"
+                                   class="nav-link text-dark">
+                                    @GlobalConstants.Issues
+                                </a>
                             </li>
+                            @*<li class="nav-item">
+                                    <a class="nav-link text-dark" asp-area="" asp-controller="Settings" asp-action="Index">Settings</a>
+                                </li>*@
                             <li class="nav-item">
                                 <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
                             </li>
@@ -86,27 +94,27 @@
         </footer>
     }
 
-        @*<footer class="border-top footer text-muted">
-                <div class="container">
-                    &copy; @DateTime.Now.Year - IssueTrackingSystem2 - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-                </div>
-            </footer>*@
+    @*<footer class="border-top footer text-muted">
+            <div class="container">
+                &copy; @DateTime.Now.Year - IssueTrackingSystem2 - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+            </div>
+        </footer>*@
 
-        <environment names="Development">
-            <script src="~/lib/jquery/dist/jquery.js" asp-append-version="true"></script>
-            <script src="~/lib/jquery-validation/dist/jquery.validate.js" asp-append-version="true"></script>
-            <script src="~/lib/jquery-validation-unobtrusive/dist/jquery.validate.unobtrusive.js" asp-append-version="true"></script>
-            <script src="~/lib/bootstrap/dist/js/bootstrap.js" asp-append-version="true"></script>
-            <script src="~/js/site.js" asp-append-version="true"></script>
-        </environment>
-        <environment names="Staging,Production">
-            <script src="~/lib/jquery/dist/jquery.min.js" asp-append-version="true"></script>
-            <script src="~/lib/jquery-validation/dist/jquery.validate.min.js" asp-append-version="true"></script>
-            <script src="~/lib/jquery-validation-unobtrusive/dist/jquery.validate.unobtrusive.js" asp-append-version="true"></script>
-            <script src="~/lib/bootstrap/dist/js/bootstrap.min.js" asp-append-version="true"></script>
-            <script src="~/js/site.min.js" asp-append-version="true"></script>
-        </environment>
+    <environment names="Development">
+        <script src="~/lib/jquery/dist/jquery.js" asp-append-version="true"></script>
+        <script src="~/lib/jquery-validation/dist/jquery.validate.js" asp-append-version="true"></script>
+        <script src="~/lib/jquery-validation-unobtrusive/dist/jquery.validate.unobtrusive.js" asp-append-version="true"></script>
+        <script src="~/lib/bootstrap/dist/js/bootstrap.js" asp-append-version="true"></script>
+        <script src="~/js/site.js" asp-append-version="true"></script>
+    </environment>
+    <environment names="Staging,Production">
+        <script src="~/lib/jquery/dist/jquery.min.js" asp-append-version="true"></script>
+        <script src="~/lib/jquery-validation/dist/jquery.validate.min.js" asp-append-version="true"></script>
+        <script src="~/lib/jquery-validation-unobtrusive/dist/jquery.validate.unobtrusive.js" asp-append-version="true"></script>
+        <script src="~/lib/bootstrap/dist/js/bootstrap.min.js" asp-append-version="true"></script>
+        <script src="~/js/site.min.js" asp-append-version="true"></script>
+    </environment>
 
-        @this.RenderSection("Scripts", required: false)
-    </body>
+    @this.RenderSection("Scripts", required: false)
+</body>
 </html>

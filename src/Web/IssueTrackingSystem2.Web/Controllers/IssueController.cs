@@ -42,7 +42,7 @@
 
         public ActionResult List(string milestoneId)
         {
-            var issueListServiceModels = this.issueService.All(milestoneId);
+            var issueListServiceModels = this.issueService.List(milestoneId);
             var issueListViewModels = issueListServiceModels.To<IssueListViewModel>().ToList();
             var milestoneServiceModel = this.milestoneService.ByIdAsync(milestoneId).GetAwaiter().GetResult();
             var milestoneConciseViewModel = milestoneServiceModel.To<IssuesMilestoneViewModel>();
@@ -54,6 +54,14 @@
             };
 
             return this.View(issuesViewModel);
+        }
+
+        public ActionResult ListAll()
+        {
+            var issueListServiceModels = this.issueService.ListAll();
+            var issueListViewModels = issueListServiceModels.To<IssueListViewModel>().ToList();
+
+            return this.View(issueListViewModels);
         }
 
         // GET: Issue/Details/5

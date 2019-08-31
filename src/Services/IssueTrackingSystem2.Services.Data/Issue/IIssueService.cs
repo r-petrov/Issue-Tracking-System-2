@@ -7,7 +7,9 @@
 
     public interface IIssueService
     {
-        IEnumerable<IssueServiceModel> All(string milestoneId);
+        IEnumerable<IssueServiceModel> ListAll();
+
+        IEnumerable<IssueServiceModel> List(string milestoneId);
         //IQueryable<IssueServiceModel> All(string milestoneId);
 
         Task<IssueServiceModel> CreateAsync(IssueServiceModel issueServiceModel);

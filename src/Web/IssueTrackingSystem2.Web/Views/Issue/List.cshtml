@@ -22,10 +22,11 @@
         </a>
     }
 </div>
+<br />
 <div>
     @if (Model.Issues != null && Model.Issues.Any())
     {
-        <h5>@string.Format(format: MessagesConstants.ClickOnDesiredRow, arg0: GlobalConstants.Milestone)</h5>
+        <h5 class="text-info">@string.Format(format: MessagesConstants.ClickOnDesiredRow, arg0: GlobalConstants.Issue)</h5>
         <partial name="_IssuesPartial" model="@Model.Issues" />
 
         var completedIssues = Model.Issues.Where(issue => 

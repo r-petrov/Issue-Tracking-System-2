@@ -5,10 +5,10 @@
         <thead class="thead-light">
             <tr>
                 <th>@nameof(IssueListViewModel.Title)</th>
+                <th>@nameof(IssueListViewModel.Labels)</th>
                 <th>@nameof(IssueListViewModel.Status)</th>
                 <th>@nameof(IssueListViewModel.DueDate)</th>
                 <th>@nameof(IssueListViewModel.Assignee)</th>
-                <th>@nameof(IssueListViewModel.Labels)</th>
                 <th>@nameof(IssueListViewModel.Comments)</th>
             </tr>
         </thead>
@@ -17,9 +17,6 @@
             {
                 <tr onclick="location.href = '@(Url.Action(ValuesConstants.DetailsActionName, ValuesConstants.IssueControllerName, new { id = issue.Id }))'">
                     <td>@issue.Title</td>
-                    <td>@issue.Status.Name</td>
-                    <td>@issue.DueDate</td>
-                    <td>@issue.Assignee.UserName</td>
                     @if (issue.Labels != null && issue.Labels.Any())
                     {
                         <td><partial name="_LabelsPartial" model="issue.Labels"></td>
@@ -33,7 +30,9 @@
                                 arg1: $"{issue.Title} issue")
                         </td>
                     }
-
+                    <td>@issue.Status.Name</td>
+                    <td>@issue.DueDate</td>
+                    <td>@issue.Assignee.UserName</td>
                     <td>@($"({issue.Comments})")</td>
                 </tr>
             }

@@ -14,6 +14,17 @@
   <PropertyGroup>
     <CodeAnalysisRuleSet>..\..\Rules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="Areas\Administration\Views\Issue\**" />
+    <Content Remove="Areas\Administration\Views\Issue\**" />
+    <EmbeddedResource Remove="Areas\Administration\Views\Issue\**" />
+    <None Remove="Areas\Administration\Views\Issue\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Remove="Areas\Administration\Controllers\IssuesController.cs" />
+  </ItemGroup>
   <ItemGroup>
     <AdditionalFiles Include="..\..\stylecop.json" />
   </ItemGroup>

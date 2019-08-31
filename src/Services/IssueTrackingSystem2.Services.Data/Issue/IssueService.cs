@@ -20,7 +20,19 @@
             this.repository = repository;
         }
 
-        public IEnumerable<IssueServiceModel> All(string milestoneId)
+        public IEnumerable<IssueServiceModel> ListAll()
+        {
+            var issues = this.repository
+                .All()
+                .OrderByDescending(issue => issue.DueDate)
+                .ToList();
+
+            var issueListServiceModels = issues.To<IssueServiceModel>();
+
+            return issueListServiceModels;
+        }
+
+        public IEnumerable<IssueServiceModel> List(string milestoneId)
         {
             var issues = this.repository
                 .All()
@@ -32,14 +44,6 @@
 
             return issueListServiceModels;
         }
-
-        //public IQueryable<IssueServiceModel> All(string milestoneId)
-        //{
-        //    var issues = this.repository.All().Where(issue => issue.MilestoneId == milestoneId);
-        //    var issueListServiceModels = issues.To<IssueServiceModel>();
-
-        //    return issueListServiceModels;
-        //}
 
         public async Task<IssueServiceModel> CreateAsync(IssueServiceModel issueServiceModel)
         {

@@ -4,7 +4,6 @@
 @using IssueTrackingSystem2.Common.Enums
 @using IssueTrackingSystem2.Data.Models
 @using IssueTrackingSystem2.Web
-@using IssueTrackingSystem2.Web.Infrastructure.Constants
 @using IssueTrackingSystem2.Web.InputModels
 @using IssueTrackingSystem2.Web.InputModels.Comment
 @using IssueTrackingSystem2.Web.InputModels.Issue
@@ -19,6 +18,8 @@
 @using IssueTrackingSystem2.Web.ViewModels.Project
 @using Microsoft.AspNetCore.Identity
 @using Microsoft.AspNetCore.Mvc.Rendering;
+@using IssueTrackingSystem2.Web.Infrastructure.Constants;
+@using System.Security.Claims;
 
 @inject SignInManager<ApplicationUser> SignInManager
 @inject UserManager<ApplicationUser> UserManager

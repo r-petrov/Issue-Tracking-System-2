@@ -15,6 +15,7 @@
         public const string CommentControllerName = "Comment";
 
         public const string ListActionName = "List";
+        public const string ListAllActionName = "ListAll";
         public const string DetailsActionName = "Details";
         public const string CreateActionName = "Create";
         public const string UpdateActionName = "Update";

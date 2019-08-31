@@ -1,0 +1,47 @@
+﻿@model IEnumerable<IssueListViewModel>
+
+@{
+    var completedIssues = Model.Where(issue =>
+                issue.Status.Name.ToLower() == IssueStatuses.Closed.ToString().ToLower()
+                || issue.Status.Name.ToLower() == IssueStatuses.Resolved.ToString().ToLower());
+
+    var currentUserId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
+}
+    <div>
+        @if (Model != null && Model.Any())
+        {
+            <h5 class="text-info">@string.Format(format: MessagesConstants.ClickOnDesiredRow, arg0: GlobalConstants.Issue)</h5>
+            @if (this.User.IsInRole(GlobalConstants.AdministratorRoleName))
+            {
+                <partial name="_IssuesPartial" model="@Model" />
+
+                if (completedIssues != null && completedIssues.Any())
+                {
+                    <br />
+                    <h4>@($"All completed {GlobalConstants.Issues}")</h4>
+                    <partial name="_IssuesPartial" model="completedIssues" />
+                }
+            }
+            else
+            {
+                <partial name="_IssuesPartial"
+                         model="@Model.Where(issue => issue.Assignee.Id == currentUserId)" />
+                @if (completedIssues.Where(issue => issue.Assignee.Id == currentUserId).Any())
+                {
+                    <br />
+                    <h4>@($"{this.User.Identity.Name}'s completed {GlobalConstants.Issues}")</h4>
+                    <partial name="_IssuesPartial"
+                             model="completedIssues.Where(issue => issue.Assignee.Id == currentUserId)" />
+                }
+            }
+        }
+        else
+        {
+            <h6>
+                @string.Format(
+                    format: MessagesConstants.StillNotAddedItems,
+                    arg0: GlobalConstants.Issues,
+                    arg1: this.User.Identity.Name)
+            </h6>
+        }
+    </div>
