@@ -1,41 +1,42 @@
 ﻿@model IEnumerable<IssueListViewModel>
 
-<div class="table table-striped col-md-12 fixed">
-    <table class="table table-striped">
-        <thead class="thead-light">
-            <tr>
-                <th>@nameof(IssueListViewModel.Title)</th>
-                <th>@nameof(IssueListViewModel.Labels)</th>
-                <th>@nameof(IssueListViewModel.Status)</th>
-                <th>@nameof(IssueListViewModel.DueDate)</th>
-                <th>@nameof(IssueListViewModel.Assignee)</th>
-                <th>@nameof(IssueListViewModel.Comments)</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var issue in Model)
-            {
-                <tr onclick="location.href = '@(Url.Action(ValuesConstants.DetailsActionName, ValuesConstants.IssueControllerName, new { id = issue.Id }))'">
-                    <td>@issue.Title</td>
-                    @if (issue.Labels != null && issue.Labels.Any())
-                    {
-                        <td><partial name="_LabelsPartial" model="issue.Labels"></td>
-                    }
-                    else
-                    {
-                        <td>
-                            @string.Format(
-                                format: MessagesConstants.StillNotAddedItems,
-                                arg0: GlobalConstants.Labels,
-                                arg1: $"{issue.Title} issue")
-                        </td>
-                    }
-                    <td>@issue.Status.Name</td>
-                    <td>@issue.DueDate</td>
-                    <td>@issue.Assignee.UserName</td>
-                    <td>@($"({issue.Comments})")</td>
+    <div class="table table-striped col-md-12 fixed">
+        <h5 class="text-info">@string.Format(format: MessagesConstants.ClickOnDesiredRow, arg0: GlobalConstants.Issue)</h5>
+        <table class="table table-striped">
+            <thead class="thead-light">
+                <tr>
+                    <th>@nameof(IssueListViewModel.Title)</th>
+                    <th>@nameof(IssueListViewModel.Labels)</th>
+                    <th>@nameof(IssueListViewModel.Status)</th>
+                    <th>@nameof(IssueListViewModel.DueDate)</th>
+                    <th>@nameof(IssueListViewModel.Assignee)</th>
+                    <th>@nameof(IssueListViewModel.Comments)</th>
                 </tr>
-            }
-        </tbody>
-    </table>
-</div>
+            </thead>
+            <tbody>
+                @foreach (var issue in Model)
+                {
+                    <tr onclick="location.href = '@(Url.Action(ValuesConstants.DetailsActionName, ValuesConstants.IssueControllerName, new { id = issue.Id }))'">
+                        <td>@issue.Title</td>
+                        @if (issue.Labels != null && issue.Labels.Any())
+                        {
+                            <td><partial name="_LabelsPartial" model="issue.Labels"></td>
+                        }
+                        else
+                        {
+                            <td>
+                                @string.Format(
+                                    format: MessagesConstants.StillNotAddedItems,
+                                    arg0: GlobalConstants.Labels,
+                                    arg1: $"{issue.Title} issue")
+                            </td>
+                        }
+                        <td>@issue.Status.Name</td>
+                        <td>@issue.DueDate</td>
+                        <td>@issue.Assignee.UserName</td>
+                        <td>@($"({issue.Comments})")</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>

@@ -9,5 +9,7 @@
         IEnumerable<LabelServiceModel> All();
 
         Task<LabelServiceModel> ByIdAsync(string id);
+
+        Task<LabelServiceModel> CreateAsync(LabelServiceModel labelServiceModel);
     }
 }

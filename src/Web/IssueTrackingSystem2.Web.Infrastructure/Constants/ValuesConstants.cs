@@ -25,6 +25,7 @@
 
         public const string ProjectId = "ProjectId";
         public const string LeaderId = "LeaderId";
+        public const string AssigneeId = "AssigneeId";
 
         public const string InvalidArgument = "InvalidArgument";
 

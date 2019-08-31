@@ -43,5 +43,14 @@
 
             return labelServiceModel;
         }
+
+        public async Task<LabelServiceModel> CreateAsync(LabelServiceModel labelServiceModel)
+        {
+            var label = labelServiceModel.To<Label>();
+            var labelResult = await this.repository.AddAsync(label);
+            var labelServiceModelResult = labelResult.To<LabelServiceModel>();
+
+            return labelServiceModelResult;
+        }
     }
 }

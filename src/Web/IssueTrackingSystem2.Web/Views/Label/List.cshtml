@@ -1,62 +1,119 @@
-﻿@model IEnumerable<IssueTrackingSystem2.Web.ViewModels.Label.LabelListViewModel>
-
+﻿@model LabelsViewModel
 @{
     ViewData["Title"] = $"All {GlobalConstants.Labels}";
+}
+
+@{
+    var currentUserId = this.UserManager.GetUserId(this.User);
+    var isProjectLeader = Model.Projects
+        .Where(project => project.LeaderId == currentUserId)
+        .Any();
+
+    var isIssueAssignee = Model.Issues
+        .Where(issue => issue.AssigneeId == currentUserId)
+        .Any();
 }
 
 <h1>@ViewData["Title"]</h1>
 
 <hr />
 <div class="col-md-12 fixed">
-    <table class="table">
-        <thead>
-            <tr>
-                <th>
-                    @nameof(LabelListViewModel.Title)
-                </th>
-                <th>
-                    @nameof(LabelListViewModel.CreatedBy).SplitStringByCapitalLetters()
-                </th>
-                <th>
-                    @nameof(LabelListViewModel.Projects)
-                </th>
-                <th>
-                    @nameof(LabelListViewModel.Issues)
-                </th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var label in Model)
-            {
+    @if (this.User.IsInRole(GlobalConstants.AdministratorRoleName))
+    {
+        <div>
+            <a asp-controller="@ValuesConstants.LabelControllerName"
+               asp-action="@ValuesConstants.CreateActionName"
+               class="btn btn-success font-weight-bold">
+                @ValuesConstants.Create
+            </a>
+        </div>
+        <br />
+    }
+    else if (isProjectLeader)
+    {
+        <div>
+            <a asp-controller="@ValuesConstants.LabelControllerName"
+               asp-action="@ValuesConstants.CreateActionName"
+               asp-route-leaderId="@currentUserId"
+               class="btn btn-success font-weight-bold">
+                @ValuesConstants.Create
+            </a>
+        </div>
+        <br />
+    }
+    else if (isIssueAssignee)
+    {
+        <div>
+            <a asp-controller="@ValuesConstants.LabelControllerName"
+               asp-action="@ValuesConstants.CreateActionName"
+               asp-route-assigneeId="@currentUserId"
+               class="btn btn-success font-weight-bold">
+                @ValuesConstants.Create
+            </a>
+        </div>
+        <br />
+    }
+
+    @if (Model.Labels != null && Model.Labels.Any())
+    {
+        <table class="table">
+            <thead>
                 <tr>
-                    <td>
-                        <span style="color:@label.Color" class="text-white font-weight-bold">
-                            @label.Title
-                        </span>
-                    </td>
-                    <td>
-                        @label.CreatedBy.UserName
-                    </td>
-                    <td>
-                        @($"({label.Projects.Count})")
-                    </td>
-                    <td>
-                        @($"({label.Issues.Count})")
-                    </td>
-                    @if (this.User.IsInRole(GlobalConstants.AdministratorRoleName))
-                    {
-                        <td>
-                            <a asp-area="@ValuesConstants.AdministrationAreaName"
-                               asp-controller="@ValuesConstants.LabelControllerName"
-                               asp-action="@ValuesConstants.DeleteActionName"
-                               asp-route-id="@label.Id"
-                               class="btn btn-danger text-dark font-weight-bold">
-                                Delete
-                            </a>
-                        </td>
-                    }
+                    <th>
+                        @nameof(LabelListViewModel.Title)
+                    </th>
+                    <th>
+                        @nameof(LabelListViewModel.CreatedBy).SplitStringByCapitalLetters()
+                    </th>
+                    <th>
+                        @nameof(LabelListViewModel.Projects)
+                    </th>
+                    <th>
+                        @nameof(LabelListViewModel.Issues)
+                    </th>
                 </tr>
-            }
-        </tbody>
-    </table>
+            </thead>
+            <tbody>
+                @foreach (var label in Model.Labels)
+                {
+                    <tr onclick="location.href = '@(Url.Action(ValuesConstants.DetailsActionName, ValuesConstants.LabelControllerName, new { id = label.Id }))'">
+                        <td>
+                            <span style="background-color:@label.Color" class="text-white font-weight-bold">
+                                @label.Title
+                            </span>
+                        </td>
+                        <td>
+                            @label.CreatedBy.UserName
+                        </td>
+                        <td>
+                            @($"({label.Projects.Count})")
+                        </td>
+                        <td>
+                            @($"({label.Issues.Count})")
+                        </td>
+                        @if (this.User.IsInRole(GlobalConstants.AdministratorRoleName))
+                        {
+                            <td>
+                                <a asp-area="@ValuesConstants.AdministrationAreaName"
+                                   asp-controller="@ValuesConstants.LabelControllerName"
+                                   asp-action="@ValuesConstants.DeleteActionName"
+                                   asp-route-id="@label.Id"
+                                   class="btn btn-danger text-dark font-weight-bold">
+                                    Delete
+                                </a>
+                            </td>
+                        }
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+    else
+    {
+        <h4>
+            @string.Format(
+                format: MessagesConstants.StillHaveNotBeenCreated,
+                arg0: GlobalConstants.Labels)
+        </h4>
+    }
 </div>

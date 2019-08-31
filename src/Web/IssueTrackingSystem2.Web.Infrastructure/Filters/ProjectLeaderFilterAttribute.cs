@@ -13,23 +13,46 @@
 
         public void OnActionExecuting(ActionExecutingContext context)
         {
-            var actionArguments = context.ActionArguments;
-            if (!actionArguments.ContainsKey(GlobalConstants.LeaderId))
+            if (context.HttpContext.User.IsInRole(GlobalConstants.AdministratorRoleName))
             {
-                throw new Exception(string.Format(
-                    format: MessagesConstants.NullOrEmptyArgument,
-                    arg0: GlobalConstants.LeaderId));
+                return;
             }
 
-            var leaderIdArgument = (string)actionArguments[GlobalConstants.LeaderId];
             var currentUserId = context.HttpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value;
-            if (!context.HttpContext.User.IsInRole(GlobalConstants.AdministratorRoleName)
-                    && currentUserId != leaderIdArgument)
+            var actionArguments = context.ActionArguments;
+            if (actionArguments.ContainsKey(GlobalConstants.LeaderId))
             {
-                throw new Exception(string.Format(
+                var leaderIdArgument = (string)actionArguments[GlobalConstants.LeaderId];
+                if (currentUserId == leaderIdArgument)
+                {
+                    return;
+                }
+            }
+
+            throw new Exception(string.Format(
                     format: MessagesConstants.UnauthotizedForProjectLeaderAction,
                     arg0: context.ActionDescriptor.DisplayName));
-            }
         }
+
+        //public void OnActionExecuting(ActionExecutingContext context)
+        //{
+        //    var actionArguments = context.ActionArguments;
+        //    if (!actionArguments.ContainsKey(GlobalConstants.LeaderId))
+        //    {
+        //        throw new Exception(string.Format(
+        //            format: MessagesConstants.NullOrEmptyArgument,
+        //            arg0: GlobalConstants.LeaderId));
+        //    }
+
+        //    var leaderIdArgument = (string)actionArguments[GlobalConstants.LeaderId];
+        //    var currentUserId = context.HttpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value;
+        //    if (!context.HttpContext.User.IsInRole(GlobalConstants.AdministratorRoleName)
+        //            && currentUserId != leaderIdArgument)
+        //    {
+        //        throw new Exception(string.Format(
+        //            format: MessagesConstants.UnauthotizedForProjectLeaderAction,
+        //            arg0: context.ActionDescriptor.DisplayName));
+        //    }
+        //}
     }
 }

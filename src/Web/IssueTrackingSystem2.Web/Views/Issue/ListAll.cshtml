@@ -10,9 +10,9 @@
     <div>
         @if (Model != null && Model.Any())
         {
-            <h5 class="text-info">@string.Format(format: MessagesConstants.ClickOnDesiredRow, arg0: GlobalConstants.Issue)</h5>
             @if (this.User.IsInRole(GlobalConstants.AdministratorRoleName))
             {
+                <h4>@($"All {GlobalConstants.Issues}")</h4>
                 <partial name="_IssuesPartial" model="@Model" />
 
                 if (completedIssues != null && completedIssues.Any())
@@ -24,6 +24,7 @@
             }
             else
             {
+                <h4>@($"{this.User.Identity.Name}'s assigned {GlobalConstants.Issues}")</h4>
                 <partial name="_IssuesPartial"
                          model="@Model.Where(issue => issue.Assignee.Id == currentUserId)" />
                 @if (completedIssues.Where(issue => issue.Assignee.Id == currentUserId).Any())

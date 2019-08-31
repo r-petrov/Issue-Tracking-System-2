@@ -11,13 +11,20 @@
 @if (this.User.IsInRole(GlobalConstants.AdministratorRoleName))
 {
     <div>
-        <a asp-area="Administration" 
-           asp-controller="Project" 
-           asp-action="Create" 
-           class="btn btn-success text-dark font-weight-bold" >
-            @ValuesConstants.Create
+        <a asp-area="@ValuesConstants.AdministrationAreaName"
+           asp-controller="@ValuesConstants.ProjectControllerName"
+           asp-action="@ValuesConstants.CreateActionName"
+           class="btn btn-success text-dark font-weight-bold">
+            @($"{@ValuesConstants.Create} {GlobalConstants.Project}")
         </a>
     </div>
+    @*<div>
+        <a asp-controller="@ValuesConstants.LabelControllerName"
+           asp-action="@ValuesConstants.CreateActionName"
+           class="btn btn-success text-dark font-weight-bold">
+            @($"{@ValuesConstants.Create} {GlobalConstants.Label}")
+        </a>
+    </div>*@
 
     <br />
     <h4>Created projects by @this.User.Identity.Name</h4>
@@ -35,6 +42,15 @@ else
     var isProjectLeader = Model.Where(model => model.Leader.Id == this.UserManager.GetUserId(this.User)).Any();
     if (isProjectLeader)
     {
+        @*<div>
+            <a asp-controller="@ValuesConstants.LabelControllerName"
+               asp-action="@ValuesConstants.CreateActionName"
+               asp-route-leaderId="@this.UserManager.GetUserId(this.User)"
+               class="btn btn-success font-weight-bold">
+                @($"{@ValuesConstants.Create} {GlobalConstants.Label}")
+            </a>
+        </div>
+        <br />*@
         <h4>Projects that @this.User.Identity.Name is a Project Leader</h4>
         <partial name="_ProjectsPartial"
                  model="@Model.Where(model => model.Leader.Id == this.UserManager.GetUserId(this.User))" />
@@ -48,6 +64,15 @@ else
 
     if (isIssueAssignee)
     {
+        @*<div>
+            <a asp-controller="@ValuesConstants.LabelControllerName"
+               asp-action="@ValuesConstants.CreateActionName"
+               asp-route-assigneeId="@this.UserManager.GetUserId(this.User)"
+               class="btn btn-success font-weight-bold">
+                @($"{@ValuesConstants.Create} {GlobalConstants.Label}")
+            </a>
+        </div>*@
+        <br />
         <h4>Projects with issues that @this.User.Identity.Name is an Issue Assignee</h4>
         <partial name="_ProjectsPartial"
                  model="@Model
