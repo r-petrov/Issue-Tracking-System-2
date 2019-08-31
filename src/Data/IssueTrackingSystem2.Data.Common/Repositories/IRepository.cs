@@ -1,6 +1,7 @@
 ﻿namespace IssueTrackingSystem2.Data.Common.Repositories
 {
     using System;
+    using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
 
@@ -14,6 +15,7 @@
         Task<TEntity> ByIdAsync<T>(T id);
 
         Task<TEntity> AddAsync(TEntity entity);
+
 
         //void Update(TEntity entity);
 

@@ -1,6 +1,7 @@
 ﻿namespace IssueTrackingSystem2.Data.Repositories
 {
     using System;
+    using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
 
@@ -34,6 +35,14 @@
 
             return entity;
         }
+
+        //public virtual async Task<IEnumerable<TEntity>> AddRangeAsync(IEnumerable<TEntity> entities)
+        //{
+        //    await this.DbSet.AddRangeAsync(entities);
+        //    await this.SaveChangesAsync();
+
+        //    return entities;
+        //}
 
         //public virtual Task AddAsync(TEntity entity) => this.DbSet.AddAsync(entity);
 

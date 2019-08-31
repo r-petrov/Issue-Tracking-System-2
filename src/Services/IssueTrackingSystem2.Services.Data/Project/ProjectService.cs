@@ -4,10 +4,12 @@
     using IssueTrackingSystem2.Common.Infrastructure.Extensions;
     using IssueTrackingSystem2.Data.Common.Repositories;
     using IssueTrackingSystem2.Data.Models;
+    using IssueTrackingSystem2.Data.Repositories;
     using IssueTrackingSystem2.Services.Mapping;
     using IssueTrackingSystem2.Services.Models;
     using Microsoft.AspNetCore.Identity;
     using System;
+    using System.Collections;
     using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
@@ -15,11 +17,13 @@
     public class ProjectService : IProjectService
     {
         private readonly IDeletableEntityRepository<Project> repository;
+        private readonly IRepository<ProjectLabel> projectLabelRepository;
         private readonly Microsoft.AspNetCore.Identity.UserManager<ApplicationUser> userManager;
 
-        public ProjectService(IDeletableEntityRepository<Project> repository, UserManager<ApplicationUser> userManager)
+        public ProjectService(IDeletableEntityRepository<Project> repository, IRepository<ProjectLabel> projectLabelRepository, UserManager<ApplicationUser> userManager)
         {
             this.repository = repository;
+            this.projectLabelRepository = projectLabelRepository;
             this.userManager = userManager;
         }
 
@@ -61,7 +65,7 @@
             }
 
             project.ProjectKey = projectServiceModel.Name.ApendStringCapitalLetters();
-
+            
             var projectResult = await this.repository.AddAsync(project);
 
             var projectServiceModelResult = projectResult.To<ProjectServiceModel>();
@@ -91,6 +95,23 @@
             var updatedProjectServiceModel = updatedProject.To<ProjectServiceModel>();
 
             return updatedProjectServiceModel;
+        }
+
+        public async Task<ProjectLabelServiceModel> AddLabelAsync(ProjectLabelServiceModel projectLabelServiceModel)
+        {
+            var label = projectLabelServiceModel.To<ProjectLabel>();
+            var labelResult = await this.projectLabelRepository.AddAsync(label);
+            var projectLabelServiceModelsResult = new ProjectLabelServiceModel()
+            {
+                ProjectId = labelResult.ProjectId,
+                Project = labelResult.Project.To<ProjectServiceModel>(),
+                LabelId = labelResult.LabelId,
+                Label = labelResult.Label.To<LabelServiceModel>(),
+            };
+            
+            //var projectLabelServiceModelsResult = labelResult.To<ProjectLabelServiceModel>();
+
+            return projectLabelServiceModelsResult;
         }
     }
 }

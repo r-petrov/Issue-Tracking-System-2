@@ -15,5 +15,7 @@
         Task<ProjectServiceModel> CreateAsync(ProjectServiceModel projectServiceModel);
 
         Task<ProjectServiceModel> UpdateAsync(ProjectServiceModel projectServiceModel);
+
+        Task<ProjectLabelServiceModel> AddLabelAsync(ProjectLabelServiceModel projectLabelServiceModel);
     }
 }

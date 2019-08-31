@@ -14,20 +14,21 @@
         || Model.Leader.Id == this.UserManager.GetUserId(this.User))
             {
                 <a asp-area=""
-                   asp-controller=@ValuesConstants.ProjectControllerName
-                   asp-action=@ValuesConstants.UpdateActionName
+                   asp-controller="@ValuesConstants.ProjectControllerName"
+                   asp-action="@ValuesConstants.UpdateActionName"
                    asp-route-id="@Model.Id"
                    asp-route-leaderId="@Model.Leader.Id" class="btn btn-success button">
                     @ValuesConstants.Update
                 </a>
 
-                <a asp-area=""
-                   asp-controller=@ValuesConstants.LabelControllerName
-                   asp-action=@ValuesConstants.CreateActionName
+                @*<a asp-area=""
+                   asp-controller="@ValuesConstants.ProjectControllerName"
+                   asp-action="AddLabel"
+                   asp-route-projectId="@Model.Id"
                    asp-route-leaderId="@Model.Leader.Id"
                    class="btn btn-success button">
-                    @GlobalConstants.Label
-                </a>
+                    Add Label
+                </a>*@
 
                 @if (this.User.IsInRole(GlobalConstants.AdministratorRoleName))
                 {
