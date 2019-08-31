@@ -10,6 +10,7 @@
     using IssueTrackingSystem2.Services.Data.ApplicationUsers;
     using IssueTrackingSystem2.Services.Data.Comment;
     using IssueTrackingSystem2.Services.Data.Issue;
+    using IssueTrackingSystem2.Services.Data.Label;
     using IssueTrackingSystem2.Services.Data.Milestone;
     using IssueTrackingSystem2.Services.Data.Priority;
     using IssueTrackingSystem2.Services.Data.Project;
@@ -114,6 +115,7 @@
             services.AddTransient<IStatusService, StatusService>();
             services.AddTransient<IIssueService, IssueService>();
             services.AddTransient<ICommentService, CommentService>();
+            services.AddTransient<ILabelService, LabelService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

@@ -25,7 +25,7 @@
 
         //// GET: Comment/Delete/5
         [HttpGet]
-        public async Task<ActionResult> Delete(string id, string issueId, string leaderId, string assigneeId)
+        public async Task<ActionResult> Delete(string id, string issueId)
         {
             try
             {
@@ -76,7 +76,7 @@
 
         // POST: Comment/Delete/5
         [HttpPost]
-        public async Task<ActionResult> ConfirmDelete(string id, string issueId, string leaderId, string assigneeId)
+        public async Task<ActionResult> ConfirmDelete(string id, string issueId)
         {
             var commentServiceModelResult = await this.commentService.RemoveSafeAsync(id);
 

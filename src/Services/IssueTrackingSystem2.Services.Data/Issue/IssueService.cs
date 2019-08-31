@@ -20,7 +20,7 @@
             this.repository = repository;
         }
 
-        public IEnumerable<IssueServiceModel> ListAll()
+        public IEnumerable<IssueServiceModel> All()
         {
             var issues = this.repository
                 .All()
@@ -32,7 +32,7 @@
             return issueListServiceModels;
         }
 
-        public IEnumerable<IssueServiceModel> List(string milestoneId)
+        public IEnumerable<IssueServiceModel> AllByMilestoneId(string milestoneId)
         {
             var issues = this.repository
                 .All()

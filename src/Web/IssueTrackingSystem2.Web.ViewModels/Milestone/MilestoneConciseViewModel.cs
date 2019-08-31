@@ -8,7 +8,7 @@
 
     public class MilestoneConciseViewModel : IMapFrom<MilestoneServiceModel>
     {
-        public ICollection<IssueConciseViewModel> Issues { get; set; }
+        public ICollection<ProjectListIssueViewModel> Issues { get; set; }
 
         public StatusConciseViewModel Status { get; set; }
     }

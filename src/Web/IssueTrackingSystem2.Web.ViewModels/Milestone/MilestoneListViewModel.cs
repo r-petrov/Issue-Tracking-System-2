@@ -28,7 +28,7 @@
 
         public virtual ProjectConciseViewModel Project { get; set; }
 
-        public virtual ICollection<IssueConciseViewModel> Issues { get; set; }
+        public virtual ICollection<ProjectListIssueViewModel> Issues { get; set; }
 
         public virtual ICollection<ProjectDetailsIssueViewModel> CompletedIssues { get; set; }
 

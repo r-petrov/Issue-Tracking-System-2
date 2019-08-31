@@ -1,0 +1,60 @@
+﻿@model IEnumerable<IssueTrackingSystem2.Web.ViewModels.Label.LabelListViewModel>
+
+@{
+    ViewData["Title"] = $"All {GlobalConstants.Labels}";
+}
+
+<h1>@ViewData["Title"]</h1>
+
+<hr />
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @nameof(LabelListViewModel.Title)
+            </th>
+            <th>
+                @nameof(LabelListViewModel.CreatedBy).SplitStringByCapitalLetters()
+            </th>
+            <th>
+                @nameof(LabelListViewModel.Projects)
+            </th>
+            <th>
+                @nameof(LabelListViewModel.Issues)
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var label in Model)
+        {
+            <tr>
+                <td>
+                    <span style="color:@label.Color" class="text-white font-weight-bold">
+                        @label.Title
+                    </span>
+                </td>
+                <td>
+                    @label.CreatedBy.UserName
+                </td>
+                <td>
+                    @($"({label.Projects.Count})")
+                </td>
+                <td>
+                    @($"({label.Issues.Count})")
+                </td>
+                @if (this.User.IsInRole(GlobalConstants.AdministratorRoleName))
+                {
+                    <td>
+                        <a asp-area="@ValuesConstants.AdministrationAreaName"
+                           asp-controller="@ValuesConstants.LabelControllerName"
+                           asp-action="@ValuesConstants.DeleteActionName"
+                           asp-route-id="@label.Id"
+                           class="btn btn-danger text-dark font-weight-bold">
+                            Delete
+                        </a>
+                    </td>
+                }
+            </tr>
+        }
+    </tbody>
+</table>

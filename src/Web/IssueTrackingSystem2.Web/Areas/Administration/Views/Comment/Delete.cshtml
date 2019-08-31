@@ -35,7 +35,7 @@
                        asp-route-assigneeId="@Model.Issue.AssigneeId"
                        type="submit"
                        value="@ValuesConstants.Delete"
-                       class="btn btn-danger" />
+                       class="btn btn-danger font-weight-bold" />
             </div>
         </form>
     </div>
@@ -44,7 +44,7 @@
     <a asp-controller="@ValuesConstants.CommentControllerName"
        asp-action="@ValuesConstants.ListActionName"
        asp-route-issueId="@Model.Issue.Id"
-       class="btn btn-info">
+       class="btn btn-info font-weight-bold">
         Back to List
     </a>
 </div>

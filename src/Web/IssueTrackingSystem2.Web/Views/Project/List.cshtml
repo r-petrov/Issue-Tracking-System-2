@@ -11,8 +11,11 @@
 @if (this.User.IsInRole(GlobalConstants.AdministratorRoleName))
 {
     <div>
-        <a class="btn btn-success" asp-area="Administration" asp-controller="Project" asp-action="Create">
-            <span class="text-dark font-weight-bold">Create New Project</span>
+        <a asp-area="Administration" 
+           asp-controller="Project" 
+           asp-action="Create" 
+           class="btn btn-success text-dark font-weight-bold" >
+            @ValuesConstants.Create
         </a>
     </div>
 
