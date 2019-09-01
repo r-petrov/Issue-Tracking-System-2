@@ -9,13 +9,6 @@
 
     public class HomeController : BaseController
     {
-        private readonly IProjectService projectService;
-
-        public HomeController(IProjectService projectService)
-        {
-            this.projectService = projectService;
-        }
-
         [AllowAnonymous]
         [HttpGet]
         public IActionResult Index()
