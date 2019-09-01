@@ -22,7 +22,7 @@
                        asp-route-assigneeId="@Model.Issue.AssigneeId"
                        type="submit" 
                        value="Create"
-                       class="btn btn-primary" />
+                       class="btn btn-primary font-weight-bold" />
             </div>
         </form>
     </div>
@@ -32,7 +32,7 @@
     <a asp-controller="@ValuesConstants.CommentControllerName" 
        asp-action="@ValuesConstants.ListActionName" 
        asp-route-issueId="@Model.Issue.Id"
-       class="btn btn-info">Back to List
+       class="btn btn-info font-weight-bold">Back to List
     </a>
 </div>
 

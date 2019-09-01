@@ -17,7 +17,7 @@
                asp-controller=@ValuesConstants.IssueControllerName
                asp-action=@ValuesConstants.UpdateActionName
                asp-route-id="@Model.Id"
-               asp-route-leaderId="@Model.Milestone.Project.LeaderId" class="btn btn-success button"
+               asp-route-leaderId="@Model.Milestone.Project.LeaderId" class="btn btn-success button font-weight-bold"
                asp-route-assigneeId="@Model.Assignee.Id">
                 @ValuesConstants.Update @GlobalConstants.Issue
             </a>
@@ -25,7 +25,7 @@
                asp-controller=@ValuesConstants.CommentControllerName
                asp-action=@ValuesConstants.ListActionName
                asp-route-issueId=@Model.Id
-               class="btn btn-light text-info button">
+               class="btn btn-light text-info button font-weight-bold">
                 @GlobalConstants.Comments
             </a>
             @*<a asp-area=""
@@ -95,5 +95,7 @@
     <a asp-controller="@ValuesConstants.IssueControllerName" 
        asp-action="@ValuesConstants.ListActionName" 
        asp-route-milestoneId="@Model.Milestone.Id"
-       class="btn btn-info">Back to List</a>
+       class="btn btn-info font-weight-bold">
+        Back to List
+    </a>
 </div>

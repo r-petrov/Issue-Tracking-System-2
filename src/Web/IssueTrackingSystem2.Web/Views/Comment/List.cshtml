@@ -22,7 +22,7 @@
            asp-route-issueId=@Model.Issue.Id
            asp-route-leaderId="@Model.Issue.Milestone.Project.LeaderId"
            asp-route-assigneeId="@Model.Issue.AssigneeId"
-           class="btn btn-success button">
+           class="btn btn-success button font-weight-bold">
             @ValuesConstants.Create
         </a>
     </div>
@@ -86,7 +86,7 @@
                                    asp-action="@ValuesConstants.DeleteActionName"
                                    asp-route-id="@comment.Id"
                                    asp-route-issueId="@Model.Issue.Id"
-                                   class="btn btn-danger text-dark font-weight-bold">
+                                   class="btn btn-danger text-white font-weight-bold">
                                     Delete
                                 </a>
                             </td>
@@ -114,7 +114,7 @@
     <a asp-controller="@ValuesConstants.IssueControllerName"
        asp-action="@ValuesConstants.DetailsActionName"
        asp-route-id="@Model.Issue.Id"
-       class="btn btn-info">
+       class="btn btn-info font-weight-bold">
         Back to @ValuesConstants.Details
     </a>
 </div>

@@ -1,7 +1,9 @@
 ﻿@model IEnumerable<IssueListViewModel>
 
     <div class="table table-striped col-md-12 fixed">
-        <h5 class="text-info">@string.Format(format: MessagesConstants.ClickOnDesiredRow, arg0: GlobalConstants.Issue)</h5>
+        <h5 class="text-info font-weight-bold">
+            @string.Format(format: MessagesConstants.ClickOnDesiredRow, arg0: GlobalConstants.Issue)
+        </h5>
         <table class="table table-striped">
             <thead class="thead-light">
                 <tr>

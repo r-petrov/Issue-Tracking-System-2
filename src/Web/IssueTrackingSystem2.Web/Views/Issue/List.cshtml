@@ -17,7 +17,7 @@
            asp-action="@ValuesConstants.CreateActionName"
            asp-route-milestoneId="@Model.Milestone.Id"
            asp-route-leaderId="@Model.Milestone.Project.LeaderId"
-           class="btn btn-success button">
+           class="btn btn-success button font-weight-bold">
             @ValuesConstants.Create
         </a>
     }
@@ -26,7 +26,6 @@
 <div>
     @if (Model.Issues != null && Model.Issues.Any())
     {
-        <h5 class="text-info">@string.Format(format: MessagesConstants.ClickOnDesiredRow, arg0: GlobalConstants.Issue)</h5>
         <partial name="_IssuesPartial" model="@Model.Issues" />
 
         var completedIssues = Model.Issues.Where(issue => 
@@ -54,7 +53,7 @@
     <a asp-controller="@ValuesConstants.MilestoneControllerName"
        asp-action="@ValuesConstants.DetailsActionName"
        asp-route-id="@Model.Milestone.Id"
-       class="btn btn-info">
+       class="btn btn-info font-weight-bold">
         Back to @ValuesConstants.Details
     </a>
 </div>

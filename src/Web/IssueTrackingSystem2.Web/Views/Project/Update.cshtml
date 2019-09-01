@@ -18,7 +18,7 @@
                 <input type="text"
                        id="description"
                        placeholder="Description..."
-                       class="form-control text-primary text-center"
+                       class="form-control font-weight-bold text-center"
                        value="@Model.ProjectKey"
                        asp-for="ProjectKey" 
                        readonly />
@@ -32,7 +32,7 @@
                 <input type="text"
                        id="name"
                        placeholder="Name..."
-                       class="form-control text-primary text-center"
+                       class="form-control font-weight-bold text-center"
                        value="@Model.Name"
                        asp-for="Name" />
 
@@ -45,7 +45,7 @@
                 <input type="text"
                        id="description"
                        placeholder="Description..."
-                       class="form-control text-primary text-center"
+                       class="form-control font-weight-bold text-center"
                        value="@Model.Description"
                        asp-for="Description" />
 
@@ -57,17 +57,17 @@
                     <div class="d-flex">
                         <label asp-for="LeaderId" class="control-label"></label>
                     </div>
-                    <select class="form-control text-primary" id="user" asp-for="LeaderId">
+                    <select class="form-control font-weight-bold" id="user" asp-for="LeaderId">
                         <option selected disabled>--- Select Project Leader ---</option>
                         @foreach (var user in (SelectList)this.ViewData[GlobalConstants.Users])
                         {
                             if (user.Value == Model.LeaderId)
                             {
-                                <option value="@user.Value" selected>@user.Text</option>
+                                <option value="@user.Value" class="font-weight-bold" selected>@user.Text</option>
                             }
                             else
                             {
-                                <option value="@user.Value">@user.Text</option>
+                                <option value="@user.Value" class="font-weight-bold">@user.Text</option>
                             }
                         }
                     </select>
@@ -89,14 +89,17 @@
                 <span asp-validation-for="Priorities" class="text-danger"></span>
             </div>*@
             <div class="form-group">
-                <input type="submit" value="@ValuesConstants.Update" class="btn btn-primary" />
+                <input type="submit" value="@ValuesConstants.Update" class="btn btn-primary font-weight-bold" />
             </div>
         </form>
     </div>
 </div>
 
 <div>
-    <a asp-action="Dashboard", asp-controller="HomeController" class="btn btn-info">Back to List</a>
+    <a asp-controller="@ValuesConstants.ProjectControllerName" 
+       asp-action="@ValuesConstants.DetailsActionName"
+       asp-route-id="@Model.Id"
+       class="btn btn-info font-weight-bold">Back to @ValuesConstants.Details</a>
 </div>
 
 @section Scripts {

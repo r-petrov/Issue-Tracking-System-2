@@ -17,7 +17,7 @@
                    asp-controller="@ValuesConstants.ProjectControllerName"
                    asp-action="@ValuesConstants.UpdateActionName"
                    asp-route-id="@Model.Id"
-                   asp-route-leaderId="@Model.Leader.Id" class="btn btn-success button">
+                   asp-route-leaderId="@Model.Leader.Id" class="btn btn-success button font-weight-bold">
                     @ValuesConstants.Update
                 </a>
 
@@ -113,5 +113,5 @@
 <div>
     <a asp-action="@ValuesConstants.ListActionName", 
        asp-controller="@ValuesConstants.ProjectControllerName" 
-       class="btn btn-info">Back to List</a>
+       class="btn btn-info font-weight-bold">Back to List</a>
 </div>

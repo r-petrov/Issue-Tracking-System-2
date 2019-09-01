@@ -35,7 +35,7 @@
                 </div>
                 <div class="form-group">
                     <label asp-for="Priority" class="control-label"></label>
-                    <select class="form-control text-success" id="priority" asp-for="Priority">
+                    <select class="form-control" id="priority" asp-for="Priority">
                         <option selected disabled>--- Select Priority ---</option>
                         @foreach (var priority in (SelectList)this.ViewData[GlobalConstants.Priorities])
                         {
@@ -46,7 +46,7 @@
                 </div>
                 <div class="form-group">
                     <label asp-for="AssigneeId" class="control-label"></label>
-                    <select class="form-control text-primary" id="user" asp-for="AssigneeId">
+                    <select class="form-control" id="user" asp-for="AssigneeId">
                         <option selected disabled>--- Select Issue Assignee ---</option>
                         @foreach (var user in (SelectList)this.ViewData[GlobalConstants.Users])
                         {
@@ -66,7 +66,7 @@
                     <label asp-for="StatusName" class="control-label"></label>
                     @if (this.ViewData[GlobalConstants.Statuses] != null)
                     {
-                        <select class="form-control text-primary" id="user" asp-for="StatusName">
+                        <select class="form-control" id="user" asp-for="StatusName">
                             <option selected disabled>--- Select Issue Status ---</option>
                             @foreach (var status in (SelectList)this.ViewData[GlobalConstants.Statuses])
                             {
@@ -115,7 +115,7 @@
                     <label asp-for="StatusName" class="control-label"></label>
                     @if (this.ViewData[GlobalConstants.Statuses] != null)
                     {
-                        <select class="form-control text-primary" id="user" asp-for="StatusName">
+                        <select class="form-control" id="user" asp-for="StatusName">
                             <option selected disabled>--- Select Issue Status ---</option>
                             @foreach (var status in (SelectList)this.ViewData[GlobalConstants.Statuses])
                             {
@@ -145,14 +145,17 @@
                        asp-route-assigneeId="@Model.AssigneeId"
                        type="submit"
                        value="@ValuesConstants.Update"
-                       class="btn btn-primary" />
+                       class="btn btn-primary font-weight-bold" />
             </div>
         </form>
     </div>
 </div>
 
 <div>
-    <a asp-action="Index">Back to List</a>
+    <a asp-controller="@ValuesConstants.IssueControllerName"
+       asp-action="@ValuesConstants.DetailsActionName"
+       asp-route-id="@Model.Id"
+       class="btn btn-info font-weight-bold">Back to @ValuesConstants.Details</a>
 </div>
 
 @section Scripts {

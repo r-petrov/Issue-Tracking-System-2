@@ -156,9 +156,7 @@
 
                 var milestoneUpdateInputModel = milestoneServiceModel.To<MilestoneUpdateInputModel>();
 
-                var availableStatuses = this.statusService.GetAvailableMilestoneStatuses(
-                    milestoneUpdateInputModel.StatusName);
-                this.ViewData[GlobalConstants.Statuses] = availableStatuses;
+                this.SetStatusesDropdown(milestoneUpdateInputModel);
 
                 return this.View(milestoneUpdateInputModel);
             }
@@ -186,6 +184,8 @@
                         format: MessagesConstants.NullOrEmptyArgument,
                         arg0: nameof(milestoneUpdateInputModel));
 
+                    this.SetStatusesDropdown(milestoneUpdateInputModel);
+
                     return this.View();
                 }
 
@@ -194,6 +194,8 @@
                     milestoneUpdateInputModel.Project = this.SetProjectConciseInputModel(
                            projectId: projectId,
                            leaderId: leaderId);
+
+                    this.SetStatusesDropdown(milestoneUpdateInputModel);
 
                     return this.View(milestoneUpdateInputModel);
                 }
@@ -211,6 +213,14 @@
 
                 return this.View(milestoneUpdateInputModel);
             }
+        }
+
+        private void SetStatusesDropdown(MilestoneUpdateInputModel milestoneUpdateInputModel)
+        {
+            var availableStatuses = this.statusService.GetAvailableMilestoneStatuses(
+                                milestoneUpdateInputModel.StatusName);
+
+            this.ViewData[GlobalConstants.Statuses] = availableStatuses;
         }
 
         private ProjectConciseInputModel SetProjectConciseInputModel(string projectId, string leaderId)

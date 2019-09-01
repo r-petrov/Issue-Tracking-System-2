@@ -230,6 +230,8 @@
                         format: MessagesConstants.NullOrEmptyArgument,
                         arg0: nameof(issueUpdateInputModel));
 
+                    await this.SetDropdowns(milestoneId: milestoneId);
+
                     return this.View();
                 }
 
